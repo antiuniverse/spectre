@@ -785,15 +785,15 @@ class DdsExtendedHeader {
 /// The indices used when accessing a cube map.
 class DdsCubeMapFace {
   /// Index of the positive x face.
-  const int PositiveX = 0;
+  static const int PositiveX = 0;
   /// Index of the negative x face.
-  const int NegativeX = 1;
+  static const int NegativeX = 1;
   /// Index of the positive y face.
-  const int PositiveY = 2;
+  static const int PositiveY = 2;
   /// Index of the negative y face.
-  const int NegativeY = 3;
+  static const int NegativeY = 3;
   /// Index of the positive z face.
-  const int PositiveZ = 4;
+  static const int PositiveZ = 4;
   /// Index of the negative z face.
-  const int NegativeZ = 5;
+  static const int NegativeZ = 5;
 }
