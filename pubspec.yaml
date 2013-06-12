@@ -1,17 +1,19 @@
 name: spectre
-version: 0.6.0
+version: 0.6.1-dev
 author: John McCutchan <john@johnmccutchan.com>
 description: Graphics Library
 homepage: https://github.com/johnmccutchan/spectre
 documentation: http://johnmccutchan.github.io/spectre/
+environment:
+  sdk: '>=0.5.16'
 dependencies:
   asset_pack:
     git: https://github.com/johnmccutchan/asset_pack.git
   vector_math:
     git: https://github.com/johnmccutchan/vector_math.git
 dev_dependencies:
-  unittest: any
-  browser: any
-  hop: any
+  browser: '>=0.5.16'
   game_loop:
     git: https://github.com/johnmccutchan/game_loop.git
+  hop: '>=0.22.0'
+  unittest: '>=0.5.16'

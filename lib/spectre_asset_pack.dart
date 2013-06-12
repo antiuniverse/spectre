@@ -27,7 +27,6 @@ import 'dart:html';
 import 'dart:json' as JSON;
 import 'dart:math' as Math;
 import 'dart:async';
-import 'dart:uri';
 import 'dart:typed_data';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
