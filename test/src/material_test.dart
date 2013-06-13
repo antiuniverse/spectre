@@ -156,7 +156,7 @@ void main() {
   _frontBuffer = query('#frontBuffer');
   _graphicsDevice = new GraphicsDevice(_frontBuffer);
   _assetManager = new AssetManager();
-  _renderer = new Renderer(_frontBuffer, _graphicsDevice, _assetManager);
+  _renderer = new Renderer(_frontBuffer, _graphicsDevice, null, _assetManager);
   test('construction', () {
     testMaterialConstruct();
   });
