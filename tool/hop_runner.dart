@@ -11,12 +11,12 @@ void main() {
   //
   // Analyzer
   //
-  addTask('analyze_lib', createDartAnalyzerTask(['lib/spectre.dart',
+  addTask('analyze_lib', createAnalyzerTask(['lib/spectre.dart',
                                                  'lib/spectre_post.dart',
                                                  'lib/disposable.dart',
                                                  'lib/spectre_asset_pack.dart',
                                                  ]));
-  addTask('analyze_test', createDartAnalyzerTask(['test/test_runner.dart']));
+  addTask('analyze_test', createAnalyzerTask(['test/test_runner.dart']));
 
   addTask('docs', createDartDocTask(_getLibs));
 

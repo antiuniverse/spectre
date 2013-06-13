@@ -15,5 +15,5 @@ dev_dependencies:
   browser: '>=0.5.16'
   game_loop:
     git: https://github.com/johnmccutchan/game_loop.git
-  hop: '>=0.22.0'
+  hop: '>=0.22.2'
   unittest: '>=0.5.16'
