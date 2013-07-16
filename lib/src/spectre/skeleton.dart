@@ -34,7 +34,7 @@ class Bone {
   Bone(this.boneName, List<num> local, List<num> offset) {
     localTransform4 = new Float32x4List.view(localTransform.buffer);
     offsetTransform4 = new Float32x4List.view(offsetTransform.buffer);
-    
+
     if (local != null) {
       for (int i = 0; i < 16; i++) {
         localTransform[i] = local[i].toDouble();
@@ -87,7 +87,7 @@ class PosedSkeleton {
   final List<Float32List> skinningTransforms;
   final List<Float32x4List> globalTransforms4;
   final List<Float32x4List> skinningTransforms4;
-  
+
   PosedSkeleton._internal(this.skeleton, int length) :
     skinningMatrices = new Float32List(length * 16),
     globalTransforms = new List<Float32List>(length),
@@ -96,12 +96,14 @@ class PosedSkeleton {
     skinningTransforms4 = new List<Float32x4List>(length) {
     for (int i = 0; i < length; i++) {
       globalTransforms[i] = new Float32List(16);
-      globalTransforms4[i] = new Float32x4List.view(globalTransforms[i]);
-      skinningTransforms[i] = new Float32List.view(skinningMatrices.buffer, i*64, 16);
-      skinningTransforms4[i] = new Float32x4List.view(skinningMatrices.buffer, i*64, 4);
+      globalTransforms4[i] = new Float32x4List.view(globalTransforms[i].buffer);
+      skinningTransforms[i] = new Float32List.view(skinningMatrices.buffer,
+                                                   i*64, 16);
+      skinningTransforms4[i] = new Float32x4List.view(skinningMatrices.buffer,
+                                                      i*64, 4);
     }
   }
-  
+
   factory PosedSkeleton(Skeleton skeleton) {
     return new PosedSkeleton._internal(skeleton, skeleton.boneList.length);
   }
@@ -200,7 +202,7 @@ class SimpleSkeletonPoser implements SkeletonPoser {
 
 class SIMDSkeletonPoser implements SkeletonPoser {
   final Float32x4List _scratchMatrix = new Float32x4List(4);
-  
+
   void mul44SIMD(Float32x4List out, Float32x4List a, Float32x4List b) {
     var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
         b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
@@ -210,7 +212,7 @@ class SIMDSkeletonPoser implements SkeletonPoser {
     out[2] = b2.xxxx*a0 + b2.yyyy*a1 + b2.zzzz*a2 + b2.wwww*a3;
     out[3] = b3.xxxx*a0 + b3.yyyy*a1 + b3.zzzz*a2 + b3.wwww*a3;
   }
-  
+
   void updateGlobalTransform(
                              Bone bone,
                              Float32x4List parentTransform,

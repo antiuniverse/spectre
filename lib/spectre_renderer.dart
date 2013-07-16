@@ -27,7 +27,6 @@ import 'package:vector_math/vector_math.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/disposable.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_post.dart';
 
 part 'src/spectre_renderer/asset_pack.dart';
 part 'src/spectre_renderer/builtin_material_shaders.dart';

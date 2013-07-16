@@ -37,16 +37,16 @@ class Texture2D extends SpectreTexture {
                   int bindParam, int textureTarget) :
       super(name, device, bindTarget, bindParam, textureTarget);
 
-  void _uploadPixelArray(int width, int height, dynamic array,
+  void _uploadPixelArray(int width, int height, TypedData array,
                          int pixelFormat, int pixelType) {
-    device.gl.texImage2D(_textureTarget, 0, _textureFormat, width, height,
-                         0, pixelFormat, pixelType, array);
+    device.gl.texImage2DTyped(_textureTarget, 0, _textureFormat, width, height,
+                              0, pixelFormat, pixelType, array);
   }
 
   /** Replace texture contents with data stored in [array].
    * If [array] is null, space will be allocated on the GPU
    */
-  void uploadPixelArray(int width, int height, dynamic array,
+  void uploadPixelArray(int width, int height, TypedData array,
                         {pixelFormat: SpectreTexture.FormatRGBA,
                          pixelType: SpectreTexture.PixelTypeU8}) {
     var oldBind = _pushBind();
@@ -57,8 +57,7 @@ class Texture2D extends SpectreTexture {
   }
 
   void _uploadElement(dynamic element, int pixelFormat, int pixelType) {
-    device.gl.texImage2D(_textureTarget, 0, _textureFormat,
-                         pixelFormat, pixelType, element);
+
   }
 
   /** Replace texture contents with image data from [element].
@@ -70,20 +69,26 @@ class Texture2D extends SpectreTexture {
   void uploadElement(dynamic element,
                      {pixelFormat: SpectreTexture.FormatRGBA,
                          pixelType: SpectreTexture.PixelTypeU8}) {
+    var oldBind = _pushBind();
     if (element is ImageElement) {
       _width = element.naturalWidth;
       _height = element.naturalHeight;
+      device.gl.texImage2DImage(_textureTarget, 0, _textureFormat, pixelFormat,
+                                pixelType, element);
     } else if (element is CanvasElement) {
       _width = element.width;
       _height = element.height;
+      device.gl.texImage2DCanvas(_textureTarget, 0, _textureFormat, pixelFormat,
+                                 pixelType, element);
     } else if (element is VideoElement) {
       _width = element.width;
       _height = element.height;
+      device.gl.texImage2DVideo(_textureTarget, 0, _textureFormat, pixelFormat,
+                                pixelType, element);
     } else {
+      _popBind(oldBind);
       throw new ArgumentError('element is not supported.');
     }
-    var oldBind = _pushBind();
-    _uploadElement(element, pixelFormat, pixelType);
     _popBind(oldBind);
   }
 

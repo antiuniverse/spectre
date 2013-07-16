@@ -331,8 +331,8 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
   List vertices = json['vertices'];
   mesh.vertexData4 = new Float32x4List(json['vertices'].length~/4);
   mesh.baseVertexData4 = new Float32x4List(mesh.vertexData4.length);
-  mesh.vertexData = new Float32List.view(mesh.vertexData4);
-  mesh.baseVertexData = new Float32List.view(mesh.baseVertexData4);
+  mesh.vertexData = new Float32List.view(mesh.vertexData4.buffer);
+  mesh.baseVertexData = new Float32List.view(mesh.baseVertexData4.buffer);
   for (int i = 0; i < json['vertices'].length; i++) {
     mesh.vertexData[i] = json['vertices'][i].toDouble();
     mesh.baseVertexData[i] = json['vertices'][i].toDouble();
@@ -389,10 +389,10 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
     assert(boneId.length == weights.length);
     mesh.boneData = new Int32List(boneId.length);
     mesh.skinningData = new Float32List(boneId.length*2);
-    Float32List floatBoneData = new Float32List.view(mesh.skinningData,
+    Float32List floatBoneData = new Float32List.view(mesh.skinningData.buffer,
                                                      0,
                                                      boneId.length);
-    mesh.weightData = new Float32List.view(mesh.skinningData,
+    mesh.weightData = new Float32List.view(mesh.skinningData.buffer,
                                            boneId.length*4);
     for (int i = 0; i < boneId.length; i++) {
       mesh.boneData[i] = boneId[i].toInt();

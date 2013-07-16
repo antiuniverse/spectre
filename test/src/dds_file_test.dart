@@ -387,7 +387,7 @@ void main() {
 
         expect(texture.length, textureSize[i]);
 
-        Uint32List values = new Uint32List.view(texture);
+        Uint32List values = new Uint32List.view(texture.buffer);
         int length = values.length;
 
         for (int x = 0; x < length; ++x) {
@@ -428,7 +428,7 @@ void main() {
 
         expect(texture.length, textureSize[i]);
 
-        Uint16List values = new Uint16List.view(texture);
+        Uint16List values = new Uint16List.view(texture.buffer);
         int length = values.length;
 
         for (int x = 0; x < length; ++x) {
@@ -536,7 +536,7 @@ void main() {
 
           expect(texture.length, textureSize[i]);
 
-          Uint32List values = new Uint32List.view(texture);
+          Uint32List values = new Uint32List.view(texture.buffer);
           int length = values.length;
 
           for (int x = 0; x < length; ++x) {
@@ -629,7 +629,7 @@ void main() {
 
         expect(texture.length, textureSize[i]);
 
-        Uint32List values = new Uint32List.view(texture);
+        Uint32List values = new Uint32List.view(texture.buffer);
 
         int index = 0;
 

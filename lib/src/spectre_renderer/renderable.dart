@@ -20,7 +20,7 @@
 
 part of spectre_renderer;
 
-class Renderable {
+abstract class Renderable {
   final Renderer renderer;
   String name;
   Matrix4 transform = new Matrix4.identity();

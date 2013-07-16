@@ -104,7 +104,7 @@ abstract class Layer {
 
   Layer.json(Map json, this.renderer) : name = json['name'] {
     _layerStaticInit(renderer.device);
-    fromJson(json);
+    fromJson(json, renderer);
   }
 
   void clear() {

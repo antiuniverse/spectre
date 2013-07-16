@@ -70,12 +70,11 @@ class MeshImporter extends AssetImporter {
     mesh.indexArray.uploadData(indexArray, UsagePattern.StaticDraw);
     mesh.count = indexArray.length;
     meshes[0]['attributes'].forEach((k, v) {
-      var attribute = new SpectreMeshAttribute(v['name'],
-                                               v['type'],
+      var verteAttribute = new VertexAttribute(0, 0, v['offset'], v['stride'],
+                                               DataType.Float32,
                                                v['numElements'],
-                                               v['offset'],
-                                               v['stride'],
                                                v['normalized']);
+      var attribute = new SpectreMeshAttribute(v['name'], verteAttribute);
       mesh.attributes[k] = attribute;
     });
     return mesh;

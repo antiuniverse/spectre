@@ -142,7 +142,7 @@ class SkyboxRenderable extends Renderable {
   }
 
   dynamic toJson() {
-    Map map = super.toJson(json);
+    Map map = super.toJson();
     map['materialPath'] = materialPath;
     return map;
   }
