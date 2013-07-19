@@ -24,4 +24,4 @@ import 'package:vector_math/vector_math.dart';
 
 ## Documentation
 
-[API Reference](http://johnmccutchan.github.com/spectre/)
+[API Reference](http://johnmccutchan.github.io/spectre.html)
