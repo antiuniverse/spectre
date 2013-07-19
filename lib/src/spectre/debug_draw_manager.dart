@@ -338,6 +338,56 @@ class DebugDrawManager {
   final Vector3 _circle_u = new Vector3.zero();
   final Vector3 _circle_v = new Vector3.zero();
 
+  /** Add a cone primitive at [apex] with [height] and [angle]. Filled with 
+   *  [color].
+   *
+   * Optional paremeters: [duration], [depthEnabled] and [numSegments].
+   */
+  void addCone(Vector3 apex, Vector3 direction, num height, num angle,
+               Vector4 color, {num duration: 0.0, bool depthEnabled: true,
+               int numSegments: 16}) {
+    var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
+                                      duration);
+
+    var center = apex.clone().add(direction.normalized().scale(height));
+    num s = height / Math.cos(angle / 2.0);
+    num radius = Math.sqrt(s * s - height * height);
+
+    buildPlaneVectors(direction.scaled(-1.0), _circle_u, _circle_v);
+
+    num alpha = 0.0;
+    num twoPi = (2.0 * 3.141592653589793238462643);
+    num _step = twoPi/numSegments;
+
+    double lastX = center.x + _circle_u.x * radius;
+    double lastY = center.y + _circle_u.y * radius;
+    double lastZ = center.z + _circle_u.z * radius;
+
+    for (alpha = 0.0; alpha <= twoPi; alpha += _step) {
+      double cosScale = Math.cos(alpha) * radius;
+      double sinScale = Math.sin(alpha) * radius;
+      double pX = center.x + cosScale * _circle_u.x + sinScale * _circle_v.x;
+      double pY = center.y + cosScale * _circle_u.y + sinScale * _circle_v.y;
+      double pZ = center.z + cosScale * _circle_u.z + sinScale * _circle_v.z;
+      lineManager.lines._addLineRaw(lastX, lastY, lastZ, pX, pY, pZ);
+
+      lineManager.lines._addLineRaw(
+          apex.x, apex.y, apex.z,
+          lastX, lastY, lastZ);
+      lastX = pX;
+      lastY = pY;
+      lastZ = pZ;
+    }
+
+    lineManager.lines._addLineRaw(lastX, lastY, lastZ,
+        center.x + _circle_u.x * radius,
+        center.y + _circle_u.y * radius,
+        center.z + _circle_u.z * radius);
+
+    lineManager.lines.finishLineObject();
+  }
+  
   /** Add an arc primitive at [center] in the plane whose normal is
    * [planeNormal] with a [radius]. The arc begins at [startAngle] and extends
    * to [stopAngle]. Filled with [color].
