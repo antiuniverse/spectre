@@ -102,8 +102,8 @@ class TextureCube extends SpectreTexture {
    * can be used for rendering.
    */
   void generateMipmap() {
-    var oldBind = _pushBind();
+    device.context.setTexture(0, this);
     _generateMipmap();
-    _popBind(oldBind);
+    device.context.setTexture(0, null);
   }
 }

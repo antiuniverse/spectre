@@ -37,27 +37,20 @@ class Texture2D extends SpectreTexture {
                   int bindParam, int textureTarget) :
       super(name, device, bindTarget, bindParam, textureTarget);
 
-  void _uploadPixelArray(int width, int height, TypedData array,
-                         int pixelFormat, int pixelType) {
-    device.gl.texImage2DTyped(_textureTarget, 0, _textureFormat, width, height,
-                              0, pixelFormat, pixelType, array);
+  void _uploadPixelArray(int width, int height, TypedData array) {
+    device.gl.texImage2DTyped(_textureTarget, 0, pixelFormat, width, height,
+                              0, pixelFormat, pixelDataType, array);
   }
 
   /** Replace texture contents with data stored in [array].
    * If [array] is null, space will be allocated on the GPU
    */
-  void uploadPixelArray(int width, int height, TypedData array,
-                        {pixelFormat: SpectreTexture.FormatRGBA,
-                         pixelType: SpectreTexture.PixelTypeU8}) {
-    var oldBind = _pushBind();
+  void uploadPixelArray(int width, int height, TypedData array) {
+    device.context.setTexture(0, this);
     _width = width;
     _height = height;
-    _uploadPixelArray(width, height, array, pixelFormat, pixelType);
-    _popBind(oldBind);
-  }
-
-  void _uploadElement(dynamic element, int pixelFormat, int pixelType) {
-
+    _uploadPixelArray(width, height, array);
+    device.context.setTexture(0, null);
   }
 
   /** Replace texture contents with image data from [element].
@@ -66,38 +59,34 @@ class Texture2D extends SpectreTexture {
    * The image data will be converted to [pixelFormat] and [pixelType] before
    * being uploaded to the GPU.
    */
-  void uploadElement(dynamic element,
-                     {pixelFormat: SpectreTexture.FormatRGBA,
-                         pixelType: SpectreTexture.PixelTypeU8}) {
-    var oldBind = _pushBind();
+  void uploadElement(dynamic element) {
+    device.context.setTexture(0, this);
     if (element is ImageElement) {
       _width = element.naturalWidth;
       _height = element.naturalHeight;
-      device.gl.texImage2DImage(_textureTarget, 0, _textureFormat, pixelFormat,
-                                pixelType, element);
+      device.gl.texImage2DImage(_textureTarget, 0, pixelFormat, pixelFormat,
+                                pixelDataType, element);
     } else if (element is CanvasElement) {
       _width = element.width;
       _height = element.height;
-      device.gl.texImage2DCanvas(_textureTarget, 0, _textureFormat, pixelFormat,
-                                 pixelType, element);
+      device.gl.texImage2DCanvas(_textureTarget, 0, pixelFormat, pixelFormat,
+                                 pixelDataType, element);
     } else if (element is VideoElement) {
       _width = element.width;
       _height = element.height;
-      device.gl.texImage2DVideo(_textureTarget, 0, _textureFormat, pixelFormat,
-                                pixelType, element);
+      device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat,
+                                pixelDataType, element);
     } else {
-      _popBind(oldBind);
+      device.context.setTexture(0, null);
       throw new ArgumentError('element is not supported.');
     }
-    _popBind(oldBind);
+    device.context.setTexture(0, null);
   }
 
   /** Replace texture contents with data fetched from [url].
    * If an error occurs while fetching the image, loadError will be true.
    */
-  Future<Texture2D> uploadFromURL(String url,
-                                  {pixelFormat: SpectreTexture.FormatRGBA,
-                                   pixelType: SpectreTexture.PixelTypeU8}) {
+  Future<Texture2D> uploadFromURL(String url) {
     ImageElement element = new ImageElement();
     Completer<Texture2D> completer = new Completer<Texture2D>();
     element.onError.listen((event) {
@@ -105,7 +94,7 @@ class Texture2D extends SpectreTexture {
       completer.complete(this);
     });
     element.onLoad.listen((event) {
-      uploadElement(element, pixelFormat:pixelFormat, pixelType:pixelType);
+      uploadElement(element);
       completer.complete(this);
     });
     // Initiate load.
@@ -128,9 +117,9 @@ class Texture2D extends SpectreTexture {
   void generateMipmap() {
     if (SpectreTexture._isPowerOfTwo(_width) &&
         SpectreTexture._isPowerOfTwo(_height)) {
-      var oldBind = _pushBind();
+      device.context.setTexture(0, this);
       _generateMipmap();
-      _popBind(oldBind);
+      device.context.setTexture(0, null);
     }
   }
 }

@@ -58,6 +58,7 @@ part 'src/spectre/input_layout.dart';
 part 'src/spectre/logger.dart';
 part 'src/spectre/fps_fly_camera_controller.dart';
 part 'src/spectre/orbit_camera_controller.dart';
+part 'src/spectre/pixel_format.dart';
 part 'src/spectre/primitive_topology.dart';
 part 'src/spectre/rasterizer_state.dart';
 part 'src/spectre/render_buffer.dart';

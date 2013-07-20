@@ -35,10 +35,29 @@ import 'package:vector_math/vector_math.dart';
 class DepthTextureExample extends Example {
   DepthTextureExample(CanvasElement element) : super('DepthTexture', element);
 
+  Texture2D colorBuffer;
+  Texture2D depthBuffer;
+  RenderTarget renderTarget;
+
   Future initialize() {
     return super.initialize().then((_) {
       if (!graphicsDevice.capabilities.hasDepthTextures) {
         throw new UnsupportedError('Computer does not support depth textures.');
+      }
+      // Create color buffer.
+      colorBuffer = new Texture2D('colorBuffer', graphicsDevice);
+      colorBuffer.uploadPixelArray(800, 600, null);
+      // Create depth buffer.
+      depthBuffer = new Texture2D('depthBuffer', graphicsDevice);
+      depthBuffer.pixelFormat = PixelFormat.Depth;
+      depthBuffer.pixelDataType = DataType.Uint32;
+      depthBuffer.uploadPixelArray(800, 600, null);
+      renderTarget = new RenderTarget('renderTarget', graphicsDevice);
+      renderTarget.colorTarget = colorBuffer;
+      renderTarget.depthTarget = depthBuffer;
+      if (!renderTarget.isRenderable) {
+        throw new UnsupportedError('Render target is not renderable: '
+                                   '${renderTarget.statusCode}');
       }
     });
   }
@@ -49,7 +68,6 @@ class DepthTextureExample extends Example {
   }
 
   onUpdate() {
-
   }
 
   onRender() {

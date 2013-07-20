@@ -44,6 +44,8 @@ class RenderTarget extends DeviceChild {
   bool _renderable = false;
   /** Is the render target valid and renderable? */
   bool get isRenderable => _renderable;
+  int _status;
+  int get statusCode => _status;
 
   RenderTarget(String name, GraphicsDevice device) :
     super._internal(name, device) {
@@ -62,33 +64,11 @@ class RenderTarget extends DeviceChild {
     _renderable = false;
   }
 
-
-  /** Bind this texture and return the previously bound framebuffer. */
-  WebGL.Framebuffer _pushBind() {
-    WebGL.Framebuffer oldBind = device.gl.getParameter(_bindingParam);
-    device.gl.bindFramebuffer(_bindTarget, _deviceFramebuffer);
-    return oldBind;
-  }
-
-
-  /** Rebind [oldBind] */
-  void _popBind(WebGL.Framebuffer oldBind) {
-    device.gl.bindFramebuffer(_bindTarget, oldBind);
-  }
-
-
-  void _bind() {
-    device.gl.bindFramebuffer(_bindTarget, _deviceFramebuffer);
-  }
-
-
   void _updateStatus() {
-    var oldBind = _pushBind();
-    int fbStatus = device.gl.checkFramebufferStatus(_bindTarget);
-    _renderable = fbStatus == WebGL.FRAMEBUFFER_COMPLETE;
-    _popBind(oldBind);
+    device.context.setRenderTarget(this);
+    _status = device.gl.checkFramebufferStatus(_bindTarget);
+    _renderable = _status == WebGL.FRAMEBUFFER_COMPLETE;
   }
-
 
   /** Set color target to be [colorBuffer].
    *
@@ -97,16 +77,14 @@ class RenderTarget extends DeviceChild {
    * A null color buffer indicates the system provided color buffer.
    */
   set colorTarget(dynamic colorBuffer) {
-    var oldBind = _pushBind();
+    device.context.setRenderTarget(this);
     if (colorBuffer == null) {
       _colorTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
                                         WebGL.COLOR_ATTACHMENT0,
                                         WebGL.RENDERBUFFER,
                                         null);
-      device.gl.bindFramebuffer(WebGL.FRAMEBUFFER, oldBind);
       _updateStatus();
-      _popBind(oldBind);
       return;
     }
     if (colorBuffer is RenderBuffer) {
@@ -127,7 +105,6 @@ class RenderTarget extends DeviceChild {
       throw new FallThroughError();
     }
     _updateStatus();
-    _popBind(oldBind);
   }
 
   /** Set depth buffer output to be [depth].
@@ -143,16 +120,14 @@ class RenderTarget extends DeviceChild {
    * A null depth buffer indicates the system provided depth buffer.
    */
   set depthTarget(dynamic depthBuffer) {
-    var oldBind = _pushBind();
+    device.context.setRenderTarget(this);
     if (depthBuffer == null) {
       _depthTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
                                         WebGL.DEPTH_ATTACHMENT,
                                         WebGL.RENDERBUFFER,
                                         null);
-      device.gl.bindFramebuffer(WebGL.FRAMEBUFFER, oldBind);
       _updateStatus();
-      _popBind(oldBind);
       return;
     }
     if (depthBuffer is RenderBuffer) {
@@ -173,6 +148,5 @@ class RenderTarget extends DeviceChild {
       throw new FallThroughError();
     }
     _updateStatus();
-    _popBind(oldBind);
   }
 }

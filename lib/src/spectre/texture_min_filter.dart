@@ -26,10 +26,26 @@ class TextureMinFilter extends Enum {
   static const int Linear = WebGL.LINEAR;
   /// Use point filtering for minification.
   static const int Point = WebGL.NEAREST;
+  /// Use point filtering to expand, and point filtering between mipmap levels.
+  static const int PointMipPoint = WebGL.NEAREST_MIPMAP_NEAREST;
+  /// Use point filtering to expand, and linear filtering between mipmap levels.
+  static const int PointMipLinear = WebGL.NEAREST_MIPMAP_LINEAR;
+  /// Use linear filtering to expand, and point filtering between mipmap levels.
+  static const int LinearMipPoint = WebGL.LINEAR_MIPMAP_NEAREST;
+  /// Use linear filtering to expand, and linear filtering between mipmap
+  /// levels.
+  static const int LinearMipLinear = WebGL.LINEAR_MIPMAP_LINEAR;
+
+  /// Default minification filter.
+  static const int Default = PointMipLinear;
 
   static Map<String, int> _values = {
     'TextureMinFilter.Linear' : Linear,
-    'TextureMinFilter.Point' : Point
+    'TextureMinFilter.Point' : Point,
+    'TextureMinFilter.PointMipPoint' : PointMipPoint,
+    'TextureMinFilter.PointMipLinear' : PointMipLinear,
+    'TextureMinFilter.LinearMipPoint' : LinearMipPoint,
+    'TextureMinFilter.LinearMipLinear' : LinearMipLinear,
   };
 
   /// Convert a [String] to a [TextureMinFilter].

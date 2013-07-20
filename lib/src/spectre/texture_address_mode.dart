@@ -41,6 +41,9 @@ class TextureAddressMode extends Enum {
   /// no mirroring is performed.
   static const int Wrap = WebGL.REPEAT;
 
+  /// Default texture address mode.
+  static const int Default = Wrap;
+
   static Map<String, int> _values = {
     'TextureAddressMode.Clamp' : Clamp,
     'TextureAddressMode.Mirror' : Mirror,

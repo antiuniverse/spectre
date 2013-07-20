@@ -20,23 +20,21 @@
 
 part of spectre;
 
-/// Defines filtering types for magnification during texture sampling.
-class TextureMagFilter extends Enum {
-  /// Use linear filtering for magnification.
-  static const int Linear = WebGL.LINEAR;
-  /// Use point filtering for magnification.
-  static const int Point = WebGL.NEAREST;
-  /// Default magnification filter.
-  static const int Default = Linear;
+/// Pixel Format.
+class PixelFormat extends Enum {
+  static const int Rgb = WebGL.RGB;
+  static const int Rgba = WebGL.RGBA;
+  static const int Depth = WebGL.DEPTH_COMPONENT;
 
   static Map<String, int> _values = {
-    'TextureMagFilter.Linear' : Linear,
-    'TextureMagFilter.Point' : Point,
+    'PixelFormat.Rgb' : Rgb,
+    'PixelFormat.Rgba' : Rgba,
+    'PixelFormat.Depth' : Depth,
   };
 
-  /// Convert a [String] to a [TextureMagFilter].
+  /// Convert a [String] to a [DataType].
   static int parse(String name) => Enum._parse(_values, name);
-  /// Convert a [TextureMagFilter] to a [String].
+  /// Convert a [DataType] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.
   static bool isValid(int value) => Enum._isValid(_values, value);
