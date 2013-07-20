@@ -158,7 +158,7 @@ class Renderer {
       default:
         throw new UnimplementedError('Unknown layer type: $type');
     }
-    layer.fromJson(layerDescription, this);
+    layer.fromJson(layerDescription);
     return layer;
   }
 

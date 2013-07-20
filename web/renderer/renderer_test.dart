@@ -13,13 +13,6 @@ final String _canvasId = '#frontBuffer';
 
 // TODO:
 // Flesh out import / export.
-// Implement DynamicMeshRenderable, sub classes:
-//   Implement FullscreenRenderable
-//   Implement CubeRenderable
-//   Implement SphereRenderable
-//   Implement CapsuleRenderable
-//   Implement ConvexHullRenderable
-//   Implement CubeRenderable
 
 // ^^ Above mesh properties (cube extents, etc) are mutable- regenerate mesh.
 

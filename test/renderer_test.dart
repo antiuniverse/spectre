@@ -32,6 +32,7 @@ GraphicsDevice _graphicsDevice;
 Renderer _renderer;
 AssetManager _assetManager;
 CanvasElement _frontBuffer;
+DebugDrawManager _debugDrawManager;
 
 void testFromJson() {
   Map renderer_config = {
@@ -129,7 +130,9 @@ void main() {
   _frontBuffer = query('#frontBuffer');
   _graphicsDevice = new GraphicsDevice(_frontBuffer);
   _assetManager = new AssetManager();
-  _renderer = new Renderer(_frontBuffer, _graphicsDevice, _assetManager);
+  _debugDrawManager = new DebugDrawManager(_graphicsDevice);
+  _renderer = new Renderer(_frontBuffer, _graphicsDevice, _debugDrawManager,
+                           _assetManager);
   // Construction.
   test('construction', () {
     testFromJson();

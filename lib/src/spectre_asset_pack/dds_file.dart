@@ -75,7 +75,7 @@ class DdsFile {
       throw new ArgumentError('Invalid DDS file');
     }
 
-    Uint32List reader = new Uint32List.view(_buffer);
+    Uint32List reader = new Uint32List.view(_buffer.buffer);
 
     // Check the magic number
     if (reader[0] != _magicNumber) {
@@ -239,7 +239,7 @@ class DdsFile {
         return _buffer.sublist(offset, offset + (currentDepth * sliceSize));
       } else {
         Uint8List copyTo = new Uint8List(currentDepth * sliceSize);
-        Uint8List copyFrom = new Uint8List.view(_buffer, offset);
+        Uint8List copyFrom = new Uint8List.view(_buffer.buffer, offset);
         int toIndex = 0;
         int fromIndex = 0;
 
@@ -408,7 +408,7 @@ class DdsHeader {
 
   /// Creates an instance of the [DdsHeader] class.
   DdsHeader._internal(Uint8List buffer) {
-    Uint32List reader = new Uint32List.view(buffer, _byteOffset);
+    Uint32List reader = new Uint32List.view(buffer.buffer, _byteOffset);
 
     _size              = reader[0];
     _flags             = reader[1];
@@ -591,7 +591,7 @@ class DdsPixelFormat {
 
   /// Creates an instance of the [DdsPixelFormat] class.
   DdsPixelFormat._internal(Uint8List buffer) {
-    Uint32List reader = new Uint32List.view(buffer, _byteOffset);
+    Uint32List reader = new Uint32List.view(buffer.buffer, _byteOffset);
 
     _size          = reader[0];
     _flags         = reader[1];
@@ -760,7 +760,7 @@ class DdsExtendedHeader {
 
   /// Creates an instance of the [DdsPixelFormat] class.
   DdsExtendedHeader._internal(Uint8List buffer) {
-    Uint32List reader = new Uint32List.view(buffer, _byteOffset);
+    Uint32List reader = new Uint32List.view(buffer.buffer, _byteOffset);
 
     _resourceFormat = reader[0];
     _dimension = reader[1];

@@ -48,7 +48,7 @@ class Camera {
     Vector3 z = new Vector3(0.0, 0.0, 1.0);
     Vector3 forward = frontDirection;
     forward.normalize();
-    num d = degrees(acos(forward.dot(z)));
+    num d = degrees(Math.acos(forward.dot(z)));
     return d;
   }
 
@@ -56,7 +56,7 @@ class Camera {
     Vector3 y = new Vector3(0.0, 1.0, 0.0);
     Vector3 forward = frontDirection;
     forward.normalize();
-    num d = degrees(acos(forward.dot(y)));
+    num d = degrees(Math.acos(forward.dot(y)));
     return d;
   }
 

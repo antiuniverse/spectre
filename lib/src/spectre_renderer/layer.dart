@@ -122,7 +122,7 @@ abstract class Layer {
 
   void render(Renderer renderer, List<Renderable> renderables, Camera camera);
 
-  void fromJson(Map json, Renderer renderer) {
+  void fromJson(Map json) {
     name = json['name'];
     renderTarget = json['renderTarget'];
     clearColorTarget = json['clearColorTarget'];

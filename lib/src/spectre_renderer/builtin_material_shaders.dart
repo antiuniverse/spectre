@@ -103,4 +103,5 @@ void main(void)
       {});
   asset.imported = skyBox;
   renderer.materialShaders['skyBox'] = skyBox;
+  MaterialShader coloredLight = new MaterialShader('coloredLight', renderer);
 }

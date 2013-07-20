@@ -108,7 +108,7 @@ class MeshRenderable extends Renderable {
   }
 
   dynamic toJson() {
-    Map map = super.toJson(json);
+    Map map = super.toJson();
     map['meshPath'] = meshPath;
     map['materialPath'] = materialPath;
     return map;
