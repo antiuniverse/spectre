@@ -24,8 +24,8 @@ part of spectre;
 ///
 /// When creating a [WebGL.RenderingContext] there are various options that
 /// can be passed in to specify the configuration. These options can only be
-/// specified when the
-/// [GraphicsDevice] is created. Afterwards they cannot be modified.
+/// specified when the [GraphicsDevice] is created. Afterwards they cannot
+/// be modified.
 ///
 /// It should be noted that the underlying WebGL implementation takes these
 /// values as a suggestion. If the underlying hardware does not support the

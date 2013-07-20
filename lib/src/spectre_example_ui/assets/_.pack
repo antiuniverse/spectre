@@ -1,0 +1,11 @@
+{
+  "unitCube":{
+    "loadArguments":{
+    },
+    "name":"unitCube",
+    "url":"mesh/unitCube.mesh",
+    "type":"mesh",
+    "importArguments":{
+    }
+  }
+}

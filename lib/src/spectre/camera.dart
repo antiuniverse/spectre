@@ -24,10 +24,10 @@ class Camera {
   Vector3 position;
   Vector3 upDirection;
   Vector3 focusPosition;
-  num zNear;
-  num zFar;
-  num aspectRatio;
-  num FOV;
+  double zNear = 0.5;
+  double zFar = 1000.0;
+  double aspectRatio = 1.7777778;
+  double FOV = 0.785398163;
 
   String toString() {
     return '$position -> $focusPosition';
@@ -37,11 +37,6 @@ class Camera {
     position = new Vector3(0.0, 0.0, 0.0);
     focusPosition = new Vector3(0.0, 0.0, -1.0);
     upDirection = new Vector3(0.0, 1.0, 0.0);
-
-    FOV = 0.785398163; // 2*45 degrees
-    zNear = 1.0;
-    zFar = 1000.0;
-    aspectRatio = 1.7777778;
   }
 
   num get yaw {
