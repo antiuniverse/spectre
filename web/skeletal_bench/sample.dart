@@ -54,8 +54,8 @@ class InstanceCountController {
   final List<int> instanceHistory = new List<int>(4);
   int cursor = 0;
   int lastMs = 0;
-  const int targetMicrosMin = 19000;
-  const int targetMicrosMax = 23000;
+  static const int targetMicrosMin = 19000;
+  static const int targetMicrosMax = 23000;
   int instanceCount;
   double continuousInstanceCount;
   InstanceCountController(this.setInstances, this.instanceCount) {
@@ -147,9 +147,9 @@ class SampleMeshInstance extends SkinnedMeshInstance {
     return false;
   }
 
-  const num TAU = Math.PI * 2;
-  final num PHI = (Math.sqrt(5) + 1) / 2;
-  const int SCALE_FACTOR = 25;
+  static const num TAU = Math.PI * 2;
+  static final num PHI = (Math.sqrt(5) + 1) / 2;
+  static const int SCALE_FACTOR = 25;
 
   void getMatrix(Float32List out) {
     final num theta = id * TAU / PHI;

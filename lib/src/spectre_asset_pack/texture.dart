@@ -106,7 +106,7 @@ class _ImagePackLoader extends AssetLoader {
         return new Future.value(null);
       }
       var futureImages = new List<Future<ImageElement>>();
-      var baseUri = new Uri(asset.url);
+      var baseUri = Uri.parse(asset.url);
       parsed.forEach((String imgSrc) {
         var url = baseUri.resolve(imgSrc).toString();
         Asset imgRequest = new Asset(null, imgSrc, url,

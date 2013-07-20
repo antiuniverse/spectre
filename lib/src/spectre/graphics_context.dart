@@ -244,6 +244,7 @@ class GraphicsContext {
   /// Set the IndexBuffer to [indexBufferHandle]
   void setIndexBuffer(IndexBuffer indexBufferHandle) {
     _indexBufferHandle = indexBufferHandle;
+	_preparedInputLayoutHandle = null;
   }
 
   /// Set multiple VertexBuffers in [vertexBufferHandles] starting at [startSlot]
@@ -252,6 +253,7 @@ class GraphicsContext {
     for (int i = startSlot; i < limit; i++) {
       _vertexBufferHandles[i] = vertexBufferHandles[i-startSlot];
     }
+	_preparedInputLayoutHandle = null;
   }
 
   /// Set InputLayout to [inputLayoutHandle]

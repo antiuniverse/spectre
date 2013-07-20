@@ -20,24 +20,25 @@
 
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_enhanced_config.dart';
-import 'blend_test.dart' as blend_test;
-import 'blend_operation_test.dart' as blend_operation_test;
-import 'blend_state_test.dart' as blend_state_test;
-import 'compare_function_test.dart' as compare_function_test;
-import 'cull_mode_test.dart' as cull_mode_test;
-import 'dds_file_test.dart' as dds_file_test;
-import 'depth_state_test.dart' as depth_state_test;
-import 'front_face_test.dart' as front_face_test;
-import 'graphics_context_test.dart' as graphics_context_test;
-import 'material_test.dart' as material_test;
-import 'rasterizer_state_test.dart' as rasterizer_state_test;
-import 'renderer_test.dart' as renderer_test;
-import 'sampler_state_test.dart' as sampler_state_test;
-import 'surface_format_test.dart' as surface_format_test;
-import 'texture_address_mode_test.dart' as texture_address_mode_test;
-import 'texture_mag_filter_test.dart' as texture_mag_filter_test;
-import 'texture_min_filter_test.dart' as texture_min_filter_test;
-import 'viewport_test.dart' as viewport_test;
+
+import 'src/blend_operation_test.dart' as blend_operation_test;
+import 'src/blend_state_test.dart' as blend_state_test;
+import 'src/blend_test.dart' as blend_test;
+import 'src/compare_function_test.dart' as compare_function_test;
+import 'src/cull_mode_test.dart' as cull_mode_test;
+import 'src/dds_file_test.dart' as dds_file_test;
+import 'src/depth_state_test.dart' as depth_state_test;
+import 'src/front_face_test.dart' as front_face_test;
+import 'src/graphics_context_test.dart' as graphics_context_test;
+import 'src/material_test.dart' as material_test;
+import 'src/rasterizer_state_test.dart' as rasterizer_state_test;
+import 'src/renderer_test.dart' as renderer_test;
+import 'src/sampler_state_test.dart' as sampler_state_test;
+import 'src/surface_format_test.dart' as surface_format_test;
+import 'src/texture_address_mode_test.dart' as texture_address_mode_test;
+import 'src/texture_mag_filter_test.dart' as texture_mag_filter_test;
+import 'src/texture_min_filter_test.dart' as texture_min_filter_test;
+import 'src/viewport_test.dart' as viewport_test;
 
 void main() {
   useHtmlEnhancedConfiguration();

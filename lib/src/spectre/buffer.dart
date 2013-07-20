@@ -57,14 +57,14 @@ class SpectreBuffer extends DeviceChild {
     device.gl.bindBuffer(_bindTarget, oldBind);
   }
 
-  void _uploadData(dynamic data, int usage) {
+  void _uploadData(TypedData data, int usage) {
     _size = data.lengthInBytes;
     _usage = usage;
-    device.gl.bufferData(_bindTarget, data, usage);
+    device.gl.bufferDataTyped(_bindTarget, data, usage);
   }
 
   /** Resize buffer to fit [data]. Upload [data] with [usage] hint. */
-  void uploadData(dynamic data, int usage) {
+  void uploadData(TypedData data, int usage) {
     if (data == null) {
       throw new ArgumentError('data cannot be null.');
     }
@@ -73,14 +73,14 @@ class SpectreBuffer extends DeviceChild {
     _popBind(oldBind);
   }
 
-  void _uploadSubData(int offset, dynamic data) {
-    device.gl.bufferSubData(_bindTarget, offset, data);
+  void _uploadSubData(int offset, TypedData data) {
+    device.gl.bufferSubDataTyped(_bindTarget, offset, data);
   }
 
   /** Starting at [offset], upload [data] into buffer.
    * The length of [data] + offset must not exceed the size of the buffer
    */
-  void uploadSubData(int offset, dynamic data) {
+  void uploadSubData(int offset, TypedData data) {
     if (data == null) {
       throw new ArgumentError('data cannot be null.');
     }

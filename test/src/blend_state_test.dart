@@ -22,8 +22,8 @@ library blend_state_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:spectre/spectre.dart';
-import 'device_child_equality.dart';
-import 'mock_graphics_device.dart';
+import 'shared/device_child_equality.dart';
+import 'shared/mock_graphics_device.dart';
 
 GraphicsDevice _graphicsDevice;
 

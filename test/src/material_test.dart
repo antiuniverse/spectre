@@ -25,8 +25,8 @@ import 'package:unittest/unittest.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_renderer.dart';
-import 'device_child_equality.dart';
-import 'mock_graphics_device.dart';
+import 'shared/device_child_equality.dart';
+import 'shared/mock_graphics_device.dart';
 
 GraphicsDevice _graphicsDevice;
 Renderer _renderer;
@@ -63,15 +63,6 @@ bool materialConstantEquals(MaterialConstant a, MaterialConstant b) {
 }
 
 bool materialEquals(Material a, Material b) {
-  if (blendStateEqual(a.blendState, b.blendState) == false) {
-    return false;
-  }
-  if (depthStateEqual(a.depthState, b.depthState) == false) {
-    return false;
-  }
-  if (rasterizerStateEqual(a.rasterizerState, b.rasterizerState) == false) {
-    return false;
-  }
   if (a.constants.length != b.constants.length) {
     return false;
   }
