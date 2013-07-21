@@ -37,7 +37,7 @@ class TextureMinFilter extends Enum {
   static const int LinearMipLinear = WebGL.LINEAR_MIPMAP_LINEAR;
 
   /// Default minification filter.
-  static const int Default = Linear;
+  static const int Default = PointMipLinear;
 
   static Map<String, int> _values = {
     'TextureMinFilter.Linear' : Linear,
