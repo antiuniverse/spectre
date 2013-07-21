@@ -138,11 +138,17 @@ class ShaderProgram extends DeviceChild {
     _isLinked = device.gl.getProgramParameter(
         _program,
         WebGL.LINK_STATUS);
+
     if (_linkLog == '') {
-      spectreLog.Info('ShaderProgram.Link($name): OKAY.');
+      _spectreLog.fine('ShaderProgram.Link($name): OKAY.');
     } else {
-      spectreLog.Info('''ShaderProgram.Link($name):
+      if (linked) {
+        _spectreLog.warning('''ShaderProgram.Link($name):
 $_linkLog''');
+      } else {
+        _spectreLog.shout('''ShaderProgram.Link($name):
+$_linkLog''');
+      }
     }
 
     refreshUniforms();
@@ -326,24 +332,24 @@ $_linkLog''');
   /** Output each uniform variable input to the log. */
   void logUniforms() {
     forEachUniform((uniform) {
-      spectreLog.Info('Uniforms[${uniform.index}] ${uniform.type}'
-                      ' ${uniform.name} (${uniform.size})');
+      _spectreLog.fine('Uniforms[${uniform.index}] ${uniform.type}'
+                       ' ${uniform.name} (${uniform.size})');
     });
   }
 
   /** Output each sampler input to the log. */
   void logSamplers() {
     forEachSampler((sampler) {
-      spectreLog.Info('Sampler[${sampler.index}] ${sampler.type}'
-                      ' ${sampler.name} (${sampler})');
+      _spectreLog.fine('Sampler[${sampler.index}] ${sampler.type}'
+                       ' ${sampler.name} (${sampler})');
     });
   }
 
   /** Output each attribute input to the log. */
   void logAttributes() {
     forEachAttribute((attribute) {
-      spectreLog.Info('Attributes[${attribute.index}] ${attribute.type}'
-                      ' ${attribute.name} (${attribute.size})');
+      _spectreLog.fine('Attributes[${attribute.index}] ${attribute.type}'
+                       ' ${attribute.name} (${attribute.size})');
     });
   }
 

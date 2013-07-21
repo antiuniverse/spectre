@@ -95,7 +95,7 @@ class GraphicsDevice {
     }
     _gl = surface.getContext3d(stencil: config.stencilBuffer);
     _capabilities = new GraphicsDeviceCapabilities._fromContext(gl);
-    print(_capabilities);
+    _spectreLog.config('$_capabilities');
     // Create the associated GraphicsContext.
     _context = new GraphicsContext(this);
     RenderTarget._systemRenderTarget = new RenderTarget.systemTarget(
