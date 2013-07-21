@@ -29,6 +29,12 @@ class Texture2D extends SpectreTexture {
   /** Did an error occur when loading from a URL? */
   bool get loadError => _loadError;
 
+  String toString() {
+    return 'Texture2D name=$name width=$_width height=$_height '
+           'pixelFormat=${PixelFormat.stringify(pixelFormat)} '
+           'pixelDataType=${DataType.stringify(pixelDataType)}';
+  }
+
   Texture2D(String name, GraphicsDevice device) :
       super(name, device, WebGL.TEXTURE_2D, WebGL.TEXTURE_BINDING_2D,
             WebGL.TEXTURE_2D);
@@ -50,7 +56,6 @@ class Texture2D extends SpectreTexture {
     _width = width;
     _height = height;
     _uploadPixelArray(width, height, array);
-    device.context.setTexture(device.context._tempTextureUnit, null);
   }
 
   /** Replace texture contents with image data from [element].
@@ -60,6 +65,12 @@ class Texture2D extends SpectreTexture {
    * being uploaded to the GPU.
    */
   void uploadElement(dynamic element) {
+    if ((element is! ImageElement) &&
+        (element is! CanvasElement) &&
+        (element is! VideoElement)) {
+      throw new ArgumentError('Element type is not supported.');
+    }
+
     device.context.setTexture(device.context._tempTextureUnit, this);
     if (element is ImageElement) {
       _width = element.naturalWidth;
@@ -76,11 +87,7 @@ class Texture2D extends SpectreTexture {
       _height = element.height;
       device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat,
                                 pixelDataType, element);
-    } else {
-      device.context.setTexture(device.context._tempTextureUnit, null);
-      throw new ArgumentError('element is not supported.');
     }
-    device.context.setTexture(device.context._tempTextureUnit, null);
   }
 
   /** Replace texture contents with data fetched from [url].
@@ -119,7 +126,6 @@ class Texture2D extends SpectreTexture {
         SpectreTexture._isPowerOfTwo(_height)) {
       device.context.setTexture(device.context._tempTextureUnit, this);
       _generateMipmap();
-      device.context.setTexture(device.context._tempTextureUnit, null);
     }
   }
 }

@@ -76,6 +76,13 @@ class RenderTarget extends DeviceChild {
    * A null color buffer indicates the system provided color buffer.
    */
   set colorTarget(dynamic colorBuffer) {
+    if ((colorBuffer != null) &&
+        (colorBuffer is! RenderBuffer) &&
+        (colorBuffer is! Texture2D)) {
+      throw new ArgumentError(
+          'colorTarget must be a RenderBuffer or Texture2D.');
+    }
+
     device.context.setRenderTarget(this);
     if (colorBuffer == null) {
       _colorTarget = null;
@@ -97,13 +104,8 @@ class RenderTarget extends DeviceChild {
                                      WebGL.COLOR_ATTACHMENT0,
                                      t2d._textureTarget,
                                      t2d._deviceTexture, 0);
-    } else {
-      _updateStatus();
-      device.context.setRenderTarget(null);
-      throw new FallThroughError();
     }
     _updateStatus();
-    device.context.setRenderTarget(null);
   }
 
   /** Set depth buffer output to be [depth].
@@ -119,6 +121,13 @@ class RenderTarget extends DeviceChild {
    * A null depth buffer indicates the system provided depth buffer.
    */
   set depthTarget(dynamic depthBuffer) {
+    if (depthBuffer != null &&
+        (depthBuffer is! RenderBuffer) &&
+        (depthBuffer is! Texture2D)) {
+      throw new ArgumentError(
+      'depthTarget must be a RenderBuffer or Texture2D.');
+    }
+
     device.context.setRenderTarget(this);
     if (depthBuffer == null) {
       _depthTarget = null;
@@ -140,12 +149,7 @@ class RenderTarget extends DeviceChild {
                                      WebGL.DEPTH_ATTACHMENT,
                                      t2d._textureTarget,
                                      t2d._deviceTexture, 0);
-    } else {
-      _updateStatus();
-      device.context.setRenderTarget(null);
-      throw new FallThroughError();
     }
     _updateStatus();
-    device.context.setRenderTarget(null);
   }
 }

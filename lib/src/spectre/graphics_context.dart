@@ -187,6 +187,15 @@ class GraphicsContext {
     for (int i = 0; i < _textures.length; i++) {
       SpectreTexture texture = _textures[i];
       SamplerState sampler = _samplers[i];
+      if (sampler == null && texture == null) {
+        continue;
+      }
+      if (sampler == null) {
+        throw new StateError('Texture must have sampler.');
+      }
+      if (texture == null) {
+        throw new StateError('Sampler must have texture.');
+      }
       setTexture(i, texture);
       setSampler(i, sampler);
     }
@@ -216,12 +225,6 @@ class GraphicsContext {
       _vertexBuffers[i] = null;
     }
     _inputLayoutHandle = null;
-
-
-
-
-
-
 
     setBlendState(_blendStateDefault);
     setDepthState(_depthStateDefault);
@@ -618,6 +621,8 @@ class GraphicsContext {
     }
     _setActiveTextureUnit(textureUnit);
     SpectreTexture texture = _textures[textureUnit];
+    _samplers[textureUnit] = sampler;
+
     if (texture == null) {
       // No texture bound.
       return;

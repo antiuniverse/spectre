@@ -223,9 +223,13 @@ class SamplerState extends DeviceChild {
   double get maxAnisotropy => _maxAnisotropy;
 
 
-  //---------------------------------------------------------------------
-  // Serialization
-  //---------------------------------------------------------------------
+  String toString() {
+    return 'SamplerState name=$name '
+           'addressU=${TextureAddressMode.stringify(_addressU)} '
+           'addressV=${TextureAddressMode.stringify(_addressV)} '
+           'minFilter=${TextureMinFilter.stringify(_minFilter)} '
+           'magFilter=${TextureMinFilter.stringify(_magFilter)}';
+  }
 
   /// Serializes the [SamplerState] to a JSON.
   dynamic toJson() {
