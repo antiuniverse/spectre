@@ -42,13 +42,13 @@ class SamplerState extends DeviceChild {
   //---------------------------------------------------------------------
 
   /// The texture-address mode for the u-coordinate.
-  int _addressU = TextureAddressMode.Wrap;
+  int _addressU = TextureAddressMode.Default;
   /// The texture-address mode for the v-coordinate.
-  int _addressV = TextureAddressMode.Wrap;
+  int _addressV = TextureAddressMode.Default;
   /// The minification filter to use.
-  int _minFilter = TextureMinFilter.Linear;
+  int _minFilter = TextureMinFilter.Default;
   /// The magnification filter to use.
-  int _magFilter = TextureMagFilter.Linear;
+  int _magFilter = TextureMagFilter.Default;
   /// The maximum anisotropy.
   ///
   /// The default value is 1.0.

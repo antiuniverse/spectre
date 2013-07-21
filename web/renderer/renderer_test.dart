@@ -251,7 +251,7 @@ main() {
     _makeMaterial();
     _buildCubes();
     _setupSkybox();
-    if (true) {
+    if (false) {
       // Load from JSON.
       for (int i = 0; i < layer_config.length; i++) {
         Layer layer = renderer.layerFactory(layer_config[i]);
@@ -264,12 +264,15 @@ main() {
       clearBackBuffer.clearDepthTarget = true;
       clearBackBuffer.renderTarget = 'backBuffer';
       layers.add(clearBackBuffer);
+
       var colorBackBuffer = new SceneLayer('color', renderer);
       colorBackBuffer.renderTarget = 'backBuffer';
       layers.add(colorBackBuffer);
+
       var debugLayer = new DebugDrawLayer('debug', renderer);
       debugLayer.renderTarget = 'backBuffer';
       layers.add(debugLayer);
+
       var blitBackBuffer = new FullscreenLayer('blit', renderer);
       blitBackBuffer.renderTarget = 'frontBuffer';
       blitBackBuffer.material = new Material(

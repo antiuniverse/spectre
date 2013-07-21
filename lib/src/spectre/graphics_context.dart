@@ -35,6 +35,7 @@ class GraphicsContext {
   double _clearD;
 
   // Cached texture state.
+  int _tempTextureUnit;
   int _activeTextureUnit;
   List<SamplerState> _samplers;
   List<SpectreTexture> _textures;
@@ -77,6 +78,7 @@ class GraphicsContext {
 
   GraphicsContext(this.device) {
     int numTextureUnits = device.capabilities.textureUnits;
+    _tempTextureUnit = numTextureUnits - 1;
     _textures = new List<SpectreTexture>(numTextureUnits);
     _samplers = new List<SamplerState>(numTextureUnits);
 
@@ -165,7 +167,8 @@ class GraphicsContext {
     inputLayout.attributes.forEach((element) {
       VertexBuffer vb = _vertexBuffers[element.vboSlot];
       if (vb == null) {
-        spectreLog.Error('Prepare for draw referenced a null vertex buffer object');
+        spectreLog.Error(
+            'Prepare for draw referenced a null vertex buffer object');
         return;
       }
       device.gl.enableVertexAttribArray(element.attributeIndex);
@@ -527,13 +530,13 @@ class GraphicsContext {
   /// Set RenderTarget to [renderTarget]
   void setRenderTarget(RenderTarget renderTarget) {
     if (_renderTarget != renderTarget) {
-      _renderTarget = renderTarget;
       if (renderTarget != null) {
-        device.gl.bindFramebuffer(renderTarget._bindTarget,
+        device.gl.bindFramebuffer(WebGL.FRAMEBUFFER,
                                   renderTarget._deviceFramebuffer);
       } else {
         device.gl.bindFramebuffer(WebGL.FRAMEBUFFER, null);
       }
+      _renderTarget = renderTarget;
     }
   }
 
@@ -586,9 +589,9 @@ class GraphicsContext {
   }
 
   void _setActiveTextureUnit(int textureUnit) {
-    if (_activeTextureUnit != WebGL.TEXTURE0 + textureUnit) {
+    if (_activeTextureUnit != textureUnit) {
       device.gl.activeTexture(WebGL.TEXTURE0 + textureUnit);
-      _activeTextureUnit = WebGL.TEXTURE0 + textureUnit;
+      _activeTextureUnit = textureUnit;
     }
   }
 
@@ -597,13 +600,12 @@ class GraphicsContext {
     if (textureUnit < 0 || textureUnit >= _textures.length) {
       throw new ArgumentError('Invalid texture unit.');
     }
+    _setActiveTextureUnit(textureUnit);
     if (_textures[textureUnit] != texture) {
-      _setActiveTextureUnit(textureUnit);
-      if (texture == null) {
-        // Clear all possible texture targets.
-        device.gl.bindTexture(WebGL.TEXTURE_2D, null);
-        device.gl.bindTexture(WebGL.TEXTURE_CUBE_MAP, null);
-      } else {
+      // Clear all possible texture targets.
+      device.gl.bindTexture(WebGL.TEXTURE_2D, null);
+      device.gl.bindTexture(WebGL.TEXTURE_CUBE_MAP, null);
+      if (texture != null) {
         device.gl.bindTexture(texture._bindTarget, texture._deviceTexture);
       }
       _textures[textureUnit] = texture;
@@ -612,6 +614,10 @@ class GraphicsContext {
 
   /// Set [sampler] state on texture bound to [textureUnit].
   void setSampler(int textureUnit, SamplerState sampler) {
+    if (textureUnit < 0 || textureUnit >= _textures.length) {
+      throw new ArgumentError('Invalid texture unit.');
+    }
+    _setActiveTextureUnit(textureUnit);
     SpectreTexture texture = _textures[textureUnit];
     if (texture == null) {
       // No texture bound.
@@ -630,7 +636,6 @@ class GraphicsContext {
       textureMagFilter = sampler.magFilter;
     }
 
-    _setActiveTextureUnit(textureUnit);
     if (texture._textureWrapS != textureWrapS) {
       device.gl.texParameteri(texture._textureTarget, WebGL.TEXTURE_WRAP_S,
                               textureWrapS);
@@ -655,15 +660,15 @@ class GraphicsContext {
 
   /// Sets a list of [textures] starting at [texUnitOffset]
   void setTextures(int texUnitOffset, List<SpectreTexture> textures) {
-    for (int i = texUnitOffset; i < textures.length; i++) {
-      setTexture(texUnitOffset+i, textures[i]);
+    for (int i = 0; i < textures.length; i++) {
+      setTexture(i + texUnitOffset, textures[i]);
     }
   }
 
   /// Sets a list of [samplers] starting at [texUnitOffset]
   void setSamplers(int texUnitOffset, List<SamplerState> samplers) {
-    for (int i = texUnitOffset; i < samplers.length; i++) {
-      setSampler(texUnitOffset + i, samplers[i]);
+    for (int i = 0; i < samplers.length; i++) {
+      setSampler(i + texUnitOffset, samplers[i]);
     }
   }
 

@@ -38,6 +38,7 @@ class DepthTextureExample extends Example {
   Texture2D colorBuffer;
   Texture2D depthBuffer;
   RenderTarget renderTarget;
+  OrbitCameraController cameraController;
 
   Future initialize() {
     return super.initialize().then((_) {
@@ -52,13 +53,18 @@ class DepthTextureExample extends Example {
       depthBuffer.pixelFormat = PixelFormat.Depth;
       depthBuffer.pixelDataType = DataType.Uint32;
       depthBuffer.uploadPixelArray(800, 600, null);
+      // Create render target.
       renderTarget = new RenderTarget('renderTarget', graphicsDevice);
+      // Use color buffer.
       renderTarget.colorTarget = colorBuffer;
+      // Use depth buffer.
       renderTarget.depthTarget = depthBuffer;
+      // Verify that it's renderable.
       if (!renderTarget.isRenderable) {
         throw new UnsupportedError('Render target is not renderable: '
                                    '${renderTarget.statusCode}');
       }
+      cameraController = new OrbitCameraController();
     });
   }
 
@@ -68,6 +74,14 @@ class DepthTextureExample extends Example {
   }
 
   onUpdate() {
+    Mouse mouse = gameLoop.mouse;
+    if (mouse.isDown(Mouse.LEFT) || gameLoop.pointerLock.locked) {
+      cameraController.accumDX = mouse.dx;
+      cameraController.accumDY = mouse.dy;
+    }
+
+    cameraController.accumDZ = mouse.wheelDy;
+    //cameraController.updateCamera(gameLoop.updateTimeStep, camera);
   }
 
   onRender() {

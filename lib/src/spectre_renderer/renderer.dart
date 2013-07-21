@@ -71,7 +71,7 @@ class Renderer {
       throw new ArgumentError('Invalid target description.');
     }
     Texture2D buffer = new Texture2D(name, device);
-    buffer.uploadPixelArray(width, height, new Uint8List(width*height*4));
+    buffer.uploadPixelArray(width, height, null);
     colorBuffers[name] = buffer;
     var asset =
         _rendererPack.registerAsset(name, 'ColorBuffer', '', {}, {});
@@ -111,6 +111,9 @@ class Renderer {
     RenderTarget renderTarget = new RenderTarget(name, device);
     renderTarget.colorTarget = colorBuffer;
     renderTarget.depthTarget = depthBuffer;
+    if (renderTarget.isRenderable == false) {
+      throw new ArgumentError('Render target is not renderable.');
+    }
     renderTargets[name]= renderTarget;
     var asset = _rendererPack.registerAsset(name, 'RenderTarget', '', {},
                                             {});

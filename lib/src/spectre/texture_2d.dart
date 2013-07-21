@@ -46,11 +46,11 @@ class Texture2D extends SpectreTexture {
    * If [array] is null, space will be allocated on the GPU
    */
   void uploadPixelArray(int width, int height, TypedData array) {
-    device.context.setTexture(0, this);
+    device.context.setTexture(device.context._tempTextureUnit, this);
     _width = width;
     _height = height;
     _uploadPixelArray(width, height, array);
-    device.context.setTexture(0, null);
+    device.context.setTexture(device.context._tempTextureUnit, null);
   }
 
   /** Replace texture contents with image data from [element].
@@ -60,7 +60,7 @@ class Texture2D extends SpectreTexture {
    * being uploaded to the GPU.
    */
   void uploadElement(dynamic element) {
-    device.context.setTexture(0, this);
+    device.context.setTexture(device.context._tempTextureUnit, this);
     if (element is ImageElement) {
       _width = element.naturalWidth;
       _height = element.naturalHeight;
@@ -77,10 +77,10 @@ class Texture2D extends SpectreTexture {
       device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat,
                                 pixelDataType, element);
     } else {
-      device.context.setTexture(0, null);
+      device.context.setTexture(device.context._tempTextureUnit, null);
       throw new ArgumentError('element is not supported.');
     }
-    device.context.setTexture(0, null);
+    device.context.setTexture(device.context._tempTextureUnit, null);
   }
 
   /** Replace texture contents with data fetched from [url].
@@ -117,9 +117,9 @@ class Texture2D extends SpectreTexture {
   void generateMipmap() {
     if (SpectreTexture._isPowerOfTwo(_width) &&
         SpectreTexture._isPowerOfTwo(_height)) {
-      device.context.setTexture(0, this);
+      device.context.setTexture(device.context._tempTextureUnit, this);
       _generateMipmap();
-      device.context.setTexture(0, null);
+      device.context.setTexture(device.context._tempTextureUnit, null);
     }
   }
 }

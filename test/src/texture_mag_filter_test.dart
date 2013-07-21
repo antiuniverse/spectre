@@ -29,19 +29,11 @@ void main() {
   test('values', () {
     expect(TextureMagFilter.Linear         , WebGL.LINEAR);
     expect(TextureMagFilter.Point          , WebGL.NEAREST);
-    expect(TextureMagFilter.PointMipPoint  , WebGL.NEAREST_MIPMAP_NEAREST);
-    expect(TextureMagFilter.PointMipLinear , WebGL.NEAREST_MIPMAP_LINEAR);
-    expect(TextureMagFilter.LinearMipPoint , WebGL.LINEAR_MIPMAP_NEAREST);
-    expect(TextureMagFilter.LinearMipLinear, WebGL.LINEAR_MIPMAP_LINEAR);
   });
 
   test('stringify', () {
     expect(TextureMagFilter.stringify(TextureMagFilter.Linear)         , 'TextureMagFilter.Linear');
     expect(TextureMagFilter.stringify(TextureMagFilter.Point)          , 'TextureMagFilter.Point');
-    expect(TextureMagFilter.stringify(TextureMagFilter.PointMipPoint)  , 'TextureMagFilter.PointMipPoint');
-    expect(TextureMagFilter.stringify(TextureMagFilter.PointMipLinear) , 'TextureMagFilter.PointMipLinear');
-    expect(TextureMagFilter.stringify(TextureMagFilter.LinearMipPoint) , 'TextureMagFilter.LinearMipPoint');
-    expect(TextureMagFilter.stringify(TextureMagFilter.LinearMipLinear), 'TextureMagFilter.LinearMipLinear');
 
     expect(() { TextureMagFilter.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
   });
@@ -49,10 +41,6 @@ void main() {
   test('parse', () {
     expect(TextureMagFilter.parse('TextureMagFilter.Linear')         , TextureMagFilter.Linear);
     expect(TextureMagFilter.parse('TextureMagFilter.Point')          , TextureMagFilter.Point);
-    expect(TextureMagFilter.parse('TextureMagFilter.PointMipPoint')  , TextureMagFilter.PointMipPoint);
-    expect(TextureMagFilter.parse('TextureMagFilter.PointMipLinear') , TextureMagFilter.PointMipLinear);
-    expect(TextureMagFilter.parse('TextureMagFilter.LinearMipPoint') , TextureMagFilter.LinearMipPoint);
-    expect(TextureMagFilter.parse('TextureMagFilter.LinearMipLinear'), TextureMagFilter.LinearMipLinear);
 
     expect(() { TextureMagFilter.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
   });
@@ -60,10 +48,6 @@ void main() {
   test('isValid', () {
     expect(TextureMagFilter.isValid(TextureMagFilter.Linear)         , true);
     expect(TextureMagFilter.isValid(TextureMagFilter.Point)          , true);
-    expect(TextureMagFilter.isValid(TextureMagFilter.PointMipPoint)  , true);
-    expect(TextureMagFilter.isValid(TextureMagFilter.PointMipLinear) , true);
-    expect(TextureMagFilter.isValid(TextureMagFilter.LinearMipPoint) , true);
-    expect(TextureMagFilter.isValid(TextureMagFilter.LinearMipLinear), true);
 
     expect(TextureMagFilter.isValid(-1), false);
   });

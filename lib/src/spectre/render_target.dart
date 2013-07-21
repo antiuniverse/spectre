@@ -65,7 +65,6 @@ class RenderTarget extends DeviceChild {
   }
 
   void _updateStatus() {
-    device.context.setRenderTarget(this);
     _status = device.gl.checkFramebufferStatus(_bindTarget);
     _renderable = _status == WebGL.FRAMEBUFFER_COMPLETE;
   }
@@ -84,10 +83,7 @@ class RenderTarget extends DeviceChild {
                                         WebGL.COLOR_ATTACHMENT0,
                                         WebGL.RENDERBUFFER,
                                         null);
-      _updateStatus();
-      return;
-    }
-    if (colorBuffer is RenderBuffer) {
+    } else if (colorBuffer is RenderBuffer) {
       RenderBuffer rb = colorBuffer as RenderBuffer;
       _colorTarget = rb;
       device.gl.framebufferRenderbuffer(_bindTarget,
@@ -102,9 +98,12 @@ class RenderTarget extends DeviceChild {
                                      t2d._textureTarget,
                                      t2d._deviceTexture, 0);
     } else {
+      _updateStatus();
+      device.context.setRenderTarget(null);
       throw new FallThroughError();
     }
     _updateStatus();
+    device.context.setRenderTarget(null);
   }
 
   /** Set depth buffer output to be [depth].
@@ -127,10 +126,7 @@ class RenderTarget extends DeviceChild {
                                         WebGL.DEPTH_ATTACHMENT,
                                         WebGL.RENDERBUFFER,
                                         null);
-      _updateStatus();
-      return;
-    }
-    if (depthBuffer is RenderBuffer) {
+    } else if (depthBuffer is RenderBuffer) {
       RenderBuffer rb = depthBuffer as RenderBuffer;
       _depthTarget = rb;
       device.gl.framebufferRenderbuffer(_bindTarget,
@@ -145,8 +141,11 @@ class RenderTarget extends DeviceChild {
                                      t2d._textureTarget,
                                      t2d._deviceTexture, 0);
     } else {
+      _updateStatus();
+      device.context.setRenderTarget(null);
       throw new FallThroughError();
     }
     _updateStatus();
+    device.context.setRenderTarget(null);
   }
 }

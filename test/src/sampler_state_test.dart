@@ -114,6 +114,10 @@ void main() {
     // Shouldn't throw
     expect(function(samplerState, TextureMinFilter.Linear), TextureMinFilter.Linear);
     expect(function(samplerState, TextureMinFilter.Point) , TextureMinFilter.Point);
+    expect(function(samplerState, TextureMinFilter.PointMipPoint)  , TextureMinFilter.PointMipPoint);
+    expect(function(samplerState, TextureMinFilter.PointMipLinear) , TextureMinFilter.PointMipLinear);
+    expect(function(samplerState, TextureMinFilter.LinearMipPoint) , TextureMinFilter.LinearMipPoint);
+    expect(function(samplerState, TextureMinFilter.LinearMipLinear), TextureMinFilter.LinearMipLinear);
 
     // Should throw
     expect(() { function(samplerState, -1); }, throwsArgumentError);
@@ -130,10 +134,6 @@ void main() {
     // Shouldn't throw
     expect(function(samplerState, TextureMagFilter.Linear)         , TextureMagFilter.Linear);
     expect(function(samplerState, TextureMagFilter.Point)          , TextureMagFilter.Point);
-    expect(function(samplerState, TextureMagFilter.PointMipPoint)  , TextureMagFilter.PointMipPoint);
-    expect(function(samplerState, TextureMagFilter.PointMipLinear) , TextureMagFilter.PointMipLinear);
-    expect(function(samplerState, TextureMagFilter.LinearMipPoint) , TextureMagFilter.LinearMipPoint);
-    expect(function(samplerState, TextureMagFilter.LinearMipLinear), TextureMagFilter.LinearMipLinear);
 
     // Should throw
     expect(() { function(samplerState, -1); }, throwsArgumentError);
@@ -184,9 +184,9 @@ void main() {
     samplerState1.minFilter = samplerState0.minFilter;
     expect(samplerStateEqual(samplerState0, samplerState1), true);
 
-    samplerState0.magFilter = TextureMagFilter.LinearMipLinear;
+    samplerState0.minFilter = TextureMinFilter.LinearMipLinear;
     expect(samplerStateEqual(samplerState0, samplerState1), false);
-    samplerState1.magFilter = samplerState0.magFilter;
+    samplerState1.minFilter = samplerState0.minFilter;
     expect(samplerStateEqual(samplerState0, samplerState1), true);
 
     samplerState0.maxAnisotropy = 4.0;
@@ -203,7 +203,7 @@ void main() {
     copy.addressU = TextureAddressMode.Clamp;
     copy.addressV = TextureAddressMode.Clamp;
     copy.minFilter = TextureMinFilter.Point;
-    copy.magFilter = TextureMagFilter.LinearMipLinear;
+    copy.magFilter = TextureMagFilter.Linear;
     copy.maxAnisotropy = 4.0;
 
     Map json = original.toJson();

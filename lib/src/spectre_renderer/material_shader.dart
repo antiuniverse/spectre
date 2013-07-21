@@ -218,17 +218,22 @@ class MaterialShader extends Disposable {
       }
     });
 
+    bool flag = false;
     shader.samplers.forEach((String k, ShaderProgramSampler v) {
       int textureUnit = v.textureUnit;
       MaterialTexture texture = _findTexture(k, renderableMaterial, material,
                                              null);
+
+      if (k == 'source') {
+        flag = true;
+      }
       if (texture != null) {
         _textures[textureUnit] = texture.texture;
         _samplers[textureUnit] = texture.sampler;
       }
     });
-    device.context.setSamplers(0, _samplers);
     device.context.setTextures(0, _textures);
+    device.context.setSamplers(0, _samplers);
   }
 
   void _applyConstant(String name, MaterialConstant constant) {

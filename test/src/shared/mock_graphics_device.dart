@@ -34,8 +34,9 @@ class MockGraphicsDeviceCapabilities extends Mock implements GraphicsDeviceCapab
   /// The value [hasExtensions] is used to turn on/off all extensions.
   MockGraphicsDeviceCapabilities(bool hasExtensions) {
     double maxAnisotropyLevel = (hasExtensions) ? 16.0 : 1.0;
-
+    int textureUnits = 4;
     when(callsTo('get maxAnisotropyLevel')).alwaysReturn(maxAnisotropyLevel);
+    when(callsTo('get textureUnits')).alwaysReturn(textureUnits);
   }
 }
 
