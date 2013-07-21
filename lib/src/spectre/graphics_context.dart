@@ -187,14 +187,12 @@ class GraphicsContext {
     for (int i = 0; i < _textures.length; i++) {
       SpectreTexture texture = _textures[i];
       SamplerState sampler = _samplers[i];
-      if (sampler == null && texture == null) {
+      if (texture == null) {
         continue;
       }
       if (sampler == null) {
-        throw new StateError('Texture must have sampler.');
-      }
-      if (texture == null) {
-        throw new StateError('Sampler must have texture.');
+        _spectreLog.shout('Texture $i has no sampler set.');
+        continue;
       }
       setTexture(i, texture);
       setSampler(i, sampler);
@@ -529,8 +527,9 @@ class GraphicsContext {
     }
   }
 
-  /// Set RenderTarget to [renderTarget]
-  void setRenderTarget(RenderTarget renderTarget) {
+  /// Set RenderTarget to [renderTarget]. Returns previously set RenderTarget.
+  RenderTarget setRenderTarget(RenderTarget renderTarget) {
+    var old = _renderTarget;
     if (_renderTarget != renderTarget) {
       if (renderTarget != null) {
         device.gl.bindFramebuffer(WebGL.FRAMEBUFFER,
@@ -540,6 +539,7 @@ class GraphicsContext {
       }
       _renderTarget = renderTarget;
     }
+    return old;
   }
 
   ShaderProgramUniform _findUniform(String name) {
@@ -597,11 +597,13 @@ class GraphicsContext {
     }
   }
 
-  /// Set [textureUnit] to use [texture].
-  void setTexture(int textureUnit, SpectreTexture texture) {
+  /// Set [textureUnit] to use [texture]. Returns the previously
+  /// set texture.
+  SpectreTexture setTexture(int textureUnit, SpectreTexture texture) {
     if (textureUnit < 0 || textureUnit >= _textures.length) {
       throw new ArgumentError('Invalid texture unit.');
     }
+    SpectreTexture old = _textures[textureUnit];
     _setActiveTextureUnit(textureUnit);
     if (_textures[textureUnit] != texture) {
       // Clear all possible texture targets.
@@ -612,6 +614,7 @@ class GraphicsContext {
       }
       _textures[textureUnit] = texture;
     }
+    return old;
   }
 
   /// Set [sampler] state on texture bound to [textureUnit].

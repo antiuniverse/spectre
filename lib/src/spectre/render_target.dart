@@ -83,7 +83,7 @@ class RenderTarget extends DeviceChild {
           'colorTarget must be a RenderBuffer or Texture2D.');
     }
 
-    device.context.setRenderTarget(this);
+    var old = device.context.setRenderTarget(this);
     if (colorBuffer == null) {
       _colorTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
@@ -106,6 +106,7 @@ class RenderTarget extends DeviceChild {
                                      t2d._deviceTexture, 0);
     }
     _updateStatus();
+    device.context.setRenderTarget(old);
   }
 
   /** Set depth buffer output to be [depth].
@@ -128,7 +129,7 @@ class RenderTarget extends DeviceChild {
       'depthTarget must be a RenderBuffer or Texture2D.');
     }
 
-    device.context.setRenderTarget(this);
+    var old = device.context.setRenderTarget(this);
     if (depthBuffer == null) {
       _depthTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
@@ -151,5 +152,6 @@ class RenderTarget extends DeviceChild {
                                      t2d._deviceTexture, 0);
     }
     _updateStatus();
+    device.context.setRenderTarget(old);
   }
 }
