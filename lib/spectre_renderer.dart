@@ -23,10 +23,12 @@ library spectre_renderer;
 import 'dart:html';
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:vector_math/vector_math.dart';
+
 import 'package:asset_pack/asset_pack.dart';
+import 'package:logging/logging.dart';
 import 'package:spectre/disposable.dart';
 import 'package:spectre/spectre.dart';
+import 'package:vector_math/vector_math.dart';
 
 part 'src/spectre_renderer/asset_pack.dart';
 part 'src/spectre_renderer/builtin_material_shaders.dart';
@@ -43,3 +45,6 @@ part 'src/spectre_renderer/renderable.dart';
 part 'src/spectre_renderer/renderer.dart';
 part 'src/spectre_renderer/scene_layer.dart';
 part 'src/spectre_renderer/skybox_renderable.dart';
+
+// The global logger for spectre
+final Logger _spectreLog = new Logger('Spectre Renderer');

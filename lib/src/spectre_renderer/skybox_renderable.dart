@@ -122,11 +122,11 @@ class SkyboxRenderable extends Renderable {
 
   void render(Layer layer, Camera camera) {
     if (_material == null) {
-      spectreLog.shout('Cannot render $name it has no material.');
+      _spectreLog.shout('Cannot render $name it has no material.');
       return;
     }
     if (_inputLayout.ready == false) {
-      spectreLog.shout('Cannot render $name inputs are invalid.');
+      _spectreLog.shout('Cannot render $name inputs are invalid.');
       return;
     }
     _material.apply(renderer.device);
