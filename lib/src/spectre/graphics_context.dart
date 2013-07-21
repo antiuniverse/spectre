@@ -139,13 +139,13 @@ class GraphicsContext {
 
   void _prepareInputs({bool debug: false}) {
     if (_inputLayoutHandle == 0) {
-      spectreLog.Error('Prepare for draw no input layout');
+      _spectreLog.shout('Prepare for draw no input layout');
       return;
     }
 
     InputLayout inputLayout = _inputLayoutHandle;
     if (inputLayout == null) {
-      spectreLog.Error('Prepare for draw no input layout.');
+      _spectreLog.shout('Prepare for draw no input layout.');
       return;
     }
 
@@ -167,8 +167,7 @@ class GraphicsContext {
     inputLayout.attributes.forEach((element) {
       VertexBuffer vb = _vertexBuffers[element.vboSlot];
       if (vb == null) {
-        spectreLog.Error(
-            'Prepare for draw referenced a null vertex buffer object');
+        _spectreLog.shout('Prepare for draw referenced a null vertex buffer object');
         return;
       }
       device.gl.enableVertexAttribArray(element.attributeIndex);
@@ -553,7 +552,7 @@ class GraphicsContext {
     if (uniform != null) {
       uniform._apply(device, uniform.location, argument);
     } else if (_shaderProgram == null ){
-      spectreLog.Error('Cannot set $name: no ShaderProgram bound.');
+      _spectreLog.shout('Cannot set $name: no ShaderProgram bound.');
     } else {
       //spectreLog.Error('Cannot set $name: not found.');
     }

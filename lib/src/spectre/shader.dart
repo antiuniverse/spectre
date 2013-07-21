@@ -64,6 +64,18 @@ class SpectreShader extends DeviceChild {
   /** Compile the shader. */
   void compile() {
     device.gl.compileShader(_shader);
+
+    if (compileLog == '') {
+      _spectreLog.fine('Shader.Compile($name): OKAY.');
+    } else {
+      if (compiled) {
+        _spectreLog.warning('''Shader.Compile($name):
+$compileLog''');
+      } else {
+        _spectreLog.shout('''Shader.Compile($name):
+$compileLog''');
+      }
+    }
   }
 
   /** Compile log. */

@@ -29,6 +29,7 @@ import 'dart:json' as JSON;
 import 'dart:async';
 import 'dart:math' as Math;
 import 'dart:typed_data';
+import 'package:logging/logging.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:vector_math/vector_math_operations.dart';
 import 'package:spectre/disposable.dart';
@@ -55,7 +56,6 @@ part 'src/spectre/graphics_device_capabilities.dart';
 part 'src/spectre/graphics_device_config.dart';
 part 'src/spectre/index_buffer.dart';
 part 'src/spectre/input_layout.dart';
-part 'src/spectre/logger.dart';
 part 'src/spectre/fps_fly_camera_controller.dart';
 part 'src/spectre/orbit_camera_controller.dart';
 part 'src/spectre/pixel_format.dart';
@@ -82,3 +82,6 @@ part 'src/spectre/skeleton.dart';
 part 'src/spectre/skeleton_animation.dart';
 part 'src/spectre/skinned_mesh.dart';
 part 'src/spectre/vertex_attribute.dart';
+
+// The global logger for spectre
+final Logger _spectreLog = new Logger('Spectre');

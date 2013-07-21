@@ -82,15 +82,15 @@ class MeshRenderable extends Renderable {
 
   void render(Layer layer, Camera camera) {
     if (_material == null) {
-      spectreLog.Error('Cannot render $name it has no material.');
+      spectreLog.shout('Cannot render $name it has no material.');
       return;
     }
     if (_mesh == null) {
-      spectreLog.Error('Cannot render $name it has no mesh.');
+      spectreLog.shout('Cannot render $name it has no mesh.');
       return;
     }
     if (_inputLayout.ready == false) {
-      spectreLog.Error('Cannot render $name inputs are invalid.');
+      spectreLog.shout('Cannot render $name inputs are invalid.');
       return;
     }
     _material.apply(renderer.device);
