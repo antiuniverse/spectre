@@ -281,6 +281,8 @@ class GraphicsContext {
     setVertexBuffers(0, [mesh.vertexArray]);
   }
 
+  ShaderProgram get shaderProgram => _shaderProgram;
+
   /// Set ShaderProgram to [shaderProgram]
   void setShaderProgram(ShaderProgram shaderProgram) {
     if (_shaderProgram != shaderProgram) {

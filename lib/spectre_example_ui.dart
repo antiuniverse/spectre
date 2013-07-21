@@ -22,6 +22,7 @@ library spectre_example_ui;
 
 import 'dart:async';
 import 'dart:html';
+import 'dart:typed_data';
 
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
@@ -30,4 +31,5 @@ import 'package:spectre/spectre_asset_pack.dart';
 import 'package:vector_math/vector_math.dart';
 
 part 'src/spectre_example_ui/example.dart';
+part 'src/spectre_example_ui/model.dart';
 part 'src/spectre_example_ui/run_example.dart';

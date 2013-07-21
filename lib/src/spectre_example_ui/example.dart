@@ -30,6 +30,10 @@ abstract class Example {
   DebugDrawManager debugDrawManager;
   Camera camera;
   Viewport viewport;
+  SamplerState defaultSampler;
+  SamplerState fullscreenSampler;
+  SingleArrayMesh fullscreenMesh;
+  DepthState fullscreenDepthState;
 
   Example(this.name, this.element) {
     graphicsDevice = new GraphicsDevice(element);
@@ -51,15 +55,16 @@ abstract class Example {
     viewport.width = element.width;
     viewport.height = element.height;
     camera.aspectRatio = viewport.aspectRatio;
+    defaultSampler = new SamplerState('defaultSampler', graphicsDevice);
+    fullscreenSampler = new SamplerState.pointClamp('fullscreenSampler',
+                                                    graphicsDevice);
+    fullscreenDepthState = new DepthState('fullscreenDepthState',
+                                          graphicsDevice);
+    _fullscreenInit(graphicsDevice);
   }
 
   void _onRender(GameLoopHtml gl) {
-    graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
-    graphicsContext.clearDepthBuffer(1.0);
-    graphicsContext.setViewport(viewport);
     onRender();
-    debugDrawManager.prepareForRender();
-    debugDrawManager.render(camera);
   }
 
   void _onUpdate(GameLoopHtml gl) {
@@ -88,6 +93,79 @@ abstract class Example {
       camera.aspectRatio = viewport.aspectRatio;
     }
   }
+
+
+  void _fullscreenInit(GraphicsDevice device) {
+    fullscreenMesh = new SingleArrayMesh('FullscreenRenderable', device);
+    Float32List vertexData = new Float32List(12);
+    // Vertex 0
+    vertexData[0] = -1.0;
+    vertexData[1] = -1.0;
+    vertexData[2] = 0.0;
+    vertexData[3] = 0.0;
+    // Vertex 1
+    vertexData[4] = 3.0;
+    vertexData[5] = -1.0;
+    vertexData[6] = 2.0;
+    vertexData[7] = 0.0;
+    // Vertex 2
+    vertexData[8] = -1.0;
+    vertexData[9] = 3.0;
+    vertexData[10] = 0.0;
+    vertexData[11] = 2.0;
+    fullscreenMesh.vertexArray.uploadData(vertexData, UsagePattern.StaticDraw);
+    fullscreenMesh.attributes['vPosition'] =
+        new SpectreMeshAttribute('vPosition',
+            new VertexAttribute(0, 0, 0, 16, DataType.Float32, 2, false));
+    fullscreenMesh.attributes['vTexCoord'] =
+        new SpectreMeshAttribute('vTexCoord',
+            new VertexAttribute(0, 0, 8, 16, DataType.Float32, 2, false));
+    fullscreenMesh.count = 3;
+  }
+
+  void updateCameraConstants() {
+    Matrix4 projectionMatrix = camera.projectionMatrix;
+    Matrix4 viewMatrix = camera.viewMatrix;
+    Matrix4 projectionViewMatrix = camera.projectionMatrix;
+    projectionViewMatrix.multiply(viewMatrix);
+    Matrix4 viewRotationMatrix = makeViewMatrix(new Vector3.zero(),
+                                             camera.frontDirection,
+                                             new Vector3(0.0, 1.0, 0.0));
+    Matrix4 projectionViewRotationMatrix = camera.projectionMatrix;
+    projectionViewRotationMatrix.multiply(viewRotationMatrix);
+    ShaderProgram shader = graphicsContext.shaderProgram;
+    ShaderProgramUniform uniform;
+    uniform = shader.uniforms['cameraView'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, viewMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjection'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjectionView'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionViewMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraViewRotation'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, viewRotationMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjectionViewRotation'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionViewRotationMatrix.storage);
+    }
+  }
+
+  void updateObjectTransformConstant(Matrix4 T) {
+    ShaderProgram shader = graphicsContext.shaderProgram;
+    ShaderProgramUniform uniform;
+    uniform = shader.uniforms['objectTransform'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, T.storage);
+    }
+  }
+
 
   Future initialize() {
     String assetUrl = 'packages/spectre/src/spectre_example_ui/assets/_.pack';

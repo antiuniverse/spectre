@@ -32,9 +32,9 @@ import 'package:spectre/spectre_asset_pack.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:vector_math/vector_math.dart';
 
-class DepthTextureExample extends Example {
-  DepthTextureExample(CanvasElement element) : super('DepthTexture', element);
-
+class OffscreenRenderExample extends Example {
+  OffscreenRenderExample(CanvasElement element) : super('OffscreenRender',
+                                                        element);
   Texture2D colorBuffer;
   Texture2D depthBuffer;
   RenderTarget renderTarget;
@@ -44,7 +44,7 @@ class DepthTextureExample extends Example {
   DepthState depthState;
   Viewport offscreenViewport;
 
-  Model fullscreenBlitDepthModel;
+  Model fullscreenBlitModel;
 
   Future initialize() {
     return super.initialize().then((_) {
@@ -76,19 +76,14 @@ class DepthTextureExample extends Example {
                                    '${renderTarget.statusCode}');
       }
       cameraController = new OrbitCameraController();
-      // To better visualize depth, push the camera up close.
-      cameraController.minRadius = 10.0;
-      cameraController.maxRadius = 50.0;
-      cameraController.radius = 10.5;
-
       // New model.
       model = new Model(assetManager['base.unitCube'],
                         assetManager['base.simpleShader'],
                         graphicsDevice);
       rasterizerState = new RasterizerState('rasterizerState', graphicsDevice);
       depthState = new DepthState('depthState', graphicsDevice);
-      fullscreenBlitDepthModel = new Model(fullscreenMesh,
-                                      assetManager['base.blitDepthShader'],
+      fullscreenBlitModel = new Model(fullscreenMesh,
+                                      assetManager['base.blitShader'],
                                       graphicsDevice);
     });
   }
@@ -160,17 +155,18 @@ class DepthTextureExample extends Example {
     graphicsContext.clearColorBuffer(0.1, 0.1, 0.1, 1.0);
     graphicsContext.clearDepthBuffer(1.0);
 
-    // Draw the off screen depth texture.
-    fullscreenBlitDepthModel.set();
+    // Draw the off screen texture.
+
+    fullscreenBlitModel.set();
     // Use the color buffer for the texture.
-    graphicsContext.setTexture(0, depthBuffer);
+    graphicsContext.setTexture(0, colorBuffer);
     // Use a sampler that supports non-power-of-two texture dimensions.
     graphicsContext.setSampler(0, fullscreenSampler);
-    fullscreenBlitDepthModel.draw();
+    fullscreenBlitModel.draw();
   }
 }
 
 main() {
-  Example example = new DepthTextureExample(query('#backBuffer'));
+  Example example = new OffscreenRenderExample(query('#backBuffer'));
   runExample(example);
 }

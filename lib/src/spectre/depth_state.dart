@@ -56,13 +56,13 @@ class DepthState extends DeviceChild {
   DepthState(String name, GraphicsDevice device)
     : super._internal(name, device);
 
-  /// Creates an instance of [DepthState] with a writeable depth buffer.
+  /// Creates an instance of [DepthState] that writes to the depth buffer.
   DepthState.depthWrite(String name, GraphicsDevice device)
     : super._internal(name, device)
-    , _depthBufferEnabled = true
+    , _depthBufferEnabled = false
     , _depthBufferWriteEnabled = true;
 
-  /// Creates an instance of [DepthState] with a read-only depth buffer.
+  /// Creates an instance of [DepthState] that does depth checks.
   DepthState.depthRead(String name, GraphicsDevice device)
     : super._internal(name, device)
     , _depthBufferEnabled = true
