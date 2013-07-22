@@ -123,7 +123,7 @@ abstract class Example {
     fullscreenMesh.count = 3;
   }
 
-  void updateCameraConstants() {
+  void updateCameraConstants(Camera camera) {
     Matrix4 projectionMatrix = camera.projectionMatrix;
     Matrix4 viewMatrix = camera.viewMatrix;
     Matrix4 projectionViewMatrix = camera.projectionMatrix;
@@ -166,6 +166,33 @@ abstract class Example {
     }
   }
 
+  void updateCameraController(CameraController controller) {
+    if (controller is FpsFlyCameraController) {
+      cameraController.forward =
+      gameLoop.keyboard.buttons[Keyboard.W].down;
+      cameraController.backward =
+      gameLoop.keyboard.buttons[Keyboard.S].down;
+      cameraController.strafeLeft =
+      gameLoop.keyboard.buttons[Keyboard.A].down;
+      cameraController.strafeRight =
+      gameLoop.keyboard.buttons[Keyboard.D].down;
+      if (gameLoop.pointerLock.locked) {
+        cameraController.accumDX = gameLoop.mouse.dx;
+        cameraController.accumDY = gameLoop.mouse.dy;
+      }
+      cameraController.updateCamera(gameLoop.dt, camera);
+    } else if (controller is OrbitCameraController) {
+      Mouse mouse = gameLoop.mouse;
+      if (mouse.isDown(Mouse.LEFT) || gameLoop.pointerLock.locked) {
+        cameraController.accumDX = mouse.dx;
+        cameraController.accumDY = mouse.dy;
+      }
+      cameraController.accumDZ = mouse.wheelDy;
+      cameraController.updateCamera(gameLoop.updateTimeStep, camera);
+    } else {
+      throw new FallthroughError();
+    }
+  }
 
   Future initialize() {
     String assetUrl = 'packages/spectre/asset/base/_.pack';
