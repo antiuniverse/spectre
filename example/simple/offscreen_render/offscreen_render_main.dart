@@ -6,7 +6,7 @@
   arising from the use of this software.
 
   Permission is granted to anyone to use this software for any purpose,
-  including commerci  al applications, and to alter it and redistribute it
+  including commercial applications, and to alter it and redistribute it
   freely, subject to the following restrictions:
 
   1. The origin of this software must not be misrepresented; you must not
@@ -60,6 +60,7 @@ class OffscreenRenderExample extends Example {
       colorBuffer = new Texture2D('colorBuffer', graphicsDevice);
       colorBuffer.uploadPixelArray(offscreenWidth, offscreenHeight, null);
       // Create depth buffer.
+      depthBuffer.dfofo();
       depthBuffer = new Texture2D('depthBuffer', graphicsDevice);
       depthBuffer.pixelFormat = PixelFormat.Depth;
       depthBuffer.pixelDataType = DataType.Uint32;

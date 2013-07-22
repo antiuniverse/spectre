@@ -168,7 +168,7 @@ abstract class Example {
 
 
   Future initialize() {
-    String assetUrl = 'packages/spectre/src/spectre_example_ui/assets/_.pack';
+    String assetUrl = 'packages/spectre/asset/base/_.pack';
     return assetManager.loadPack('base', assetUrl).then((_) {
       print('Base assets:');
       assetManager.root['base'].assets.forEach((k, v) {
