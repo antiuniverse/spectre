@@ -227,6 +227,10 @@ class DebugDrawManager {
 
   final GraphicsDevice device;
 
+  static Vector4 ColorRed = new Vector4(1.0, 0.0, 0.0, 1.0);
+  static Vector4 ColorGreen = new Vector4(0.0, 1.0, 0.0, 1.0);
+  static Vector4 ColorBlue = new Vector4(0.0, 0.0, 1.0, 1.0);
+
   /** Construct and initialize a DebugDrawManager. Can specify maximum
    * number of vertices with [maxVertices]. */
   DebugDrawManager(this.device, {int maxVertices: 16384}) {
@@ -338,10 +342,46 @@ class DebugDrawManager {
   final Vector3 _circle_u = new Vector3.zero();
   final Vector3 _circle_v = new Vector3.zero();
 
-  /** Add a cone primitive at [apex] with [height] and [angle]. Filled with 
+  /// Add a plane primitive whose normal is [normal] at is located at
+  /// [center]. The plane is drawn as a grid of [size] square. Drawn
+  /// with [color].
+  /// Optional parameters: [duration], [depthEnabled] and [numSegments].
+
+  void addPlane(Vector3 normal, Vector3 center, double size,
+                Vector4 color, {num duration: 0.0, bool depthEnabled: true,
+                int numSegments: 16}) {
+    var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
+                                      duration);
+
+    buildPlaneVectors(normal, _circle_u, _circle_v);
+    _circle_u.normalize();
+    _circle_v.normalize();
+
+    double halfSize = size * 0.5;
+
+    Vector3 start = center - (_circle_u + _circle_v) * halfSize;
+    Vector3 end = _circle_v * size;
+    for (int i = 0; i <= numSegments; i++) {
+      double param = i / numSegments;
+      var x = start + (_circle_u * param * size);
+      lineManager.lines._addLine(x, x + end);
+    }
+
+    end = _circle_u * size;
+    for (int j = 0; j <= numSegments; j++) {
+      double param = j / numSegments;
+      var x = start + (_circle_v * param * size);
+      lineManager.lines._addLine(x, x + end);
+    }
+
+    lineManager.lines.finishLineObject();
+  }
+
+  /** Add a cone primitive at [apex] with [height] and [angle]. Filled with
    *  [color].
    *
-   * Optional paremeters: [duration], [depthEnabled] and [numSegments].
+   * Optional parameters: [duration], [depthEnabled] and [numSegments].
    */
   void addCone(Vector3 apex, Vector3 direction, num height, num angle,
                Vector4 color, {num duration: 0.0, bool depthEnabled: true,
@@ -354,7 +394,10 @@ class DebugDrawManager {
     num s = height / Math.cos(angle / 2.0);
     num radius = Math.sqrt(s * s - height * height);
 
+
     buildPlaneVectors(direction.scaled(-1.0), _circle_u, _circle_v);
+    _circle_u.normalize();
+    _circle_v.normalize();
 
     num alpha = 0.0;
     num twoPi = (2.0 * 3.141592653589793238462643);
@@ -387,7 +430,7 @@ class DebugDrawManager {
 
     lineManager.lines.finishLineObject();
   }
-  
+
   /** Add an arc primitive at [center] in the plane whose normal is
    * [planeNormal] with a [radius]. The arc begins at [startAngle] and extends
    * to [stopAngle]. Filled with [color].
@@ -402,6 +445,8 @@ class DebugDrawManager {
                                       duration);
 
     buildPlaneVectors(planeNormal, _circle_u, _circle_v);
+    _circle_u.normalize();
+    _circle_v.normalize();
     num alpha = 0.0;
     num twoPi = (2.0 * 3.141592653589793238462643);
     num _step = twoPi/numSegments;
@@ -440,6 +485,8 @@ class DebugDrawManager {
                                       duration);
 
     buildPlaneVectors(planeNormal, _circle_u, _circle_v);
+    _circle_u.normalize();
+    _circle_v.normalize();
     num alpha = 0.0;
     num twoPi = (2.0 * 3.141592653589793238462643);
     num _step = twoPi/numSegments;
