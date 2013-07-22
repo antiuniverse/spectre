@@ -21,45 +21,32 @@
 part of spectre;
 
 class FpsFlyCameraController extends CameraController {
-  bool up;
-  bool down;
-  bool strafeLeft;
-  bool strafeRight;
-  bool forward;
-  bool backward;
+  bool up = false;
+  bool down = false;
+  bool strafeLeft = false;
+  bool strafeRight = false;
+  bool forward = false;
+  bool backward = false;
 
-  num floatVelocity;
-  num strafeVelocity;
-  num forwardVelocity;
-  num mouseSensitivity;
+  double floatVelocity = 25.0;
+  double strafeVelocity = 25.0;
+  double forwardVelocity = 25.0;
+  double mouseSensitivity = 360.0;
 
-  int accumDX;
-  int accumDY;
+  int accumDX = 0;
+  int accumDY = 0;
 
-  FpsFlyCameraController() {
-    floatVelocity = 5.0;
-    strafeVelocity = 5.0;
-    forwardVelocity = 5.0;
-    up = false;
-    down = false;
-    strafeLeft = false;
-    strafeRight = false;
-    forward = false;
-    backward = false;
-    accumDX = 0;
-    accumDY = 0;
-    mouseSensitivity = 360.0;
-  }
+  FpsFlyCameraController();
 
-  void updateCamera(num seconds, Camera cam) {
+  void updateCamera(double seconds, Camera cam) {
     _MoveFloat(seconds, up, down, cam);
     _MoveStrafe(seconds, strafeRight, strafeLeft, cam);
     _MoveForward(seconds, forward, backward, cam);
     _RotateView(seconds, cam);
   }
 
-  void _MoveFloat(num dt, bool positive, bool negative, Camera cam) {
-    num scale = 0.0;
+  void _MoveFloat(double dt, bool positive, bool negative, Camera cam) {
+    double scale = 0.0;
     if (positive) {
       scale += 1.0;
     }
@@ -76,8 +63,8 @@ class FpsFlyCameraController extends CameraController {
     cam.position.add(upDirection);
   }
 
-  void _MoveStrafe(num dt, bool positive, bool negative, Camera cam) {
-    num scale = 0.0;
+  void _MoveStrafe(double dt, bool positive, bool negative, Camera cam) {
+    double scale = 0.0;
     if (positive) {
       scale += 1.0;
     }
@@ -97,8 +84,8 @@ class FpsFlyCameraController extends CameraController {
     cam.position.add(strafeDirection);
   }
 
-  void _MoveForward(num dt, bool positive, bool negative, Camera cam) {
-    num scale = 0.0;
+  void _MoveForward(double dt, bool positive, bool negative, Camera cam) {
+    double scale = 0.0;
     if (positive) {
       scale += 1.0;
     }
@@ -117,25 +104,25 @@ class FpsFlyCameraController extends CameraController {
     cam.position.add(frontDirection);
   }
 
-  void _RotateView(num dt, Camera cam) {
+  void _RotateView(double dt, Camera cam) {
     Vector3 frontDirection = cam.frontDirection;
     frontDirection.normalize();
     Vector3 upDirection = new Vector3(0.0, 1.0, 0.0);
     Vector3 strafeDirection = frontDirection.cross(upDirection);
     strafeDirection.normalize();
 
-    num mouseYawDelta = accumDX/mouseSensitivity;
-    num mousePitchDelta = accumDY/mouseSensitivity;
+    double mouseYawDelta = accumDX/mouseSensitivity;
+    double mousePitchDelta = accumDY/mouseSensitivity;
     accumDX = 0;
     accumDY = 0;
 
-    final num f_dot_up = frontDirection.dot(upDirection);
-    final num pitchAngle = Math.acos(f_dot_up);
-    final num minPitchAngle = 0.785398163;
-    final num maxPitchAngle = 2.35619449;
-    final num pitchDegrees = degrees(pitchAngle);
-    final num minPitchDegrees = degrees(minPitchAngle);
-    final num maxPitchDegrees = degrees(maxPitchAngle);
+    final double f_dot_up = frontDirection.dot(upDirection);
+    final double pitchAngle = Math.acos(f_dot_up);
+    final double minPitchAngle = 0.785398163;
+    final double maxPitchAngle = 2.35619449;
+    final double pitchDegrees = degrees(pitchAngle);
+    final double minPitchDegrees = degrees(minPitchAngle);
+    final double maxPitchDegrees = degrees(maxPitchAngle);
     if (pitchAngle+mousePitchDelta <= maxPitchAngle &&
         pitchAngle+mousePitchDelta >= minPitchAngle) {
       _RotateEyeAndLook(mousePitchDelta, strafeDirection, cam);
@@ -143,7 +130,7 @@ class FpsFlyCameraController extends CameraController {
     _RotateEyeAndLook(mouseYawDelta, upDirection, cam);
   }
 
-  void _RotateEyeAndLook(num delta_angle, Vector3 axis, Camera cam) {
+  void _RotateEyeAndLook(double delta_angle, Vector3 axis, Camera cam) {
     Quaternion q = new Quaternion.axisAngle(axis, delta_angle);
     Vector3 frontDirection = cam.frontDirection;
     frontDirection.normalize();
