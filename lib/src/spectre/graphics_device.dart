@@ -95,6 +95,14 @@ class GraphicsDevice {
     }
     _gl = surface.getContext3d(stencil: config.stencilBuffer);
     _capabilities = new GraphicsDeviceCapabilities._fromContext(gl);
+    hierarchicalLoggingEnabled = true;
+    _spectreLog.onRecord.listen((record) {
+       print('[${record.level.name}] ${record.message}');
+    });
+
+    /// Configure logging:
+    _spectreLog.level = Level.CONFIG;
+
     _spectreLog.config('$_capabilities');
     // Create the associated GraphicsContext.
     _context = new GraphicsContext(this);
