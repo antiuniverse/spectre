@@ -100,14 +100,7 @@ class DepthTextureExample extends Example {
 
   double _radians = 0.1;
   onUpdate() {
-    Mouse mouse = gameLoop.mouse;
-    if (mouse.isDown(Mouse.LEFT) || gameLoop.pointerLock.locked) {
-      cameraController.accumDX = mouse.dx;
-      cameraController.accumDY = mouse.dy;
-    }
-
-    cameraController.accumDZ = mouse.wheelDy;
-    cameraController.updateCamera(gameLoop.updateTimeStep, camera);
+    updateCameraController(cameraController);
 
     _radians += gameLoop.updateTimeStep * 3.14159;
   }
@@ -127,7 +120,7 @@ class DepthTextureExample extends Example {
     // Set model for rendering.
     model.set();
     // Update camera shader constants.
-    updateCameraConstants();
+    updateCameraConstants(camera);
     // Update object transform shader constant.
     updateObjectTransformConstant(T);
     // Use the 'wood' texture.
