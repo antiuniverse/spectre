@@ -686,7 +686,7 @@ class GraphicsContext {
     _prepareTextures();
     if (device.capabilities.hasMultipleRenderTargets) {
       if ((_renderTarget != null) &&
-          (_renderTarget != RenderTarget.syssystemRenderTarget)) {
+          (_renderTarget != RenderTarget.systemRenderTarget)) {
         device.capabilities.multipleRenderTargets.drawBuffersExt(
             _renderTarget._drawBuffers);
       }

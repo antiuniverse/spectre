@@ -15,6 +15,14 @@
     "importArguments":{
     }
   },
+  "simpleMultipleRenderTargetsShader":{
+    "loadArguments":{
+    },
+    "url":"shader/simple_multiple_render_targets.shader",
+    "type":"shaderProgram",
+    "importArguments":{
+    }
+  },
   "blitShader":{
     "loadArguments":{
     },
