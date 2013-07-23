@@ -29,11 +29,13 @@ part of spectre;
 class RenderTarget extends DeviceChild {
   final int _bindTarget = WebGL.FRAMEBUFFER;
   final int _bindingParam = WebGL.FRAMEBUFFER_BINDING;
-
+  final List<DeviceChild> _colorTargets;
+  final List<int> _drawBuffers;
   WebGL.Framebuffer _deviceFramebuffer;
-  DeviceChild _colorTarget;
+
   DeviceChild _depthTarget;
   DeviceChild get colorTarget => _colorTarget;
+  DeviceChild get colorTarget0 => _colorTarget0;
   DeviceChild get depthTarget => _depthTarget;
   DeviceChild get stencilTarget => null;
 
@@ -47,13 +49,24 @@ class RenderTarget extends DeviceChild {
   int _status;
   int get statusCode => _status;
 
-  RenderTarget(String name, GraphicsDevice device) :
-    super._internal(name, device) {
+  RenderTarget(String name, GraphicsDevice device)
+      : _colorTargets =
+            new List<DeviceChild>(device.capabilities.maxRenderTargets),
+        _drawBuffers =
+            new List<int>(device.capabilities.maxRenderTargets),
+        super._internal(name, device) {
     _deviceFramebuffer = device.gl.createFramebuffer();
+    for (int i = 0; i < _drawBuffers.length; i++) {
+      _drawBuffers[i] = WebGL.NONE;
+    }
   }
 
-  RenderTarget.systemTarget(String name, GraphicsDevice device) :
-    super._internal(name, device) {
+  RenderTarget.systemTarget(String name, GraphicsDevice device)
+      : _colorTargets =
+            new List<DeviceChild>(0),
+        _drawBuffers =
+            new List<int>(0),
+        super._internal(name, device) {
     _renderable = true;
   }
 
@@ -69,89 +82,80 @@ class RenderTarget extends DeviceChild {
     _renderable = _status == WebGL.FRAMEBUFFER_COMPLETE;
   }
 
-  /** Set color target to be [colorBuffer].
-   *
-   * A color buffer must be a [Texture2D] or [RenderBuffer].
-   *
-   * A null color buffer indicates the system provided color buffer.
-   */
-  set colorTarget(dynamic colorBuffer) {
+  /// Set the [i]th color target to [colorBuffer].
+  /// [colorBuffer] can be null, a [RenderBuffer] or a [Texture2D].
+  /// An optional [mipLevel] can be specified for For [Texture2D] buffers.
+  dynamic setColorTarget(int i, dynamic colorBuffer, [int mipLevel=0]) {
     if ((colorBuffer != null) &&
         (colorBuffer is! RenderBuffer) &&
         (colorBuffer is! Texture2D)) {
       throw new ArgumentError(
           'colorTarget must be a RenderBuffer or Texture2D.');
     }
-
+    if (i < 0 || i >= _drawBuffers.length) {
+      throw new ArgumentError('Invalid color target index. Index must be within'
+                              '0 and ${_drawBuffers.length}}');
+    }
+    var r = _colorTargets[i];
+    _colorTargets[i] = colorBuffer;
+    if (colorBuffer == null) {
+      _drawBuffers[i] = WebGL.NONE;
+    } else {
+      _drawBuffers[i] = WebGL.COLOR_ATTACHMENT0 + i;
+    }
     var old = device.context.setRenderTarget(this);
     if (colorBuffer == null) {
-      _colorTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.COLOR_ATTACHMENT0,
+                                        WebGL.COLOR_ATTACHMENT0 + i,
                                         WebGL.RENDERBUFFER,
                                         null);
     } else if (colorBuffer is RenderBuffer) {
-      RenderBuffer rb = colorBuffer as RenderBuffer;
-      _colorTarget = rb;
       device.gl.framebufferRenderbuffer(_bindTarget,
-                                        WebGL.COLOR_ATTACHMENT0,
+                                        WebGL.COLOR_ATTACHMENT0 + i,
                                         WebGL.RENDERBUFFER,
-                                        rb._buffer);
+                                        colorBuffer._buffer);
     } else if (colorBuffer is Texture2D) {
-      Texture2D t2d = colorBuffer as Texture2D;
-      _colorTarget = t2d;
       device.gl.framebufferTexture2D(_bindTarget,
-                                     WebGL.COLOR_ATTACHMENT0,
-                                     t2d._textureTarget,
-                                     t2d._deviceTexture, 0);
+                                     WebGL.COLOR_ATTACHMENT0 + i,
+                                     colorBuffer._textureTarget,
+                                     colorBuffer._deviceTexture, mipLevel);
     }
     _updateStatus();
     device.context.setRenderTarget(old);
+    return r;
   }
 
-  /** Set depth buffer output to be [depth].
-   *
-   * null indicates the system provided depth buffer.
-   *
-   * The depth buffer can be a [Texture2D] or [RenderBuffer].
-   */
-  /** Set depth target to be [depthBuffer].
-   *
-   * A depth buffer must be a [Texture2D] or [RenderBuffer].
-   *
-   * A null depth buffer indicates the system provided depth buffer.
-   */
-  set depthTarget(dynamic depthBuffer) {
+  /// Set the depth target to [depthBuffer].
+  /// [depthBuffer] can be null, a [RenderBuffer] or a [Texture2D].
+  /// An optional [mipLevel] can be specified for For [Texture2D] buffers.
+  dynamic setDepthTarget(dynamic depthBuffer, [int mipLevel=0]) {
     if (depthBuffer != null &&
         (depthBuffer is! RenderBuffer) &&
         (depthBuffer is! Texture2D)) {
       throw new ArgumentError(
       'depthTarget must be a RenderBuffer or Texture2D.');
     }
-
+    var r = _depthTarget;
+    _depthTarget = depthBuffer;
     var old = device.context.setRenderTarget(this);
     if (depthBuffer == null) {
-      _depthTarget = null;
       device.gl.framebufferRenderbuffer(_bindTarget,
                                         WebGL.DEPTH_ATTACHMENT,
                                         WebGL.RENDERBUFFER,
                                         null);
     } else if (depthBuffer is RenderBuffer) {
-      RenderBuffer rb = depthBuffer as RenderBuffer;
-      _depthTarget = rb;
       device.gl.framebufferRenderbuffer(_bindTarget,
                                         WebGL.DEPTH_ATTACHMENT,
                                         WebGL.RENDERBUFFER,
-                                        rb._buffer);
+                                        depthBuffer._buffer);
     } else if (depthBuffer is Texture2D) {
-      Texture2D t2d = depthBuffer as Texture2D;
-      _depthTarget = t2d;
       device.gl.framebufferTexture2D(_bindTarget,
                                      WebGL.DEPTH_ATTACHMENT,
-                                     t2d._textureTarget,
-                                     t2d._deviceTexture, 0);
+                                     depthBuffer._textureTarget,
+                                     depthBuffer._deviceTexture, mipLevel);
     }
     _updateStatus();
     device.context.setRenderTarget(old);
+    return r;
   }
 }

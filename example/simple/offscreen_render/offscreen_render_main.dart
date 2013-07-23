@@ -67,9 +67,9 @@ class OffscreenRenderExample extends Example {
       // Create render target.
       renderTarget = new RenderTarget('renderTarget', graphicsDevice);
       // Use color buffer.
-      renderTarget.colorTarget = colorBuffer;
+      renderTarget.setColorTarget(0, colorBuffer);
       // Use depth buffer.
-      renderTarget.depthTarget = depthBuffer;
+      renderTarget.setDepthTarget(depthBuffer);
       // Verify that it's renderable.
       if (!renderTarget.isRenderable) {
         throw new UnsupportedError('Render target is not renderable: '

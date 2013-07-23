@@ -681,13 +681,24 @@ class GraphicsContext {
     }
   }
 
+  void _preDraw() {
+    _prepareInputs();
+    _prepareTextures();
+    if (device.capabilities.hasMultipleRenderTargets) {
+      if ((_renderTarget != null) &&
+          (_renderTarget != RenderTarget.syssystemRenderTarget)) {
+        device.capabilities.multipleRenderTargets.drawBuffersExt(
+            _renderTarget._drawBuffers);
+      }
+    }
+  }
+
   /// Draw an indexed mesh with [numIndices] starting at [indexOffset]
   void drawIndexed(int numIndices, int indexOffset) {
     if (numIndices == 0) {
       return;
     }
-    _prepareInputs();
-    _prepareTextures();
+    _preDraw();
     device.gl.drawElements(_primitiveTopology, numIndices,
                            WebGL.UNSIGNED_SHORT, indexOffset);
   }
@@ -711,8 +722,7 @@ class GraphicsContext {
     if (numVertices == 0) {
       return;
     }
-    _prepareInputs();
-    _prepareTextures();
+    _preDraw();
     device.gl.drawArrays(_primitiveTopology, vertexOffset, numVertices);
   }
 }

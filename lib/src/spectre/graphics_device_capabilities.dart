@@ -104,7 +104,7 @@ class GraphicsDeviceCapabilities {
   /// Whether PVRTC compressed textures can be used.
   bool _compressedTexturePVRTC;
   /// Whether multiple render targets can be used.
-  bool _multipleRenderTargets;
+  ExtDrawBuffers _multipleRenderTargets;
   int _maxRenderTargets;
   /// Whether instanced arrays can be used.
   bool _instancedArrays;
@@ -189,7 +189,9 @@ class GraphicsDeviceCapabilities {
   /// Whether PVRTC compressed textures can be used.
   bool get hasCompressedTexturePVRTC => _compressedTexturePVRTC;
   /// Whether multiple render targets can be used.
-  bool get hasMultipleRenderTargets => _multipleRenderTargets;
+  bool get hasMultipleRenderTargets => _multipleRenderTargets != null;
+  /// Multiple render targets extension.
+  ExtDrawBuffers get multipleRenderTargets => _multipleRenderTargets;
   /// How many render targets are supported.
   int get maxRenderTargets => _maxRenderTargets;
   /// Whether instanced arrays can be used.
@@ -226,7 +228,7 @@ Max Render Targets: $_maxRenderTargets
 
 Extensions
 ANGLE_instanced_arrays: $_instancedArrays
-EXT_draw_buffers: $_multipleRenderTargets
+EXT_draw_buffers: $hasMultipleRenderTargets
 EXT_texture_filter_anisotropic: $_anisotropicFiltering
 OES_element_index_uint: $_unsignedIntIndices
 OES_texture_float: $_floatTextures
@@ -299,7 +301,7 @@ WEBGL_lose_context: $_loseContext
     _instancedArrays = _hasExtension(gl, 'ANGLE_instanced_arrays');
     _compressedTexturePVRTC =
         _hasExtension(gl, 'WEBGL_compressed_texture_pvrtc');
-    _multipleRenderTargets = _hasExtension(gl, 'EXT_draw_buffers');
+    _multipleRenderTargets = _getExtension(gl, 'EXT_draw_buffers');
     int maxC = gl.getParameter(WebGL.ExtDrawBuffers.MAX_COLOR_ATTACHMENTS_EXT);
     int maxD = gl.getParameter(WebGL.ExtDrawBuffers.MAX_DRAW_BUFFERS_EXT);
     _maxRenderTargets = Math.min(maxC, maxD);
