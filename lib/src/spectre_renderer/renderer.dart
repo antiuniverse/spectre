@@ -109,8 +109,8 @@ class Renderer {
       throw new ArgumentError('Render target needs a color or a depth buffer.');
     }
     RenderTarget renderTarget = new RenderTarget(name, device);
-    renderTarget.colorTarget = colorBuffer;
-    renderTarget.depthTarget = depthBuffer;
+    renderTarget.setColorTarget(0, colorBuffer);
+    renderTarget.setDepthTarget(depthBuffer);
     if (renderTarget.isRenderable == false) {
       throw new ArgumentError('Render target is not renderable.');
     }

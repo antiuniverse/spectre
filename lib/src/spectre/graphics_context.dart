@@ -687,7 +687,7 @@ class GraphicsContext {
     if (device.capabilities.hasMultipleRenderTargets) {
       if ((_renderTarget != null) &&
           (_renderTarget != RenderTarget.systemRenderTarget)) {
-        device.capabilities.multipleRenderTargets.drawBuffersExt(
+        device.capabilities._multipleRenderTargets.drawBuffersExt(
             _renderTarget._drawBuffers);
       }
     }

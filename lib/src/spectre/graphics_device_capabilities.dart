@@ -190,8 +190,6 @@ class GraphicsDeviceCapabilities {
   bool get hasCompressedTexturePVRTC => _compressedTexturePVRTC;
   /// Whether multiple render targets can be used.
   bool get hasMultipleRenderTargets => _multipleRenderTargets != null;
-  /// Multiple render targets extension.
-  ExtDrawBuffers get multipleRenderTargets => _multipleRenderTargets;
   /// How many render targets are supported.
   int get maxRenderTargets => _maxRenderTargets;
   /// Whether instanced arrays can be used.
