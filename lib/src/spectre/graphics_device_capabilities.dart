@@ -104,7 +104,7 @@ class GraphicsDeviceCapabilities {
   /// Whether PVRTC compressed textures can be used.
   bool _compressedTexturePVRTC;
   /// Whether multiple render targets can be used.
-  WebGL.ExtDrawBuffers _multipleRenderTargets;
+  WebGL.DrawBuffers _multipleRenderTargets;
   int _maxRenderTargets;
   /// Whether instanced arrays can be used.
   bool _instancedArrays;
@@ -296,12 +296,12 @@ WEBGL_lose_context: $_loseContext
 
     // Draft
     _compressedTextureATC = _hasExtension(gl, 'WEBGL_compressed_texture_atc');
-    _instancedArrays = _hasExtension(gl, 'ANGLE_instanced_arrays');
+    //_instancedArrays = _hasExtension(gl, 'ANGLE_instanced_arrays');
     _compressedTexturePVRTC =
         _hasExtension(gl, 'WEBGL_compressed_texture_pvrtc');
-    _multipleRenderTargets = _getExtension(gl, 'EXT_draw_buffers');
-    int maxC = gl.getParameter(WebGL.ExtDrawBuffers.MAX_COLOR_ATTACHMENTS_EXT);
-    int maxD = gl.getParameter(WebGL.ExtDrawBuffers.MAX_DRAW_BUFFERS_EXT);
+    _multipleRenderTargets = _getExtension(gl, 'WEBGL_draw_buffers');
+    int maxC = gl.getParameter(WebGL.DrawBuffers.MAX_COLOR_ATTACHMENTS_WEBGL);
+    int maxD = gl.getParameter(WebGL.DrawBuffers.MAX_DRAW_BUFFERS_WEBGL);
     _maxRenderTargets = Math.min(maxC, maxD);
   }
 

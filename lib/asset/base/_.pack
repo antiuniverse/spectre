@@ -39,6 +39,14 @@
     "importArguments":{
     }
   },
+  "blitMergeColorTexturesShader":{
+    "loadArguments":{
+    },
+    "url":"shader/blit_merge_color_textures.shader",
+    "type":"shaderProgram",
+    "importArguments":{
+    }
+  },
   "wood": {
     "loadArguments":{
     },
