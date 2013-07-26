@@ -104,7 +104,7 @@ class GraphicsDeviceCapabilities {
   /// Whether PVRTC compressed textures can be used.
   bool _compressedTexturePVRTC;
   /// Whether multiple render targets can be used.
-  ExtDrawBuffers _multipleRenderTargets;
+  WebGL.ExtDrawBuffers _multipleRenderTargets;
   int _maxRenderTargets;
   /// Whether instanced arrays can be used.
   bool _instancedArrays;
