@@ -34,8 +34,6 @@ class RenderTarget extends DeviceChild {
   WebGL.Framebuffer _deviceFramebuffer;
 
   DeviceChild _depthTarget;
-  DeviceChild get colorTarget => _colorTarget;
-  DeviceChild get colorTarget0 => _colorTarget0;
   DeviceChild get depthTarget => _depthTarget;
   DeviceChild get stencilTarget => null;
 
