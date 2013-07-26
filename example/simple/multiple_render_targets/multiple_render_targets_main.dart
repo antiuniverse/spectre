@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library depth_texture_main;
+library multiple_render_targets_main;
 
 import 'dart:async';
 import 'dart:html';
@@ -38,6 +38,7 @@ class MultipleRenderTargets extends Example {
   Texture2D redColorBuffer;
   Texture2D greenColorBuffer;
   Texture2D blueColorBuffer;
+  Texture2D alphaColorBuffer;
   Texture2D depthBuffer;
   RenderTarget renderTarget;
   OrbitCameraController cameraController;
@@ -65,6 +66,8 @@ class MultipleRenderTargets extends Example {
       greenColorBuffer.uploadPixelArray(offscreenWidth, offscreenHeight, null);
       blueColorBuffer = new Texture2D('blueColorBuffer', graphicsDevice);
       blueColorBuffer.uploadPixelArray(offscreenWidth, offscreenHeight, null);
+      alphaColorBuffer = new Texture2D('alphaColorBuffer', graphicsDevice);
+      alphaColorBuffer.uploadPixelArray(offscreenWidth, offscreenHeight, null);
       // Create depth buffer.
       depthBuffer = new Texture2D('depthBuffer', graphicsDevice);
       depthBuffer.pixelFormat = PixelFormat.Depth;
@@ -76,6 +79,7 @@ class MultipleRenderTargets extends Example {
       renderTarget.setColorTarget(0, redColorBuffer);
       renderTarget.setColorTarget(1, greenColorBuffer);
       renderTarget.setColorTarget(2, blueColorBuffer);
+      renderTarget.setColorTarget(3, alphaColorBuffer);
       // Use depth buffer.
       renderTarget.setDepthTarget(depthBuffer);
       // Verify that it's renderable.
@@ -91,7 +95,7 @@ class MultipleRenderTargets extends Example {
       rasterizerState = new RasterizerState('rasterizerState', graphicsDevice);
       depthState = new DepthState('depthState', graphicsDevice);
       fullscreenBlitModel = new Model(fullscreenMesh,
-                                      assetManager['base.blitShader'],
+                                      assetManager['base.blitMergeColorTexturesShader'],
                                       graphicsDevice);
     });
   }
@@ -159,10 +163,17 @@ class MultipleRenderTargets extends Example {
     // Draw the off screen texture.
 
     fullscreenBlitModel.set();
+    ShaderProgram sp = assetManager['base.blitMergeColorTexturesShader'];
     // Use the color buffer for the texture.
-    graphicsContext.setTexture(0, redColorBuffer);
+    graphicsContext.setTexture(sp.samplers['sourceR'].index, redColorBuffer);
+    graphicsContext.setTexture(sp.samplers['sourceG'].index, greenColorBuffer);
+    graphicsContext.setTexture(sp.samplers['sourceB'].index, blueColorBuffer);
+    graphicsContext.setTexture(sp.samplers['sourceA'].index, alphaColorBuffer);
     // Use a sampler that supports non-power-of-two texture dimensions.
     graphicsContext.setSampler(0, fullscreenSampler);
+    graphicsContext.setSampler(1, fullscreenSampler);
+    graphicsContext.setSampler(2, fullscreenSampler);
+    graphicsContext.setSampler(3, fullscreenSampler);
     graphicsContext.setViewport(viewport);
     fullscreenBlitModel.draw();
   }

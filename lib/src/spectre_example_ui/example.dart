@@ -168,29 +168,29 @@ abstract class Example {
 
   void updateCameraController(CameraController controller) {
     if (controller is FpsFlyCameraController) {
-      cameraController.forward =
+      controller.forward =
       gameLoop.keyboard.buttons[Keyboard.W].down;
-      cameraController.backward =
+      controller.backward =
       gameLoop.keyboard.buttons[Keyboard.S].down;
-      cameraController.strafeLeft =
+      controller.strafeLeft =
       gameLoop.keyboard.buttons[Keyboard.A].down;
-      cameraController.strafeRight =
+      controller.strafeRight =
       gameLoop.keyboard.buttons[Keyboard.D].down;
       if (gameLoop.pointerLock.locked) {
-        cameraController.accumDX = gameLoop.mouse.dx;
-        cameraController.accumDY = gameLoop.mouse.dy;
+        controller.accumDX = gameLoop.mouse.dx;
+        controller.accumDY = gameLoop.mouse.dy;
       }
-      cameraController.updateCamera(gameLoop.dt, camera);
+      controller.updateCamera(gameLoop.dt, camera);
     } else if (controller is OrbitCameraController) {
       Mouse mouse = gameLoop.mouse;
       if (mouse.isDown(Mouse.LEFT) || gameLoop.pointerLock.locked) {
-        cameraController.accumDX = mouse.dx;
-        cameraController.accumDY = mouse.dy;
+        controller.accumDX = mouse.dx;
+        controller.accumDY = mouse.dy;
       }
-      cameraController.accumDZ = mouse.wheelDy;
-      cameraController.updateCamera(gameLoop.updateTimeStep, camera);
+      controller.accumDZ = mouse.wheelDy;
+      controller.updateCamera(gameLoop.updateTimeStep, camera);
     } else {
-      throw new FallthroughError();
+      throw new FallThroughError();
     }
   }
 
