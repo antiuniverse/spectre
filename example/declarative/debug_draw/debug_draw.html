@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Spectre Declarative Example: Debug Draw</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat'
+          rel='stylesheet' type='text/css'>
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_camera.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_layer.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_line_primitive.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_material.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_model.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_post_effect.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_scene.html">
+    <link rel="import" href="package:spectre/src/spectre_declarative/spectre_transform.html">
+</head>
+<body>
+<canvas id="backBuffer"></canvas>
+<div id="logo"></div>
+<script type="application/dart" src="debug_draw_main.dart"></script>
+<script src="packages/browser/dart.js"></script>
+<s-scene id="scene">
+  <s-layer>
+    <s-line-primitive type="sphere" radius="2"></s-line-primitive>
+    <s-line-primitive type="sphere" color="[0.0, 1.0, 0.0, 1.0]" center="[0.0, 4.0, 3.0]"></s-line-primitive>
+    <s-line-primitive type="line" color="[0.0, 0.0, 1.0, 1.0]"></s-line-primitive>
+    <s-line-primitive type="cross" radius="2" center="[5.0, 5.0, 5.0]"></s-line-primitive>
+    <s-line-primitive type="plane" size="10" center="[0.0, -10.0, 0.0]" color="[1.0, 0.0, 0.0, 1.0]"></s-line-primitive>
+    <s-line-primitive type="plane" size="4" normal="[0.33, 0.33, 0.33]" center="[0.0, -10.0, 0.0]"></s-line-primitive>
+    <s-line-primitive type="arc" radius="4.0" color="[0.0, 1.0, 0.0, 1.0]" normal="[1.0, 0.0, 0.0]" center="[5.0, 5.0, 5.0]"></s-line-primitive>
+    <s-line-primitive type="circle" radius="2.0", normal="[0.0, 0.0, 1.0]" center="[5.0, 5.0, 5.0]"></s-line-primitive>
+    <s-line-primitive type="aabb" min="[6.0, 6.0, 6.0]" max="[10.0, 10.0, 10.0]"></s-line-primitive>
+    <s-line-primitive type="triangle" color="[1.0, 0.7, 0.7, 1.0]"></s-line-primitive>
+    <s-line-primitive type="cone" apex="[-4.0, 0.0, -4.0]" direction="[-1.0, 0.0, 0.0]" height="5.0"></s-line-primitive>
+  </s-layer>
+  <s-layer>
+  </s-layer>
+</s-scene>
+</body>
+</html>

@@ -28,15 +28,30 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:asset_pack/asset_pack.dart';
+import 'package:game_loop/game_loop_html.dart';
 import 'package:spectre/spectre.dart';
-import 'package:polymer/polymer.dart';
+import 'package:spectre/spectre_asset_pack.dart';
+import 'package:spectre/spectre_example_ui.dart';
 
-part 'src/spectre_declarative/scene_loop.dart';
-part 'src/spectre_declarative/spectre_camera.dart';
-part 'src/spectre_declarative/spectre_layer.dart';
-part 'src/spectre_declarative/spectre_line_primitive.dart';
-part 'src/spectre_declarative/spectre_material.dart';
-part 'src/spectre_declarative/spectre_model.dart';
-part 'src/spectre_declarative/spectre_post_effect.dart';
-part 'src/spectre_declarative/spectre_scene.dart';
-part 'src/spectre_declarative/spectre_transform.dart';
+import 'package:spectre/src/spectre_declarative/spectre_camera.dart';
+import 'package:spectre/src/spectre_declarative/spectre_layer.dart';
+import 'package:spectre/src/spectre_declarative/spectre_line_primitive.dart';
+import 'package:spectre/src/spectre_declarative/spectre_material.dart';
+import 'package:spectre/src/spectre_declarative/spectre_model.dart';
+import 'package:spectre/src/spectre_declarative/spectre_post_effect.dart';
+import 'package:spectre/src/spectre_declarative/spectre_scene.dart';
+import 'package:spectre/src/spectre_declarative/spectre_transform.dart';
+
+export 'package:spectre/src/spectre_declarative/spectre_camera.dart';
+export 'package:spectre/src/spectre_declarative/spectre_layer.dart';
+export 'package:spectre/src/spectre_declarative/spectre_line_primitive.dart';
+export 'package:spectre/src/spectre_declarative/spectre_material.dart';
+export 'package:spectre/src/spectre_declarative/spectre_model.dart';
+export 'package:spectre/src/spectre_declarative/spectre_post_effect.dart';
+export 'package:spectre/src/spectre_declarative/spectre_scene.dart';
+export 'package:spectre/src/spectre_declarative/spectre_transform.dart';
+
+
+import 'package:vector_math/vector_math.dart';
+
+part 'src/spectre_declarative/declarative_example.dart';

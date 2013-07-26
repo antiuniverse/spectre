@@ -346,7 +346,6 @@ class DebugDrawManager {
   /// [center]. The plane is drawn as a grid of [size] square. Drawn
   /// with [color].
   /// Optional parameters: [duration], [depthEnabled] and [numSegments].
-
   void addPlane(Vector3 normal, Vector3 center, double size,
                 Vector4 color, {num duration: 0.0, bool depthEnabled: true,
                 int numSegments: 16}) {

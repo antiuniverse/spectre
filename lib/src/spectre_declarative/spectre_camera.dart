@@ -18,9 +18,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-part of spectre_declarative;
+library spectre_declarative_camera;
+
+import 'package:polymer/polymer.dart';
 
 class SpectreCameraElement extends PolymerElement {
-  Camera camera;
-  CameraController controller;
 }
