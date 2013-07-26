@@ -59,7 +59,7 @@ class MultipleRenderTargets extends Example {
       offscreenViewport = new Viewport('offscreenViewport', graphicsDevice);
       offscreenViewport.width = offscreenWidth;
       offscreenViewport.height = offscreenHeight;
-      // Create color buffer.
+      // Create color buffers.
       redColorBuffer = new Texture2D('redColorBuffer', graphicsDevice);
       redColorBuffer.uploadPixelArray(offscreenWidth, offscreenHeight, null);
       greenColorBuffer = new Texture2D('greenColorBuffer', graphicsDevice);
