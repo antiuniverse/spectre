@@ -190,7 +190,7 @@ abstract class Example {
       cameraController.accumDZ = mouse.wheelDy;
       cameraController.updateCamera(gameLoop.updateTimeStep, camera);
     } else {
-      throw new FallthroughError();
+      throw new FallThroughError();
     }
   }
 
