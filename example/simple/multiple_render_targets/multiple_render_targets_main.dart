@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library depth_texture_main;
+library multiple_render_targets_main;
 
 import 'dart:async';
 import 'dart:html';
