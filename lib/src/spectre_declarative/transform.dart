@@ -68,4 +68,17 @@ class SpectreTransformElement extends SpectreElement {
   removed() {
     super.removed();
   }
+
+  apply() {
+  }
+
+  render() {
+    var scene = SpectreElement.scene;
+    scene.pushTransform(T);
+    renderChildren();
+    scene.popTransform();
+  }
+
+  unapply() {
+  }
 }

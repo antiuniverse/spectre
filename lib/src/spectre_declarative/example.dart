@@ -33,6 +33,7 @@ class DeclarativeExample extends Example {
       SpectreElement.debugDrawManager = debugDrawManager;
       SpectreElement.graphicsContext = graphicsContext;
       SpectreElement.graphicsDevice = graphicsDevice;
+      SpectreElement.assetManager = assetManager;
     });
   }
 
@@ -43,15 +44,6 @@ class DeclarativeExample extends Example {
 
   onUpdate() {
     updateCameraController(cameraController);
-  }
-
-  renderLayer(SpectreLayerElement layer) {
-    // TODO(johnmccutchan): Setup layer.
-    layer.children.forEach((e) {
-      if (e.xtag is SpectreElement) {
-        e.xtag.render();
-      }
-    });
   }
 
   onRender() {
@@ -68,11 +60,13 @@ class DeclarativeExample extends Example {
     }
 
     SpectreElement.scene = scene;
+    scene.pushCamera(camera);
 
-    // Render each layer.
-    scene.queryAll('s-layer').forEach((e) {
-      renderLayer(e.xtag);
-    });
+    scene.apply();
+    scene.render();
+    scene.unapply();
+
+    scene.popCamera();
 
     debugDrawManager.prepareForRender();
     debugDrawManager.render(camera);

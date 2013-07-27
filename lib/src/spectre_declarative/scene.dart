@@ -28,6 +28,8 @@ import 'package:vector_math/vector_math.dart';
 
 class SpectreSceneElement extends SpectreElement {
   // Current transforms are held in a stack.
+  final Matrix4 I = new Matrix4.identity();
+  final Camera C = new Camera();
   final List<Matrix4> _transformStack = new List<Matrix4>();
   final List<Camera> _cameraStack = new List<Camera>();
   final List<SpectreMaterialElement> _materialStack =
@@ -43,5 +45,55 @@ class SpectreSceneElement extends SpectreElement {
 
   removed() {
     super.removed();
+  }
+
+  void pushCamera(Camera C) {
+    _cameraStack.add(C);
+  }
+
+  void popCamera() {
+    assert(_cameraStack.length > 0);
+    _cameraStack.removeLast();
+  }
+
+  Camera get currentCamera {
+    if (_cameraStack.length == 0) {
+      return C;
+    }
+    return _cameraStack.last;
+  }
+
+  void pushTransform(Matrix4 M) {
+    var T;
+    if (_transformStack.length == 0) {
+      T = M.clone();
+    } else {
+      var currentTransform = _transformStack.last;
+      T = currentTransform * M;
+    }
+    _transformStack.add(T);
+  }
+
+  void popTransform() {
+    assert(_transformStack.length > 0);
+    _transformStack.removeLast();
+  }
+
+  Matrix4 get currentTransform {
+    if (_transformStack.length == 0) {
+      return I;
+    }
+    var currentTransform = _transformStack.last;
+    return currentTransform;
+  }
+
+  apply() {
+  }
+
+  render() {
+    renderChildren();
+  }
+
+  unapply() {
   }
 }

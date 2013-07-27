@@ -52,4 +52,13 @@ class SpectreCameraElement extends SpectreElement {
   void removed() {
     super.removed();
   }
+
+  void apply() {
+  }
+
+  void render() {
+  }
+
+  void unapply() {
+  }
 }

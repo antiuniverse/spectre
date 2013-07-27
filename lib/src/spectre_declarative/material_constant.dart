@@ -54,8 +54,12 @@ class SpectreMaterialConstantElement extends SpectreElement {
     super.removed();
   }
 
-  void apply() {
+  apply() {
   }
 
+  render() {
+  }
 
+  unapply() {
+  }
 }

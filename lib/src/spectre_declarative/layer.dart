@@ -35,4 +35,16 @@ class SpectreLayerElement extends SpectreElement {
   void removed() {
     super.removed();
   }
+
+  void apply() {
+  }
+
+  void render() {
+    // Configure render targets.
+    // Configure scene sort.
+    renderChildren();
+  }
+
+  void unapply() {
+  }
 }

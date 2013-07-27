@@ -25,11 +25,12 @@ import 'dart:json' as JSON;
 import 'package:polymer/polymer.dart';
 import 'package:vector_math/vector_math.dart';
 
-class SpectreElement extends PolymerElement {
+abstract class SpectreElement extends PolymerElement {
   static var scene;
   static var debugDrawManager;
   static var graphicsContext;
   static var graphicsDevice;
+  static var assetManager;
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {
@@ -107,6 +108,33 @@ class SpectreElement extends PolymerElement {
     print('$name changed from $oldValue to $newValue');
   }
 
-  void render() {
+  void applyChildren() {
+    elements.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e.xtag.apply();
+      }
+    });
   }
+
+  void renderChildren() {
+    elements.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e.xtag.render();
+      }
+    });
+  }
+
+  void unapplyChildren() {
+    elements.reversed.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e.xtag.unapply();
+      }
+    });
+  }
+
+  void apply();
+
+  void render();
+
+  void unapply();
 }

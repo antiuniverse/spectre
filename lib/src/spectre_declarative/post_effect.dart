@@ -35,4 +35,13 @@ class SpectrePostEffectElement extends PolymerElement {
   removed() {
     super.removed();
   }
+
+  void apply() {
+  }
+
+  void render() {
+  }
+
+  void unapply() {
+  }
 }

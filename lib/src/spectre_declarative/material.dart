@@ -49,8 +49,17 @@ class SpectreMaterialElement extends SpectreElement {
     super.removed();
   }
 
-  void _applyConstant(SpectreMaterialConstantElement constant,
-                      bool updateStack) {
+  apply() {
+  }
+
+  render() {
+  }
+
+  unapply() {
+  }
+
+  _applyConstant(SpectreMaterialConstantElement constant,
+                 bool updateStack) {
     String name = constant.name;
     constant.apply();
     if (updateStack) {
@@ -58,7 +67,7 @@ class SpectreMaterialElement extends SpectreElement {
     }
   }
 
-  void _unapplyConstant(SpectreMaterialConstantElement constant) {
+  _unapplyConstant(SpectreMaterialConstantElement constant) {
     String name = constant.name;
     var stack = _constantStack[name];
     assert(stack != null);
@@ -71,13 +80,13 @@ class SpectreMaterialElement extends SpectreElement {
     }
   }
 
-  void _applyConstants() {
+  _applyConstants() {
     var l = queryAll('s-material-constant');
     // Apply all constants, update stack.
     l.forEach((e) => _applyConstant(e.xtag, true));
   }
 
-  void _unapplyConstants() {
+  _unapplyConstants() {
     var l = queryAll('s-material-constant');
     // Unapply constants in revers order.
     l.reversed.forEach((e) => _unapplyConstant(e.xtag));

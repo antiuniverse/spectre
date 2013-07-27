@@ -295,7 +295,15 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     }
   }
 
+  void apply() {
+    // NOP.
+  }
+
   void render() {
     dispatch(SpectreElement.debugDrawManager);
+  }
+
+  void unapply() {
+    // NOP.
   }
 }
