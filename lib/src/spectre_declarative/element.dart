@@ -27,7 +27,9 @@ import 'package:vector_math/vector_math.dart';
 
 class SpectreElement extends PolymerElement {
   static var scene;
-
+  static var debugDrawManager;
+  static var graphicsContext;
+  static var graphicsDevice;
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {
@@ -87,18 +89,24 @@ class SpectreElement extends PolymerElement {
 
   void created() {
     super.created();
+    print('created $this');
   }
 
   void inserted() {
     super.inserted();
+    print('inserted $this');
   }
 
   void removed() {
     super.removed();
+    print('removed $this');
   }
 
   void attributeChanged(String name, String oldValue, String newValue) {
     super.attributeChanged(name, oldValue, newValue);
     print('$name changed from $oldValue to $newValue');
+  }
+
+  void render() {
   }
 }

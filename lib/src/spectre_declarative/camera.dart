@@ -40,11 +40,16 @@ import 'package:spectre/src/spectre_declarative/element.dart';
  */
 class SpectreCameraElement extends SpectreElement {
   Camera camera;
+
   void created() {
     super.created();
   }
 
   void inserted() {
     super.inserted();
+  }
+
+  void removed() {
+    super.removed();
   }
 }

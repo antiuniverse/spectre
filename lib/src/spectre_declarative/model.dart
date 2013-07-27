@@ -31,4 +31,16 @@ import 'package:spectre/src/spectre_declarative/element.dart';
 class SpectreModelElement extends SpectreElement {
   SpectreMesh _mesh;
   InputLayout _inputLayout;
+
+  created() {
+    super.created();
+  }
+
+  inserted() {
+    super.inserted();
+  }
+
+  removed() {
+    super.removed();
+  }
 }

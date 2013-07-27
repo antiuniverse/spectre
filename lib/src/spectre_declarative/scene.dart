@@ -28,16 +28,17 @@ import 'package:vector_math/vector_math.dart';
 
 class SpectreSceneElement extends SpectreElement {
   // Current transforms are held in a stack.
-  List<Matrix4> _transformStack;
-  List<Camera> _cameraStack;
-  List<SpectreMaterialElement> _materialStack;
-
-  inserted() {
-    super.inserted();
-  }
+  final List<Matrix4> _transformStack = new List<Matrix4>();
+  final List<Camera> _cameraStack = new List<Camera>();
+  final List<SpectreMaterialElement> _materialStack =
+      new List<SpectreMaterialElement>();
 
   created() {
     super.created();
+  }
+
+  inserted() {
+    super.inserted();
   }
 
   removed() {

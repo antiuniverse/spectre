@@ -30,6 +30,9 @@ class DeclarativeExample extends Example {
   Future initialize() {
     return super.initialize().then((_) {
       cameraController = new FpsFlyCameraController();
+      SpectreElement.debugDrawManager = debugDrawManager;
+      SpectreElement.graphicsContext = graphicsContext;
+      SpectreElement.graphicsDevice = graphicsDevice;
     });
   }
 
@@ -42,13 +45,12 @@ class DeclarativeExample extends Example {
     updateCameraController(cameraController);
   }
 
-  renderLinePrimitive(SpectreLinePrimitiveElement primitive) {
-    primitive.dispatch(debugDrawManager);
-  }
-
   renderLayer(SpectreLayerElement layer) {
-    layer.queryAll('s-line-primitive').forEach((e) {
-      renderLinePrimitive(e.xtag);
+    // TODO(johnmccutchan): Setup layer.
+    layer.children.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e.xtag.render();
+      }
     });
   }
 
@@ -59,10 +61,13 @@ class DeclarativeExample extends Example {
     graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
     graphicsContext.clearDepthBuffer(1.0);
 
+
     SpectreSceneElement scene = query(sceneId).xtag;
     if (scene == null) {
       return;
     }
+
+    SpectreElement.scene = scene;
 
     // Render each layer.
     scene.queryAll('s-layer').forEach((e) {

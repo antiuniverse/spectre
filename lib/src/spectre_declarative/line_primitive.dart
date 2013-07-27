@@ -36,9 +36,17 @@ class SpectreLinePrimitiveElement extends SpectreElement {
   double _angleB = 0.0;
   bool _depthEnabled = true;
 
+  void created() {
+    super.created();
+  }
+
   void inserted() {
     super.inserted();
     update();
+  }
+
+  void removed() {
+    super.removed();
   }
 
   void _updateColor() {
@@ -285,5 +293,9 @@ class SpectreLinePrimitiveElement extends SpectreElement {
         _updateTriangle();
       break;
     }
+  }
+
+  void render() {
+    dispatch(SpectreElement.debugDrawManager);
   }
 }

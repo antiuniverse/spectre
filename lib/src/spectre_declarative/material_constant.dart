@@ -42,6 +42,20 @@ import 'package:spectre/src/spectre_declarative/element.dart';
 class SpectreMaterialConstantElement extends SpectreElement {
   String name;
 
+  created() {
+    super.created();
+  }
+
+  inserted() {
+    super.inserted();
+  }
+
+  removed() {
+    super.removed();
+  }
+
   void apply() {
   }
+
+
 }

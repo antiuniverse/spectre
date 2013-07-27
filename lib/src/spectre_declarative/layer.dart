@@ -24,4 +24,15 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/src/spectre_declarative/element.dart';
 
 class SpectreLayerElement extends SpectreElement {
+  void created() {
+    super.created();
+  }
+
+  void inserted() {
+    super.inserted();
+  }
+
+  void removed() {
+    super.removed();
+  }
 }

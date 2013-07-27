@@ -23,4 +23,16 @@ library spectre_declarative_post_effect;
 import 'package:polymer/polymer.dart';
 
 class SpectrePostEffectElement extends PolymerElement {
+
+  created() {
+    super.created();
+  }
+
+  inserted() {
+    super.inserted();
+  }
+
+  removed() {
+    super.removed();
+  }
 }

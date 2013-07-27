@@ -21,6 +21,51 @@
 library spectre_declarative_transform;
 
 import 'package:polymer/polymer.dart';
+import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:vector_math/vector_math.dart';
 
-class SpectreTransformElement extends PolymerElement {
+/**
+ * <s-camera id="mainCamera"></s-camera>
+ *
+ * Attributes:
+ *
+ * * translate (Vector3)
+ * * axis (Vector3)
+ * * angle (double, radians)
+ */
+
+class SpectreTransformElement extends SpectreElement {
+  final Matrix4 T = new Matrix4.zero();
+  final Vector3 _v = new Vector3.zero();
+  double _d = 0.0;
+
+  void _update() {
+    T.setIdentity();
+    if (!parseVector3('axis', _v)) {
+      _v[0] = 1.0;
+      _v[1] = 0.0;
+      _v[2] = 0.0;
+    }
+    _d = parseDouble('angle', 0.0);
+    T.rotate(_v, _d);
+    if (!parseVector3('translate', _v)) {
+      _v[0] = 0.0;
+      _v[1] = 0.0;
+      _v[2] = 0.0;
+    }
+    T.translate(_v);
+  }
+
+  created() {
+    super.created();
+  }
+
+  inserted() {
+    super.inserted();
+    _update();
+  }
+
+  removed() {
+    super.removed();
+  }
 }
