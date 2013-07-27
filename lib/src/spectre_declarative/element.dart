@@ -26,6 +26,8 @@ import 'package:polymer/polymer.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreElement extends PolymerElement {
+  static var scene;
+
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {

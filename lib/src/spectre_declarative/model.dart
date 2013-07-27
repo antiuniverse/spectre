@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_material_constant;
+library spectre_declarative_model;
 
 import 'dart:json' as JSON;
 
@@ -26,7 +26,9 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:vector_math/vector_math.dart';
 
-import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+import 'package:spectre/src/spectre_declarative/element.dart';
 
-class SpectreMaterialConstantElement extends SpectreElement {
+class SpectreModelElement extends SpectreElement {
+  SpectreMesh _mesh;
+  InputLayout _inputLayout;
 }

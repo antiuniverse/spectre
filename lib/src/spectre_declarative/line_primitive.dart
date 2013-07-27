@@ -24,7 +24,7 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:vector_math/vector_math.dart';
 
-import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+import 'package:spectre/src/spectre_declarative/element.dart';
 
 class SpectreLinePrimitiveElement extends SpectreElement {
   final Vector4 _color = new Vector4.zero();

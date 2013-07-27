@@ -18,10 +18,30 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_scene;
+library spectre_declarative_material_constant;
+
+import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+import 'package:spectre/spectre.dart';
+import 'package:vector_math/vector_math.dart';
 
-class SpectreSceneElement extends SpectreElement {
+import 'package:spectre/src/spectre_declarative/element.dart';
+
+/*
+<s-material-constant name="sourceR" texture="assetpack://asset.pack.blah" minification="mipmap">
+</s-material-constant>
+<s-material-constant name="cameraView" data="[]">
+</s-material-constant>
+<s-material-constant name="blend.source" value="">
+</s-material-constant>
+<s-material-constant name="depth.func" value="">
+</s-material-constant-uniform>
+*/
+
+class SpectreMaterialConstantElement extends SpectreElement {
+  String name;
+
+  void apply() {
+  }
 }

@@ -18,15 +18,33 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_material;
-
-import 'dart:json' as JSON;
+library spectre_declarative_camera;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:spectre/src/spectre_declarative/element.dart';
 
-import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+/**
+ * <s-camera id="mainCamera"></s-camera>
+ *
+ * Attributes:
+ *
+ * * fieldOfViewY (double, radians)
+ * * position (Vector3)
+ * * eyeDirection (Vector3)
+ * * upDirection (Vector3)
+ * * zNear (double)
+ * * zfar (double)
+ * * yaw
+ * * pitch
+ */
+class SpectreCameraElement extends SpectreElement {
+  Camera camera;
+  void created() {
+    super.created();
+  }
 
-class SpectreMaterialElement extends SpectreElement {
+  void inserted() {
+    super.inserted();
+  }
 }

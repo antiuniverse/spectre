@@ -18,17 +18,29 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_model;
-
-import 'dart:json' as JSON;
+library spectre_declarative_scene;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
+import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:vector_math/vector_math.dart';
 
-import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+class SpectreSceneElement extends SpectreElement {
+  // Current transforms are held in a stack.
+  List<Matrix4> _transformStack;
+  List<Camera> _cameraStack;
+  List<SpectreMaterialElement> _materialStack;
 
-class SpectreModelElement extends SpectreElement {
-  SpectreMesh _mesh;
-  InputLayout _inputLayout;
+  inserted() {
+    super.inserted();
+  }
+
+  created() {
+    super.created();
+  }
+
+  removed() {
+    super.removed();
+  }
 }
