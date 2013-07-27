@@ -44,7 +44,4 @@ class SpectreLayerElement extends SpectreElement {
     // Configure scene sort.
     renderChildren();
   }
-
-  void unapply() {
-  }
 }

@@ -59,14 +59,26 @@
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
   </s-layer>
   <s-layer>
-    <s-transform translate="[5.0, 5.0, 5.0]">
-      <s-model mesh="assetpack://base.unitCube"></s-model>
-      <s-transform translate="[-5.0, -5.0, -5.0]"
-                   axis="[1.0, 0.0, 0.0]" angle="0.78">
+    <s-material shader="assetpack://base.simpleShader">
+      <s-material-constant name="diffuse" texture="assetpack://base.wood"></s-material-constant>
+      <s-transform translate="[5.0, 5.0, 5.0]">
+        <s-model mesh="assetpack://base.unitCube">
+        </s-model>
+        <s-transform translate="[-5.0, -5.0, -5.0]"
+                     axis="[1.0, 0.0, 0.0]" angle="0.78">
+          <s-model mesh="assetpack://base.unitCube">
+            <s-material-constant name="diffuse" texture="assetpack://base.bumpyMetal"></s-material-constant>
+          </s-model>
+        </s-transform>
+      </s-transform>
+      <s-transform translate="[10.0, 10.0, 10.0]">
+        <!-- This meshs hould be rendered with the wood texture. -->
         <s-model mesh="assetpack://base.unitCube"></s-model>
       </s-transform>
-    </s-transform>
-    <s-model mesh="assetpack://base.unitCube"></s-model>
+      <s-model mesh="assetpack://base.unitCube">
+        <s-material-constant name="diffuse" texture="assetpack://base.brick"></s-material-constant>
+      </s-model>
+    </s-material>
   </s-layer>
 </s-scene>
 </body>

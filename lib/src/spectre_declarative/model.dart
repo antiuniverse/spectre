@@ -31,10 +31,10 @@ import 'package:spectre/src/spectre_declarative/element.dart';
 class SpectreModelElement extends SpectreElement {
   SpectreMesh _mesh;
   bool _indexed;
-  ShaderProgram _shaderProgram;
   InputLayout _inputLayout;
 
   void _update() {
+    var scene = SpectreElement.scene;
     if (SpectreElement.graphicsDevice == null) {
       return;
     }
@@ -42,46 +42,11 @@ class SpectreModelElement extends SpectreElement {
       _inputLayout = new InputLayout('SpectreModelElement',
                                      SpectreElement.graphicsDevice);
     }
+    var material = scene.currentMaterial;
     _mesh = SpectreElement.assetManager['base.unitCube'];
-    _shaderProgram = SpectreElement.assetManager['base.simpleShader'];
     _inputLayout.mesh = _mesh;
-    _inputLayout.shaderProgram = _shaderProgram;
+    _inputLayout.shaderProgram = material.shaderProgram;
     _indexed = (_mesh is SingleArrayIndexedMesh);
-  }
-
-  void _updateCameraConstants(Camera camera) {
-    var graphicsContext = SpectreElement.graphicsContext;
-    Matrix4 projectionMatrix = camera.projectionMatrix;
-    Matrix4 viewMatrix = camera.viewMatrix;
-    Matrix4 projectionViewMatrix = camera.projectionMatrix;
-    projectionViewMatrix.multiply(viewMatrix);
-    Matrix4 viewRotationMatrix = makeViewMatrix(new Vector3.zero(),
-                                             camera.frontDirection,
-                                             new Vector3(0.0, 1.0, 0.0));
-    Matrix4 projectionViewRotationMatrix = camera.projectionMatrix;
-    projectionViewRotationMatrix.multiply(viewRotationMatrix);
-    ShaderProgram shader = graphicsContext.shaderProgram;
-    ShaderProgramUniform uniform;
-    uniform = shader.uniforms['cameraView'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, viewMatrix.storage);
-    }
-    uniform = shader.uniforms['cameraProjection'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, projectionMatrix.storage);
-    }
-    uniform = shader.uniforms['cameraProjectionView'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, projectionViewMatrix.storage);
-    }
-    uniform = shader.uniforms['cameraViewRotation'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, viewRotationMatrix.storage);
-    }
-    uniform = shader.uniforms['cameraProjectionViewRotation'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, projectionViewRotationMatrix.storage);
-    }
   }
 
   void _updateObjectTransformConstant(Matrix4 T) {
@@ -113,13 +78,32 @@ class SpectreModelElement extends SpectreElement {
     // NOP.
   }
 
-  render() {
-    _update();
+  void applyConstants() {
     var scene = SpectreElement.scene;
+    var material = scene.currentMaterial;
+    var l = queryAll('s-material-constant');
+    // Apply all constants, update stack.
+    l.forEach((e) {
+      e.xtag.render();
+    });
+  }
+
+  void unapplyConstants() {
+    var scene = SpectreElement.scene;
+    var material = scene.currentMaterial;
+    var l = queryAll('s-material-constant').reversed;
+    l.forEach((e) => material.unapplyConstant(e.xtag));
+  }
+
+  render() {
+    var scene = SpectreElement.scene;
+    if (scene == null) {
+      return;
+    }
+    _update();
+    applyConstants();
     var graphicsDevice = SpectreElement.graphicsDevice;
     graphicsDevice.context.setInputLayout(_inputLayout);
-    graphicsDevice.context.setShaderProgram(_shaderProgram);
-    _updateCameraConstants(scene.currentCamera);
     _updateObjectTransformConstant(scene.currentTransform);
     if (_indexed) {
       graphicsDevice.context.setIndexedMesh(_mesh);
@@ -128,6 +112,7 @@ class SpectreModelElement extends SpectreElement {
       graphicsDevice.context.setMesh(_mesh);
       graphicsDevice.context.drawMesh(_mesh);
     }
+    unapplyConstants();
   }
 
   unapply() {

@@ -284,7 +284,8 @@ class GraphicsContext {
   ShaderProgram get shaderProgram => _shaderProgram;
 
   /// Set ShaderProgram to [shaderProgram]
-  void setShaderProgram(ShaderProgram shaderProgram) {
+  ShaderProgram setShaderProgram(ShaderProgram shaderProgram) {
+    var old = _shaderProgram;
     if (_shaderProgram != shaderProgram) {
       if (shaderProgram != null) {
         device.gl.useProgram(shaderProgram._program);
@@ -293,6 +294,7 @@ class GraphicsContext {
       }
       _shaderProgram = shaderProgram;
     }
+    return old;
   }
 
   /// Sets a [Viewport] identifying the portion of the render target to

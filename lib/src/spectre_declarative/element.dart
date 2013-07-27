@@ -88,6 +88,27 @@ abstract class SpectreElement extends PolymerElement {
     return l;
   }
 
+  bool _isAssetPackUrl(String url) {
+    return url.startsWith('assetpack://');
+  }
+
+  String _getAssetPackPath(String url) {
+    return url.substring('assetpack://'.length);
+  }
+
+  dynamic getAsset(String attributeName) {
+    if (SpectreElement.assetManager == null) {
+      return null;
+    }
+    var a = attributes[attributeName];
+    if (a == null) {
+      return null;
+    }
+    assert(_isAssetPackUrl(a));
+    var p = _getAssetPackPath(a);
+    return SpectreElement.assetManager[p];
+  }
+
   void created() {
     super.created();
     print('created $this');
@@ -135,6 +156,4 @@ abstract class SpectreElement extends PolymerElement {
   void apply();
 
   void render();
-
-  void unapply();
 }

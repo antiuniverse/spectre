@@ -54,5 +54,21 @@
     "type":"tex2d",
     "importArguments":{
     }
+  },
+  "brick": {
+    "loadArguments":{
+    },
+    "url":"texture/brick.png",
+    "type":"tex2d",
+    "importArguments":{
+    }
+  },
+  "bumpyMetal": {
+    "loadArguments":{
+    },
+    "url":"texture/bumpy_metal.png",
+    "type":"tex2d",
+    "importArguments":{
+    }
   }
 }

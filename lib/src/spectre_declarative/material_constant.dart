@@ -41,6 +41,40 @@ import 'package:spectre/src/spectre_declarative/element.dart';
 
 class SpectreMaterialConstantElement extends SpectreElement {
   String name;
+  SamplerState _sampler;
+  SpectreTexture _texture;
+  dynamic index = -1;
+  bool _isSampler = false;
+
+  void _update() {
+    var scene = SpectreElement.scene;
+    if (scene == null) {
+      return;
+    }
+    var graphicsDevice = SpectreElement.graphicsDevice;
+    var currentMaterial = scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    if (_sampler == null) {
+      _sampler = new SamplerState('SpectreMaterialConstantElement',
+                                  graphicsDevice);
+    }
+    name = attributes['name'];
+    if (name == null) {
+      return;
+    }
+    print('applying $name ${attributes['texture']}');
+    var sampler = currentMaterial.shaderProgram.samplers[name];
+    _isSampler = sampler != null;
+    if (_isSampler) {
+      index = sampler.textureUnit;
+      _texture = getAsset('texture');
+      // TODO(johnmccutchan): Update sampler attributes.
+    } else {
+      index = sampler.location;
+    }
+  }
 
   created() {
     super.created();
@@ -48,6 +82,7 @@ class SpectreMaterialConstantElement extends SpectreElement {
 
   inserted() {
     super.inserted();
+    _update();
   }
 
   removed() {
@@ -55,11 +90,24 @@ class SpectreMaterialConstantElement extends SpectreElement {
   }
 
   apply() {
+    var scene = SpectreElement.scene;
+    var graphicsContext = SpectreElement.graphicsContext;
+    if (index == -1) {
+      return;
+    }
+    if (_isSampler) {
+      graphicsContext.setTexture(index, _texture);
+      graphicsContext.setSampler(index, _sampler);
+    }
   }
 
   render() {
-  }
-
-  unapply() {
+    var scene = SpectreElement.scene;
+    var currentMaterial = scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    _update();
+    currentMaterial.applyConstant(this, true);
   }
 }

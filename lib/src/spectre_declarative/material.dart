@@ -37,6 +37,26 @@ class SpectreMaterialElement extends SpectreElement {
   final Map<String, List<SpectreMaterialConstantElement>> _constantStack = new
       Map<String, List<SpectreMaterialConstantElement>>();
 
+  ShaderProgram get shaderProgram => _shaderProgram;
+
+  void _update() {
+    var graphicsDevice = SpectreElement.graphicsDevice;
+    if (graphicsDevice == null) {
+      // Not initialized yet.
+      return;
+    }
+    _shaderProgram = getAsset('shader');
+    if (_shaderProgram == null) {
+      return;
+    }
+    if (_dState == null) {
+      _dState = new DepthState('SpectreMaterialElement', graphicsDevice);
+      _rState = new RasterizerState('SpectreMaterialElement', graphicsDevice);
+      _bState = new BlendState.alphaBlend('SpectreMaterialElement',
+                                          graphicsDevice);
+    }
+  }
+
   created() {
     super.created();
   }
@@ -50,45 +70,113 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   apply() {
+    var graphicsDevice = SpectreElement.graphicsDevice;
+    if (_shaderProgram == null) {
+      return;
+    }
+    graphicsDevice.context.setShaderProgram(_shaderProgram);
+    graphicsDevice.context.setDepthState(_dState);
+    graphicsDevice.context.setRasterizerState(_rState);
+    graphicsDevice.context.setBlendState(_bState);
   }
 
   render() {
+    var scene = SpectreElement.scene;
+    _update();
+    if (_shaderProgram == null) {
+      return;
+    }
+    scene.pushMaterial(this);
+    _updateCameraConstants(scene.currentCamera);
+    renderChildren();
+    _unapplyConstants();
+    scene.popMaterial();
   }
 
-  unapply() {
-  }
-
-  _applyConstant(SpectreMaterialConstantElement constant,
-                 bool updateStack) {
+  void applyConstant(SpectreMaterialConstantElement constant,
+                     bool updateStack) {
     String name = constant.name;
+    if (name == null) {
+      return;
+    }
     constant.apply();
     if (updateStack) {
-      _constantStack[name].add(constant);
+      var l = _constantStack[name];
+      if (l == null) {
+        l = new List<SpectreMaterialConstantElement>();
+        _constantStack[name] = l;
+      }
+      l.add(constant);
     }
   }
 
-  _unapplyConstant(SpectreMaterialConstantElement constant) {
+  void unapplyConstant(SpectreMaterialConstantElement constant) {
     String name = constant.name;
+    if (name == null) {
+      return;
+    }
     var stack = _constantStack[name];
     assert(stack != null);
-    assert(constant == stack.last);
+    if (stack.length == 0) {
+      print('stack was empty for $name');
+      return;
+    }
+    assert(constant.name == stack.last.name);
     stack.removeLast();
+    if (stack.length == 0) {
+      return;
+    }
     var o = stack.last;
     if (o != null) {
       // Set to old value, do not update stack.
-      _applyConstant(o, false);
+      applyConstant(o, false);
     }
   }
 
   _applyConstants() {
     var l = queryAll('s-material-constant');
     // Apply all constants, update stack.
-    l.forEach((e) => _applyConstant(e.xtag, true));
+    l.forEach((e) => applyConstant(e.xtag, true));
   }
 
   _unapplyConstants() {
     var l = queryAll('s-material-constant');
     // Unapply constants in revers order.
-    l.reversed.forEach((e) => _unapplyConstant(e.xtag));
+    l.reversed.forEach((e) => unapplyConstant(e.xtag));
+  }
+
+  void _updateCameraConstants(Camera camera) {
+    var graphicsContext = SpectreElement.graphicsContext;
+    Matrix4 projectionMatrix = camera.projectionMatrix;
+    Matrix4 viewMatrix = camera.viewMatrix;
+    Matrix4 projectionViewMatrix = camera.projectionMatrix;
+    projectionViewMatrix.multiply(viewMatrix);
+    Matrix4 viewRotationMatrix = makeViewMatrix(new Vector3.zero(),
+                                             camera.frontDirection,
+                                             new Vector3(0.0, 1.0, 0.0));
+    Matrix4 projectionViewRotationMatrix = camera.projectionMatrix;
+    projectionViewRotationMatrix.multiply(viewRotationMatrix);
+    ShaderProgram shader = graphicsContext.shaderProgram;
+    ShaderProgramUniform uniform;
+    uniform = shader.uniforms['cameraView'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, viewMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjection'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjectionView'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionViewMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraViewRotation'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, viewRotationMatrix.storage);
+    }
+    uniform = shader.uniforms['cameraProjectionViewRotation'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, projectionViewRotationMatrix.storage);
+    }
   }
 }

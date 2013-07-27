@@ -58,7 +58,4 @@ class SpectreCameraElement extends SpectreElement {
 
   void render() {
   }
-
-  void unapply() {
-  }
 }

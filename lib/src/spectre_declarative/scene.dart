@@ -35,16 +35,40 @@ class SpectreSceneElement extends SpectreElement {
   final List<SpectreMaterialElement> _materialStack =
       new List<SpectreMaterialElement>();
 
-  created() {
+  void created() {
     super.created();
   }
 
-  inserted() {
+  void inserted() {
     super.inserted();
   }
 
-  removed() {
+  void removed() {
     super.removed();
+  }
+
+  void pushMaterial(SpectreMaterialElement material) {
+    _materialStack.add(material);
+    material.apply();
+  }
+
+  void popMaterial() {
+    assert(_materialStack.length > 0);
+    _materialStack.removeLast();
+    if (_materialStack.length == 0) {
+      return;
+    }
+    var m = _materialStack.last;
+    // Reapply previous material.
+    m.apply();
+  }
+
+  SpectreMaterialElement get currentMaterial {
+    if (_materialStack.length == 0) {
+      // TODO(johnmccutchan): Provide a default material.
+      return null;
+    }
+    return _materialStack.last;
   }
 
   void pushCamera(Camera C) {
