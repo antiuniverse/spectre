@@ -20,7 +20,15 @@
 
 library spectre_declarative_model;
 
-import 'package:polymer/polymer.dart';
+import 'dart:json' as JSON;
 
-class SpectreModelElement extends PolymerElement {
+import 'package:polymer/polymer.dart';
+import 'package:spectre/spectre.dart';
+import 'package:vector_math/vector_math.dart';
+
+import 'package:spectre/src/spectre_declarative/spectre_element.dart';
+
+class SpectreModelElement extends SpectreElement {
+  SpectreMesh _mesh;
+  InputLayout _inputLayout;
 }
