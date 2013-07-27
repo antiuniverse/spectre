@@ -82,4 +82,21 @@ class SpectreElement extends PolymerElement {
     }
     return l;
   }
+
+  void created() {
+    super.created();
+  }
+
+  void inserted() {
+    super.inserted();
+  }
+
+  void removed() {
+    super.removed();
+  }
+
+  void attributeChanged(String name, String oldValue, String newValue) {
+    super.attributeChanged(name, oldValue, newValue);
+    print('$name changed from $oldValue to $newValue');
+  }
 }

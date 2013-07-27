@@ -31,7 +31,15 @@ class SpectreLinePrimitiveElement extends SpectreElement {
   final Vector3 _a = new Vector3.zero();
   final Vector3 _b = new Vector3.zero();
   final Vector3 _c = new Vector3.zero();
+  double _radius = 0.0;
+  double _angleA = 0.0;
+  double _angleB = 0.0;
   bool _depthEnabled = true;
+
+  void inserted() {
+    super.inserted();
+    update();
+  }
 
   void _updateColor() {
     if (!parseVector4('color', _color)) {
@@ -42,22 +50,21 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     }
   }
 
-  void _updateDepthEnabled() {
-    _depthEnabled = attributes['depthless'] == null;
-  }
-
-  void _dispatchSphere(ddm) {
+  void _updateSphere() {
     if (!parseVector3('center', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
       _a[2] = 0.0;
     }
-    double radius = parseDouble('radius', 1.0);
-    ddm.addSphere(_a, radius, _color, duration: 0.0,
+    _radius = parseDouble('radius', 1.0);
+  }
+
+  void _dispatchSphere(ddm) {
+    ddm.addSphere(_a, _radius, _color, duration: 0.0,
                   depthEnabled: _depthEnabled);
   }
 
-  void _dispatchLine(ddm) {
+  void _updateLine() {
     if (!parseVector3('start', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -68,22 +75,27 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 1.0;
       _b[2] = 1.0;
     }
+  }
+
+  void _dispatchLine(ddm) {
     ddm.addLine(_a, _b, _color, duration: 0.0, depthEnabled: _depthEnabled);
   }
 
-
-  void _dispatchCross(ddm) {
+  void _updateCross() {
     if (!parseVector3('center', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
       _a[2] = 0.0;
     }
-    double size = parseDouble('radius', 1.0);
-    ddm.addCross(_a, _color, size: size, duration: 0.0,
+    _radius = parseDouble('radius', 1.0);
+  }
+
+  void _dispatchCross(ddm) {
+    ddm.addCross(_a, _color, size: _radius, duration: 0.0,
                  depthEnabled: _depthEnabled);
   }
 
-  void _dispatchPlane(ddm) {
+  void _updatePlane() {
     if (!parseVector3('normal', _a)) {
       _a[0] = 1.0;
       _a[1] = 0.0;
@@ -94,11 +106,14 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 0.0;
       _b[2] = 0.0;
     }
-    double size = parseDouble('size', 1.0);
-    ddm.addPlane(_a, _b, size, _color, duration: 0.0, depthEnabled: _depthEnabled);
+    _radius = parseDouble('size', 1.0);
   }
 
-  void _dispatchCone(ddm) {
+  void _dispatchPlane(ddm) {
+    ddm.addPlane(_a, _b, _radius, _color, duration: 0.0, depthEnabled: _depthEnabled);
+  }
+
+  void _updateCone() {
     if (!parseVector3('apex', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -109,13 +124,16 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 0.0;
       _b[2] = 0.0;
     }
-    double height = parseDouble('height', 1.0);
-    double angle = parseDouble('angle', 0.785398163);
-    ddm.addCone(_a, _b, height, angle, _color, duration: 0.0,
+    _radius = parseDouble('height', 1.0);
+    _angleA = parseDouble('angle', 0.785398163);
+  }
+
+  void _dispatchCone(ddm) {
+    ddm.addCone(_a, _b, _radius, _angleA, _color, duration: 0.0,
                 depthEnabled: _depthEnabled);
   }
 
-  void _dispatchArc(ddm) {
+  void _updateArc() {
     if (!parseVector3('center', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -126,14 +144,18 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 0.0;
       _b[2] = 0.0;
     }
-    double radius = parseDouble('radius', 1.0);
-    double startAngle = parseDouble('startAngle', 0.0);
-    double endAngle = parseDouble('endAngle', 0.785398163);
-    ddm.addArc(_a, _b, radius, startAngle, endAngle, _color, duration: 0.0,
+    _radius = parseDouble('radius', 1.0);
+    _angleA = parseDouble('startAngle', 0.0);
+    _angleB = parseDouble('endAngle', 0.785398163);
+  }
+
+  void _dispatchArc(ddm) {
+
+    ddm.addArc(_a, _b, _radius, _angleA, _angleB, _color, duration: 0.0,
                depthEnabled: _depthEnabled);
   }
 
-  void _dispatchCircle(ddm) {
+  void _updateCircle() {
     if (!parseVector3('center', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -144,12 +166,15 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 0.0;
       _b[2] = 0.0;
     }
-    double radius = parseDouble('radius', 1.0);
-    ddm.addCircle(_a, _b, radius, _color, duration: 0.0,
+    _radius = parseDouble('radius', 1.0);
+  }
+
+  void _dispatchCircle(ddm) {
+    ddm.addCircle(_a, _b, _radius, _color, duration: 0.0,
                   depthEnabled: _depthEnabled);
   }
 
-  void _dispatchAABB(ddm) {
+  void _updateAabb() {
     if (!parseVector3('min', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -160,10 +185,13 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _b[1] = 1.0;
       _b[2] = 1.0;
     }
+  }
+
+  void _dispatchAabb(ddm) {
     ddm.addAABB(_a, _b, _color, duration: 0.0, depthEnabled: _depthEnabled);
   }
 
-  void _dispatchTriangle(ddm) {
+  void _updateTriangle() {
     if (!parseVector3('a', _a)) {
       _a[0] = 0.0;
       _a[1] = 0.0;
@@ -179,19 +207,18 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       _c[1] = 1.0;
       _c[2] = 0.0;
     }
+  }
+
+  void _dispatchTriangle(ddm) {
     ddm.addTriangle(_a, _b, _c, _color, duration: 0.0,
                     depthEnabled: _depthEnabled);
   }
-  /*void addAxes(Matrix4 xform, num size,
-               {num duration: 0.0, bool depthEnabled: true}) {
-   */
+
   void dispatch(DebugDrawManager ddm) {
     String t = attributes['type'];
     if (t == null) {
       return;
     }
-    _updateColor();
-    //_updateDepthEnabled();
     switch (t) {
       case 'sphere':
         _dispatchSphere(ddm);
@@ -215,10 +242,47 @@ class SpectreLinePrimitiveElement extends SpectreElement {
         _dispatchCircle(ddm);
       break;
       case 'aabb':
-        _dispatchAABB(ddm);
+        _dispatchAabb(ddm);
       break;
       case 'triangle':
         _dispatchTriangle(ddm);
+      break;
+    }
+  }
+
+  void update() {
+    String t = attributes['type'];
+    if (t == null) {
+      return;
+    }
+    _updateColor();
+    switch (t) {
+      case 'sphere':
+        _updateSphere();
+      break;
+      case 'line':
+        _updateLine();
+      break;
+      case 'cross':
+        _updateCross();
+      break;
+      case 'plane':
+        _updatePlane();
+      break;
+      case 'cone':
+        _updateCone();
+      break;
+      case 'arc':
+        _updateArc();
+      break;
+      case 'circle':
+        _updateCircle();
+      break;
+      case 'aabb':
+        _updateAabb();
+      break;
+      case 'triangle':
+        _updateTriangle();
       break;
     }
   }

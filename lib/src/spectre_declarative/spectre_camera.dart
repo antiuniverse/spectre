@@ -21,6 +21,7 @@
 library spectre_declarative_camera;
 
 import 'package:polymer/polymer.dart';
+import 'package:spectre/src/spectre_declarative/spectre_element.dart';
 
-class SpectreCameraElement extends PolymerElement {
+class SpectreCameraElement extends SpectreElement {
 }

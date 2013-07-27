@@ -27,15 +27,20 @@ import 'dart:typed_data';
 
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
+
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_asset_pack.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:vector_math/vector_math.dart';
 
+import 'package:observe/observe.dart';
 import 'package:polymer/polymer.dart' as polymer;
+import 'package:mdv/mdv.dart' as mdv;
 
 void main() {
+  mdv.initialize();
+
   polymer.setScopedCss('s-camera', {"s-camera":"[is=\"s-camera\"]"});
   polymer.registerPolymerElement('s-camera', () => new SpectreCameraElement());
   polymer.setScopedCss('s-layer', {"s-layer":"[is=\"s-layer\"]"});
@@ -52,6 +57,7 @@ void main() {
   polymer.registerPolymerElement('s-scene', () => new SpectreSceneElement());
   polymer.setScopedCss('s-transform', {"s-transform":"[is=\"s-transform\"]"});
   polymer.registerPolymerElement('s-transform', () => new SpectreTransformElement());
+
 
   var example = new DeclarativeExample(query('#backBuffer'));
   example.gameLoop.pointerLock.lockOnClick = true;

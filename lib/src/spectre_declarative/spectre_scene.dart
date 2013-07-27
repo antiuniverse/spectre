@@ -21,6 +21,7 @@
 library spectre_declarative_scene;
 
 import 'package:polymer/polymer.dart';
+import 'package:spectre/src/spectre_declarative/spectre_element.dart';
 
-class SpectreSceneElement extends PolymerElement {
+class SpectreSceneElement extends SpectreElement {
 }

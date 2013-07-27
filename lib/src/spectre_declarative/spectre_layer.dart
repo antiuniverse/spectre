@@ -21,6 +21,7 @@
 library spectre_declarative_layer;
 
 import 'package:polymer/polymer.dart';
+import 'package:spectre/src/spectre_declarative/spectre_element.dart';
 
-class SpectreLayerElement extends PolymerElement {
+class SpectreLayerElement extends SpectreElement {
 }
