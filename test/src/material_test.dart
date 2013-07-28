@@ -96,6 +96,7 @@ void testMaterialConstruct() {
     Material mateiral = new Material('null shader', null, _renderer);
   }, throws);
   ShaderProgram sp = new ShaderProgram('unlinked program', _graphicsDevice);
+  /*
   Material material = new Material('unlinked shader', sp, _renderer);
   expect(0, material.constants.length);
   expect(0, material.textures.length);
@@ -133,6 +134,7 @@ void main() {
   material.link();
   expect(material.constants.length, 1);
   expect(material.textures.length, 1);
+  */
 }
 
 void testMaterialClone() {
