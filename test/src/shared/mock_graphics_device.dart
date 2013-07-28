@@ -28,7 +28,8 @@ import 'package:spectre/spectre.dart';
 import 'mock_webgl_rendering_context.dart';
 
 /// Mock implementation of [GraphicsDeviceCapabilities].
-class MockGraphicsDeviceCapabilities extends Mock implements GraphicsDeviceCapabilities {
+class MockGraphicsDeviceCapabilities extends Mock
+    implements GraphicsDeviceCapabilities {
   /// Creates an instance of [MockGraphicsDeviceCapabilities].
   ///
   /// The value [hasExtensions] is used to turn on/off all extensions.
@@ -48,16 +49,16 @@ class MockGraphicsDevice extends Mock implements GraphicsDevice {
   /// Initializes an instance of [MockGraphicsDevice].
   ///
   /// Allows the [WebGLRenderingContext] to be explictly set. This would be
-  /// used to pass in a [MockWebGLRenderingContext] that can later be queried for
-  /// information.
+  /// used to pass in a [MockWebGLRenderingContext] that can later be queried
+  /// for information.
   MockGraphicsDevice(WebGL.RenderingContext gl, [hasExtensions = true])
     : _gl = gl
     , _capabilities = new MockGraphicsDeviceCapabilities(hasExtensions);
 
   /// Initializes an instance of [MockGraphicsDevice].
   ///
-  /// Creates an instance using [MockWebGLRenderingContext] and [MockGraphicsDeviceCapabilities]
-  /// with all extensions enabled.
+  /// Creates an instance using [MockWebGLRenderingContext] and
+  /// [MockGraphicsDeviceCapabilities] with all extensions enabled.
   MockGraphicsDevice.useMock()
     : _gl = new MockWebGLRenderingContext()
     , _capabilities = new MockGraphicsDeviceCapabilities(true);
