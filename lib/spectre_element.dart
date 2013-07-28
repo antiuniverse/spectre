@@ -83,6 +83,20 @@ abstract class SpectreElement extends PolymerElement {
     return l;
   }
 
+  bool parseBool(String attributeName, bool b) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return b;
+    }
+    bool l;
+    try {
+      l = JSON.parse(a);
+    } catch (e) {
+      return b;
+    }
+    return l;
+  }
+
   void created() {
     super.created();
     //print('created $this');

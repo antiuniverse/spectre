@@ -113,6 +113,9 @@ class SpectreMaterialConstantElement extends SpectreElement {
     if (currentMaterial == null) {
       return;
     }
+    _isSampler = false;
+    _isUniform = false;
+    _index = null;
     if (_isRasterizerConstant(name)) {
       _updateRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
@@ -157,93 +160,195 @@ class SpectreMaterialConstantElement extends SpectreElement {
   void _applyRasterizerConstant(String name) {
     assert(inited);
     assert(_isRasterizerConstant(name));
+    if (value == null) {
+      // No value set.
+      return;
+    }
+    var currentMaterial = DeclarativeState.scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    var graphicsContext = DeclarativeState.graphicsContext;
+    switch (name) {
+      case 'cullMode':
+        currentMaterial.rasterizerState.cullMode = value;
+        break;
+      case 'frontFace':
+        currentMaterial.rasterizerState.frontFace = value;
+        break;
+      case 'depthBias':
+        currentMaterial.rasterizerState.depthBias = value;
+        break;
+      case 'slopeScaleDepthBias':
+        currentMaterial.rasterizerState.slopeScaleDepthBias = value;
+        break;
+      case 'scissorTestEnabled':
+        currentMaterial.rasterizerState.scissorTestEnabled = value;
+        break;
+    }
+    graphicsContext.setRasterizerState(currentMaterial.rasterizerState);
   }
 
   void _updateRasterizerConstant(String name) {
     assert(inited);
     assert(_isRasterizerConstant(name));
-    var currentMaterial = DeclarativeState.scene.currentMaterial;
-    if (currentMaterial == null) {
-      return;
-    }
     switch (name) {
       case 'cullMode':
+        value = CullMode.parse(attributes['value']);
         break;
       case 'frontFace':
+        value = FrontFace.parse(attributes['value']);
         break;
       case 'depthBias':
-        break;
       case 'slopeScaleDepthBias':
+        value = parseDouble('value', 0.0);
         break;
       case 'scissorTestEnabled':
+        value = parseBool('value', false);
         break;
     }
   }
 
   void _applyDepthConstant(String name) {
     assert(inited);
-    assert(_isRasterizerConstant(name));
+    assert(_isDepthConstant(name));
+    if (value == null) {
+      // No value set.
+      return;
+    }
+    var currentMaterial = DeclarativeState.scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    var graphicsContext = DeclarativeState.graphicsContext;
+    switch (name) {
+      case 'depthBufferEnabled':
+        currentMaterial.depthState.depthBufferEnabled = value;
+        break;
+      case 'depthBufferWriteEnabled':
+        currentMaterial.depthState.depthBufferWriteEnabled = value;
+        break;
+      case 'depthBufferFunction':
+        currentMaterial.depthState.depthBufferFunction = value;
+        break;
+    }
+    graphicsContext.setDepthState(currentMaterial.depthState);
   }
 
   void _updateDepthConstant(String name) {
     assert(inited);
     assert(_isDepthConstant(name));
-    var currentMaterial = DeclarativeState.scene.currentMaterial;
-    if (currentMaterial == null) {
-      return;
-    }
     switch (name) {
       case 'depthBufferEnabled':
+        value = parseBool('value', true);
         break;
       case 'depthBufferWriteEnabled':
+        value = parseBool('value', true);
         break;
       case 'depthBufferFunction':
+        value = CompareFunction.parse(attributes['value']);
         break;
     }
   }
 
   void _applyBlendConstant(String name) {
     assert(inited);
-    assert(_isRasterizerConstant(name));
+    assert(_isBlendConstant(name));
+    if (value == null) {
+      // No value set.
+      return;
+    }
+    var currentMaterial = DeclarativeState.scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    var graphicsContext = DeclarativeState.graphicsContext;
+    switch (name) {
+      case 'enabled':
+        currentMaterial.blendState.enabled = value;
+        break;
+      case 'blendFactorRed':
+        currentMaterial.blendState.blendFactorRed = value;
+        break;
+      case 'blendFactorGreen':
+        currentMaterial.blendState.blendFactorGreen = value;
+        break;
+      case 'blendFactorBlue':
+        currentMaterial.blendState.blendFactorBlue = value;
+        break;
+      case 'blendFactorAlpha':
+        currentMaterial.blendState.blendFactorAlpha = value;
+        break;
+      case 'alphaBlendOperation':
+        currentMaterial.blendState.alphaBlendOperation = value;
+        break;
+      case 'alphaDestination':
+        currentMaterial.blendState.alphaDestination = value;
+        break;
+      case 'alphaSourceBlend':
+        currentMaterial.blendState.alphaSourceBlend = value;
+        break;
+      case 'colorBlendOperation':
+        currentMaterial.blendState.colorBlendOperation = value;
+        break;
+      case 'colorDestinationBlend':
+        currentMaterial.blendState.colorDestinationBlend = value;
+        break;
+      case 'colorSourceBlend':
+        currentMaterial.blendState.colorSourceBlend = value;
+        break;
+      case 'writeRenderTargetRed':
+        currentMaterial.blendState.writeRenderTargetRed = value;
+        break;
+      case 'writeRenderTargetGreen':
+        currentMaterial.blendState.writeRenderTargetGreen = value;
+        break;
+      case 'writeRenderTargetBlue':
+        currentMaterial.blendState.writeRenderTargetBlue = value;
+        break;
+      case 'writeRenderTargetAlpha':
+        currentMaterial.blendState.writeRenderTargetAlpha = value;
+        break;
+    }
+    graphicsContext.setBlendState(currentMaterial.blendState);
   }
 
   void _updateBlendConstant(String name) {
     assert(inited);
     assert(_isBlendConstant(name));
-    var currentMaterial = DeclarativeState.scene.currentMaterial;
-    if (currentMaterial == null) {
-      return;
-    }
     switch (name) {
       case 'enabled':
+        value = parseBool('value', true);
         break;
       case 'blendFactorRed':
-        break;
       case 'blendFactorGreen':
-        break;
       case 'blendFactorBlue':
-        break;
       case 'blendFactorAlpha':
+        value = parseDouble('value', 1.0);
         break;
       case 'alphaBlendOperation':
+        value = BlendOperation.parse(attributes['value']);
         break;
       case 'alphaDestination':
+        value = Blend.parse(attributes['value']);
         break;
       case 'alphaSourceBlend':
+        value = Blend.parse(attributes['value']);
         break;
       case 'colorBlendOperation':
+        value = BlendOperation.parse(attributes['value']);
         break;
       case 'colorDestinationBlend':
+        value = Blend.parse(attributes['value']);
         break;
       case 'colorSourceBlend':
+        value = Blend.parse(attributes['value']);
         break;
       case 'writeRenderTargetRed':
-        break;
       case 'writeRenderTargetGreen':
-        break;
       case 'writeRenderTargetBlue':
-        break;
       case 'writeRenderTargetAlpha':
+        value = parseBool('value', true);
         break;
     }
   }

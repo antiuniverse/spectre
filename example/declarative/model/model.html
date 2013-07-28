@@ -77,9 +77,17 @@
       <s-model mesh="assetpack://base.unitCube">
         <s-material-constant name="diffuse" texture="assetpack://base.brick"></s-material-constant>
       </s-model>
+      <s-transform translate="[0.0, 0.0, 5.0]">
+        <s-model mesh="assetpack://base.unitCube">
+          <s-material-constant name="diffuse" texture="assetpack://base.brick"></s-material-constant>
+          <s-material-constant name="depthBufferEnabled" value="false"></s-material-constant>
+        </s-model>
+      </s-transform>
+      <s-transform translate="[0.0, 0.0, 7.0]">
+        <s-model mesh="assetpack://base.unitCube"></s-model>
+      </s-transform>
     </s-material>
   </s-layer>
-
 </s-scene>
 </body>
 </html>
