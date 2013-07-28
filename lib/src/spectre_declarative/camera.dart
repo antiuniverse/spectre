@@ -66,8 +66,7 @@ class SpectreCameraElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    Camera camera = new Camera('SpectreCameraElement',
-                               DeclarativeState.graphicsDevice);
+    Camera camera = new Camera();
   }
 
   void apply() {

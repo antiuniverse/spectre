@@ -20,7 +20,6 @@
 
 part of spectre;
 
-class StencilState extends DeviceChild {
-  StencilState(String name, GraphicsDevice device)
-      : super._internal(name, device);
+class StencilState {
+  // TODO(johnmccutchan): Support stencil.
 }

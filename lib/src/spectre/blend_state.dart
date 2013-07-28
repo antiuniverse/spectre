@@ -22,40 +22,21 @@ part of spectre;
 
 /// BlendState controls how output from your fragment shader is blended onto
 /// the framebuffer. Set using [GraphicsContext.setBlendState].
-class BlendState extends DeviceChild {
-  //---------------------------------------------------------------------
-  // Serialization names
-  //---------------------------------------------------------------------
-
-  /// Serialization name for [enabled].
+class BlendState {
   static const String _blendEnabledName = 'enabled';
-  /// Serialization name for [blendFactorRed].
   static const String _blendFactorRedName = 'blendFactorRed';
-  /// Serialization name for [blendFactorGreen].
   static const String _blendFactorGreenName = 'blendFactorGreen';
-  /// Serialization name for [blendFactorBlue].
   static const String _blendFactorBlueName = 'blendFactorBlue';
-  /// Serialization name for [blendFactorAlpha].
   static const String _blendFactorAlphaName = 'blendFactorAlpha';
-  /// Serialization name for [alphaBlendOperation].
   static const String _alphaBlendOperationName = 'alphaBlendOperation';
-  /// Serialization name for [alphaDestinationBlend].
   static const String _alphaDestinationBlendName = 'alphaDestination';
-  /// Serialization name for [alphaSourceBlend].
   static const String _alphaSourceBlendName = 'alphaSourceBlend';
-  /// Serialization name for [colorBlendOperation].
   static const String _colorBlendOperationName = 'colorBlendOperation';
-  /// Serialization name for [colorDestinationBlend].
   static const String _colorDestinationBlendName = 'colorDestinationBlend';
-  /// Serialization name for [colorSourceBlend].
   static const String _colorSourceBlendName = 'colorSourceBlend';
-  /// Serialization name for [writeRenderTargetRed].
   static const String _writeRenderTargetRedName = 'writeRenderTargetRed';
-  /// Serialization name for [writeRenderTargetGreen].
   static const String _writeRenderTargetGreenName = 'writeRenderTargetGreen';
-  /// Serialization name for [writeRenderTargetBlue].
   static const String _writeRenderTargetBlueName = 'writeRenderTargetBlue';
-  /// Serialization name for [writeRenderTargetAlpha].
   static const String _writeRenderTargetAlphaName = 'writeRenderTargetAlpha';
 
   //---------------------------------------------------------------------
@@ -108,47 +89,42 @@ class BlendState extends DeviceChild {
   //---------------------------------------------------------------------
 
   /// Creates an instance of the BlendState class with default values.
-  BlendState(String name, GraphicsDevice device)
-    : super._internal(name, device);
+  BlendState();
 
   /// Initializes an instance of the BlendState class with settings for
   /// additive blend. This adds the destination data to the source data without
   /// using alpha.
-  BlendState.additive(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _alphaDestinationBlend = Blend.One
-    , _alphaSourceBlend = Blend.SourceAlpha
-    , _colorDestinationBlend = Blend.One
-    , _colorSourceBlend = Blend.SourceAlpha;
+  BlendState.additive()
+      : _alphaDestinationBlend = Blend.One,
+        _alphaSourceBlend = Blend.SourceAlpha,
+        _colorDestinationBlend = Blend.One,
+        _colorSourceBlend = Blend.SourceAlpha;
 
   /// Initializes an intance of the BlendState class with settings for alpha
   /// blend. This blends the source and destination data using alpha.
-  BlendState.alphaBlend(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _alphaDestinationBlend = Blend.InverseSourceAlpha
-    , _alphaSourceBlend = Blend.One
-    , _colorDestinationBlend = Blend.InverseSourceAlpha
-    , _colorSourceBlend = Blend.One;
+  BlendState.alphaBlend()
+      : _alphaDestinationBlend = Blend.InverseSourceAlpha,
+        _alphaSourceBlend = Blend.One,
+        _colorDestinationBlend = Blend.InverseSourceAlpha,
+        _colorSourceBlend = Blend.One;
 
   /// Initializes an instance of the BlendState class with settings for blending
   /// with non-premultipled alpha. This blends source and destination data by
   /// using alpha while assuming the color data contains no alpha information.
-  BlendState.nonPremultiplied(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _alphaDestinationBlend = Blend.InverseSourceAlpha
-    , _alphaSourceBlend = Blend.SourceAlpha
-    , _colorDestinationBlend = Blend.InverseSourceAlpha
-    , _colorSourceBlend = Blend.SourceAlpha;
+  BlendState.nonPremultiplied()
+      : _alphaDestinationBlend = Blend.InverseSourceAlpha,
+        _alphaSourceBlend = Blend.SourceAlpha,
+        _colorDestinationBlend = Blend.InverseSourceAlpha,
+        _colorSourceBlend = Blend.SourceAlpha;
 
   /// Initializes an instance of the BlendState class with settings for opaque
   /// blend. This overwrites the source with the destination data.
-  BlendState.opaque(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _enabled = false
-    , _alphaDestinationBlend = Blend.Zero
-    , _alphaSourceBlend = Blend.One
-    , _colorDestinationBlend = Blend.Zero
-    , _colorSourceBlend = Blend.One;
+  BlendState.opaque()
+      : _enabled = false,
+        _alphaDestinationBlend = Blend.Zero,
+        _alphaSourceBlend = Blend.One,
+        _colorDestinationBlend = Blend.Zero,
+        _colorSourceBlend = Blend.One;
 
   //---------------------------------------------------------------------
   // Properties

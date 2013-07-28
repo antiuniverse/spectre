@@ -224,7 +224,7 @@ class Application {
   /// Creates the rendering state.
   void _createRendererState() {
     // Create the Viewport
-    _viewport = new Viewport('Viewport', _graphicsDevice);
+    _viewport = new Viewport();
 
     // Create the BlendState
     //
@@ -232,7 +232,7 @@ class Application {
     // have alpha values. If there is no alpha blending then it should be turned
     // off. Enabling blending when there is no alpha values to blend causes the
     // graphics hardware to do work that isn't required.
-    _blendState = new BlendState.alphaBlend('BlendState', _graphicsDevice);
+    _blendState = new BlendState.alphaBlend();
 
     // Create the SamplerState
     //
@@ -242,7 +242,8 @@ class Application {
     //
     // The ShaderProgram being used takes three textures, so create a list
     // containing the same SamplerState at all three locations.
-    _samplerState = new SamplerState.linearClamp('SamplerState', _graphicsDevice);
+    _samplerState = new SamplerState.linearClamp('SamplerState',
+                                                 _graphicsDevice);
     _samplers = [_samplerState, _samplerState, _samplerState];
 
     // By default the rendering pipeline has the depth buffer enabled and

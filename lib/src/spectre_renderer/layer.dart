@@ -88,9 +88,9 @@ abstract class Layer {
     if (_clearBlendState != null) {
       return;
     }
-    _clearDepthState = new DepthState('Layer._clearDepthState', device);
+    _clearDepthState = new DepthState();
     _clearDepthState.depthBufferWriteEnabled = true;
-    _clearBlendState = new BlendState('Layer._clearBlendState', device);
+    _clearBlendState = new BlendState();
     _clearBlendState.writeRenderTargetRed = true;
     _clearBlendState.writeRenderTargetGreen = true;
     _clearBlendState.writeRenderTargetBlue = true;

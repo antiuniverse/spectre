@@ -22,21 +22,10 @@ part of spectre;
 
 /// Contains depth state for the device.
 /// Set using [GraphicsContext.setDepthState]
-class DepthState extends DeviceChild {
-  //---------------------------------------------------------------------
-  // Serialization names
-  //---------------------------------------------------------------------
-
-  /// Serialization name for [depthBufferEnabled].
+class DepthState {
   static const String _depthBufferEnabledName = 'depthBufferEnabled';
-  /// Serialization name for [depthBufferWriteEnabled].
   static const String _depthBufferWriteEnabledName = 'depthBufferWriteEnabled';
-  /// Serialization name for [depthBufferFunction].
   static const String _depthBufferFunctionName = 'depthBufferFunction';
-
-  //---------------------------------------------------------------------
-  // Member variables
-  //---------------------------------------------------------------------
 
   /// Whether depth buffering is enabled or disabled.
   /// The default is true.
@@ -48,35 +37,23 @@ class DepthState extends DeviceChild {
   /// The default is CompareFunction.LessEqual
   int _depthBufferFunction = CompareFunction.LessEqual;
 
-  //---------------------------------------------------------------------
-  // Construction
-  //---------------------------------------------------------------------
-
   /// Creates an instance of [DepthState] with default values.
-  DepthState(String name, GraphicsDevice device)
-    : super._internal(name, device);
+  DepthState();
 
   /// Creates an instance of [DepthState] that writes to the depth buffer.
-  DepthState.depthWrite(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _depthBufferEnabled = false
-    , _depthBufferWriteEnabled = true;
+  DepthState.depthWrite()
+    : _depthBufferEnabled = false,
+      _depthBufferWriteEnabled = true;
 
   /// Creates an instance of [DepthState] that does depth checks.
-  DepthState.depthRead(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _depthBufferEnabled = true
-    , _depthBufferWriteEnabled = false;
+  DepthState.depthRead()
+      : _depthBufferEnabled = true,
+        _depthBufferWriteEnabled = false;
 
   /// Creates an instance of [DepthState] which doesn't use a depth buffer.
-  DepthState.none(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _depthBufferEnabled = false
-    , _depthBufferWriteEnabled = false;
-
-  //---------------------------------------------------------------------
-  // Properties
-  //---------------------------------------------------------------------
+  DepthState.none()
+      : _depthBufferEnabled = false,
+        _depthBufferWriteEnabled = false;
 
   /// Whether depth buffering is enabled or disabled.
   /// The default is true.
@@ -99,11 +76,7 @@ class DepthState extends DeviceChild {
     _depthBufferFunction = value;
   }
 
-  //---------------------------------------------------------------------
-  // Serialization
-  //---------------------------------------------------------------------
-
-  /// Serializes the [BlendState] to a JSON.
+  /// Serializes the [DepthState] to a JSON.
   dynamic toJson() {
     Map json = new Map();
 
@@ -115,7 +88,7 @@ class DepthState extends DeviceChild {
     return json;
   }
 
-  /// Deserializes the [BlendState] from a JSON.
+  /// Deserializes the [DepthState] from a JSON.
   void fromJson(Map values) {
     assert(values != null);
 

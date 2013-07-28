@@ -48,7 +48,7 @@ void verifyInitialPipelineState(GraphicsDevice graphicsDevice, MockWebGLRenderin
 //---------------------------------------------------------------------
 
 int verifyInitialViewport(GraphicsDevice graphicsDevice, MockWebGLRenderingContext gl) {
-  Viewport viewport = new Viewport('Viewport', graphicsDevice);
+  Viewport viewport = new Viewport();
 
   // Make sure initial Viewport was used
   gl.getLogs(callsTo('viewport')).verify(happenedOnce);
@@ -83,7 +83,7 @@ void copyBlendState(BlendState original, BlendState copy) {
 }
 
 int verifyInitialBlendState(GraphicsDevice graphicsDevice, MockWebGLRenderingContext gl) {
-  BlendState blendState = new BlendState.opaque('InitialBlendState', graphicsDevice);
+  BlendState blendState = new BlendState.opaque();
 
   // Make sure BlendState.opaque was used
   gl.getLogs(callsTo('disable', WebGL.BLEND)).verify(happenedOnce);
@@ -256,7 +256,7 @@ void testBlendStateTransitions(bool blendEnabled) {
   gl.clearLogs();
 
   // Create the initial blend state
-  BlendState blendState = new BlendState('BlendState', graphicsDevice);
+  BlendState blendState = new BlendState();
 
   blendState.enabled = blendEnabled;
   blendState.alphaBlendOperation = BlendOperation.ReverseSubtract;
@@ -298,7 +298,7 @@ void testBlendStateTransitions(bool blendEnabled) {
   gl.clearLogs();
 
   // Create another BlendState to provide a comparison
-  BlendState blendStateLast = new BlendState('BlendStateLast', graphicsDevice);
+  BlendState blendStateLast = new BlendState();
   copyBlendState(blendState, blendStateLast);
 
   // Set the same state values again
@@ -410,7 +410,7 @@ void copyDepthState(DepthState original, DepthState copy) {
 }
 
 int verifyInitialDepthState(GraphicsDevice graphicsDevice, MockWebGLRenderingContext gl) {
-  DepthState depthState = new DepthState.depthWrite('InitialDepthState', graphicsDevice);
+  DepthState depthState = new DepthState.depthWrite();
 
   // Make sure DepthState.cullClockwise was used
   gl.getLogs(callsTo('enable', WebGL.DEPTH_TEST)).verify(happenedOnce);
@@ -473,7 +473,7 @@ void testDepthStateTransitions(bool depthBufferEnabled) {
   gl.clearLogs();
 
   // Create the initial depth state
-  DepthState depthState = new DepthState('DepthState', graphicsDevice);
+  DepthState depthState = new DepthState();
 
   depthState.depthBufferEnabled = depthBufferEnabled;
   depthState.depthBufferWriteEnabled = false;
@@ -501,7 +501,7 @@ void testDepthStateTransitions(bool depthBufferEnabled) {
   gl.clearLogs();
 
   // Create another RasterizerState to provide a comparison
-  DepthState depthStateLast = new DepthState('DepthStateLast', graphicsDevice);
+  DepthState depthStateLast = new DepthState();
   copyDepthState(depthState, depthStateLast);
 
   // Set the same state values again
@@ -547,7 +547,7 @@ void copyRasterizerState(RasterizerState original, RasterizerState copy) {
 }
 
 int verifyInitialRasterizerState(GraphicsDevice graphicsDevice, MockWebGLRenderingContext gl) {
-  RasterizerState rasterizerState = new RasterizerState.cullClockwise('InitialRasterizerState', graphicsDevice);
+  RasterizerState rasterizerState = new RasterizerState.cullClockwise();
 
   // Make sure RasterizerState.cullClockwise was used
   gl.getLogs(callsTo('enable', WebGL.CULL_FACE)).verify(happenedOnce);
@@ -650,7 +650,7 @@ void testRasterizerStateTransitions(bool cullEnabled) {
   gl.clearLogs();
 
   // Create the initial rasterizer state
-  RasterizerState rasterizerState = new RasterizerState('RasterizerState', graphicsDevice);
+  RasterizerState rasterizerState = new RasterizerState();
 
   rasterizerState.cullMode = (cullEnabled) ? CullMode.Front : CullMode.None;
   rasterizerState.frontFace = FrontFace.Clockwise;
@@ -685,7 +685,7 @@ void testRasterizerStateTransitions(bool cullEnabled) {
   gl.clearLogs();
 
   // Create another RasterizerState to provide a comparison
-  RasterizerState rasterizerStateLast = new RasterizerState('RasterizerStateLast', graphicsDevice);
+  RasterizerState rasterizerStateLast = new RasterizerState();
   copyRasterizerState(rasterizerState, rasterizerStateLast);
 
   // Set the same state values again

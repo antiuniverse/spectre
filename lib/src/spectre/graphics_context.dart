@@ -95,13 +95,13 @@ class GraphicsContext {
   /// Creates all the default state values and applies them to the pipeline.
   void _initializeState() {
     // Viewport setup
-    _viewport = new Viewport('ViewportDefault', device);
+    _viewport = new Viewport();
     device.gl.viewport(_viewport.x, _viewport.y, _viewport.width,
                       _viewport.height);
     device.gl.depthRange(_viewport.minDepth, _viewport.maxDepth);
     // BlendState setup
-    _blendStateDefault = new BlendState.opaque('BlendStateDefault', device);
-    _blendState = new BlendState.opaque('CurrentBlendState', device);
+    _blendStateDefault = new BlendState.opaque();
+    _blendState = new BlendState.opaque();
     device.gl.disable(WebGL.BLEND);
     device.gl.blendFuncSeparate(_blendState.colorSourceBlend,
                                 _blendState.colorDestinationBlend,
@@ -118,16 +118,14 @@ class GraphicsContext {
                          _blendState.blendFactorBlue,
                          _blendState.blendFactorAlpha);
     // DepthState setup
-    _depthStateDefault = new DepthState.depthWrite('DepthStateDefault', device);
-    _depthState = new DepthState.depthWrite('CurrentDepthState', device);
+    _depthStateDefault = new DepthState.depthWrite();
+    _depthState = new DepthState.depthWrite();
     device.gl.enable(WebGL.DEPTH_TEST);
     device.gl.depthMask(_depthState.depthBufferWriteEnabled);
     device.gl.depthFunc(_depthState.depthBufferFunction);
     // RasterizerState setup
-    _rasterizerStateDefault =
-        new RasterizerState.cullClockwise('RasterizerStateDefault', device);
-    _rasterizerState =
-        new RasterizerState.cullClockwise('CurrentRasterizerState', device);
+    _rasterizerStateDefault = new RasterizerState.cullClockwise();
+    _rasterizerState = new RasterizerState.cullClockwise();
     device.gl.enable(WebGL.CULL_FACE);
     device.gl.cullFace(_rasterizerState.cullMode);
     device.gl.frontFace(_rasterizerState.frontFace);

@@ -79,9 +79,9 @@ class MaterialShader extends Disposable {
     _shader.vertexShader = new VertexShader(name, renderer.device);
     _shader.fragmentShader = new FragmentShader(name, renderer.device);
     _material = new Material(name, this, renderer);
-    _depthState = new DepthState(name, renderer.device);
-    _blendState = new BlendState(name, renderer.device);
-    _rasterizerState = new RasterizerState(name, renderer.device);
+    _depthState = new DepthState();
+    _blendState = new BlendState();
+    _rasterizerState = new RasterizerState();
   }
 
   DepthState _depthState;

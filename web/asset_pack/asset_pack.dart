@@ -113,10 +113,10 @@ void _setupSkybox() {
 
   assert(_skyboxInputLayout.ready == true);
   _skyboxSampler = new SamplerState('Skybox', _graphicsDevice);
-  _skyboxDepthState = new DepthState('Skybox', _graphicsDevice);
-  _skyboxBlendState = new BlendState('Skybox', _graphicsDevice);
+  _skyboxDepthState = new DepthState();
+  _skyboxBlendState = new BlendState();
   _skyboxBlendState.enabled = false;
-  _skyboxRasterizerState = new RasterizerState('skybox.rs', _graphicsDevice);
+  _skyboxRasterizerState = new RasterizerState();
   _skyboxRasterizerState.cullMode = CullMode.None;
 }
 
@@ -192,9 +192,9 @@ void _setupSkinnedCharacter() {
   _skinnedInputLayout = new InputLayout('skinned.il', _graphicsDevice);
   _skinnedInputLayout.mesh = _skinnedMesh;
   _skinnedInputLayout.shaderProgram = _skinnedShaderProgram;
-  _skinnedRasterizerState = new RasterizerState('skinned.rs', _graphicsDevice);
+  _skinnedRasterizerState = new RasterizerState();
   _skinnedRasterizerState.cullMode = CullMode.Back;
-  _skinnedDepthState = new DepthState('skinned.ds', _graphicsDevice);
+  _skinnedDepthState = new DepthState();
   _skinnedDepthState.depthBufferEnabled = true;
   _skinnedDepthState.depthBufferWriteEnabled = true;
   _skinnedDepthState.depthBufferFunction = CompareFunction.LessEqual;
@@ -272,7 +272,7 @@ main() {
   canvas.height = canvas.client.height;
 
   // Create the viewport
-  _viewport = new Viewport('view', _graphicsDevice);
+  _viewport = new Viewport();
   _viewport.x = 0;
   _viewport.y = 0;
   _viewport.width = canvas.width;

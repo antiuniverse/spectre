@@ -249,7 +249,7 @@ class Renderer {
     _rendererPack = assetManager.registerPack('renderer', '');
     _materialShaderPack = assetManager.registerPack('materialShaders','');
     _registerBuiltinMaterialShaders(this);
-    _frontBufferViewport = new Viewport('Renderer.Viewport', device);
+    _frontBufferViewport = new Viewport();
     _frontBufferViewport.width = frontBuffer.width;
     _frontBufferViewport.height = frontBuffer.height;
   }

@@ -28,7 +28,7 @@ import 'shared/mock_graphics_device.dart';
 GraphicsDevice _graphicsDevice;
 
 void testCompareFunctionSetter(String testName, dynamic function) {
-  DepthState depthState = new DepthState('DepthStateTest', _graphicsDevice);
+  DepthState depthState = new DepthState();
 
   test(testName, () {
     // Shouldn't throw
@@ -57,24 +57,20 @@ void main() {
   // Construction
   test('construction', () {
     // Default constructor
-    DepthState defaultState = new DepthState('DepthStateDefault', _graphicsDevice);
+    DepthState defaultState = new DepthState();
     testConstructor(defaultState, true, true);
-    expect(() { DepthState constructWithNull = new DepthState('DepthStateNull', null); }, throwsArgumentError);
 
     // DepthState.depthWrite
-    DepthState depthWrite = new DepthState.depthWrite('DepthStateDepthWrite', _graphicsDevice);
+    DepthState depthWrite = new DepthState.depthWrite();
     testConstructor(depthWrite, true, true);
-    expect(() { DepthState constructWithNull = new DepthState.depthWrite('DepthStateNull', null); }, throwsArgumentError);
 
     // DepthState.depthRead
-    DepthState depthRead = new DepthState.depthRead('DepthStateDepthRead', _graphicsDevice);
+    DepthState depthRead = new DepthState.depthRead();
     testConstructor(depthRead, true, false);
-    expect(() { DepthState constructWithNull = new DepthState.depthRead('DepthStateNull', null); }, throwsArgumentError);
 
     // DepthState.depthRead
-    DepthState none = new DepthState.none('DepthStateNone', _graphicsDevice);
+    DepthState none = new DepthState.none();
     testConstructor(none, false, false);
-    expect(() { DepthState constructWithNull = new DepthState.none('DepthStateNull', null); }, throwsArgumentError);
   });
 
   // Enumeration setters
@@ -85,8 +81,8 @@ void main() {
 
   // Equality
   test('equality', () {
-    DepthState depthState0 = new DepthState('DepthState0', _graphicsDevice);
-    DepthState depthState1 = new DepthState('DepthState1', _graphicsDevice);
+    DepthState depthState0 = new DepthState();
+    DepthState depthState1 = new DepthState();
 
     // Check equality
     expect(depthStateEqual(depthState0, depthState0), true);
@@ -111,9 +107,9 @@ void main() {
 
   // Serialization
   test('serialization', () {
-    DepthState original = new DepthState('DepthStateOriginal', _graphicsDevice);
+    DepthState original = new DepthState();
 
-    DepthState copy = new DepthState('DepthStateCopy', _graphicsDevice);
+    DepthState copy = new DepthState();
     copy.depthBufferEnabled = false;
     copy.depthBufferWriteEnabled = true;
     copy.depthBufferFunction = CompareFunction.Always;

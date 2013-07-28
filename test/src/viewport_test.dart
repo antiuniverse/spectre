@@ -28,7 +28,7 @@ import 'shared/mock_graphics_device.dart';
 GraphicsDevice _graphicsDevice;
 
 void testDimensionSetter(String testName, dynamic function) {
-  Viewport viewport = new Viewport('Viewport_$testName', _graphicsDevice);
+  Viewport viewport = new Viewport();
 
   test(testName, () {
     expect(function(viewport,    0), 0);
@@ -39,7 +39,7 @@ void testDimensionSetter(String testName, dynamic function) {
 }
 
 void testDepthRangeSetter(String testName, dynamic function) {
-  Viewport viewport = new Viewport('Viewport_$testName', _graphicsDevice);
+  Viewport viewport = new Viewport();
 
   test(testName, () {
     expect(function(viewport, 0.0), 0.0);
@@ -74,14 +74,12 @@ void main() {
   // Construction
   test('construction', () {
     // Default constructor
-    Viewport defaultViewport = new Viewport('ViewportDefault', _graphicsDevice);
+    Viewport defaultViewport = new Viewport();
     testConstructor(defaultViewport, 0, 0, 640, 480);
-    expect(() { Viewport constructWithNull = new Viewport('ViewportNull', null); }, throwsArgumentError);
 
     // Viewport.bounds
-    Viewport bounds = new Viewport.bounds('ViewportBounds', _graphicsDevice, 160, 120, 320, 240);
+    Viewport bounds = new Viewport.bounds(160, 120, 320, 240);
     testConstructor(bounds, 160, 120, 320, 240);
-    expect(() { Viewport constructWithNull = new Viewport.bounds('ViewportNull', null, 160, 120, 320, 240); }, throwsArgumentError);
   });
 
   // Dimension setters
@@ -108,8 +106,8 @@ void main() {
 
   // Equality
   test('equality', () {
-    Viewport viewport0 = new Viewport('Viewport0', _graphicsDevice);
-    Viewport viewport1 = new Viewport('Viewport1', _graphicsDevice);
+    Viewport viewport0 = new Viewport();
+    Viewport viewport1 = new Viewport();
 
     // Check identical
     expect(viewportEqual(viewport0, viewport0), true);
@@ -149,9 +147,9 @@ void main() {
 
   // Serialization
   test('serialization', () {
-    Viewport original = new Viewport('ViewportOriginal', _graphicsDevice);
+    Viewport original = new Viewport();
 
-    Viewport copy = new Viewport('ViewportCopy', _graphicsDevice);
+    Viewport copy = new Viewport();
     copy.x = 160;
     copy.y = 120;
     copy.width = 320;

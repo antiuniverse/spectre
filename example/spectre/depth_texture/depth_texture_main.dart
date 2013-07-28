@@ -53,7 +53,7 @@ class DepthTextureExample extends Example {
       }
       int offscreenWidth = 1024;
       int offscreenHeight = 1024;
-      offscreenViewport = new Viewport('offscreenViewport', graphicsDevice);
+      offscreenViewport = new Viewport();
       offscreenViewport.width = offscreenWidth;
       offscreenViewport.height = offscreenHeight;
       // Create color buffer.
@@ -85,8 +85,8 @@ class DepthTextureExample extends Example {
       model = new Model(assetManager['base.unitCube'],
                         assetManager['base.simpleShader'],
                         graphicsDevice);
-      rasterizerState = new RasterizerState('rasterizerState', graphicsDevice);
-      depthState = new DepthState('depthState', graphicsDevice);
+      rasterizerState = new RasterizerState();
+      depthState = new DepthState();
       fullscreenBlitDepthModel = new Model(fullscreenMesh,
                                       assetManager['base.blitDepthShader'],
                                       graphicsDevice);

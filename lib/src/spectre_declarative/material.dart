@@ -64,10 +64,9 @@ class SpectreMaterialElement extends SpectreElement {
     // Initialize.
     super.init();
     var graphicsDevice = DeclarativeState.graphicsDevice;
-    _dState = new DepthState('SpectreMaterialElement', graphicsDevice);
-    _rState = new RasterizerState('SpectreMaterialElement', graphicsDevice);
-    _bState = new BlendState.alphaBlend('SpectreMaterialElement',
-                                        graphicsDevice);
+    _dState = new DepthState();
+    _rState = new RasterizerState();
+    _bState = new BlendState.alphaBlend();
     _update();
   }
 

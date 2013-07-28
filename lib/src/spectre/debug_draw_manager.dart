@@ -234,9 +234,9 @@ class DebugDrawManager {
   /** Construct and initialize a DebugDrawManager. Can specify maximum
    * number of vertices with [maxVertices]. */
   DebugDrawManager(this.device, {int maxVertices: 16384}) {
-    _depthState = new DepthState('DebugDrawManager', device);
-    _blendState = new BlendState.alphaBlend('DebugDrawManager', device);
-    _rasterizerState = new RasterizerState('DebugDrawManager', device);
+    _depthState = new DepthState();
+    _blendState = new BlendState.alphaBlend();
+    _rasterizerState = new RasterizerState();
     _rasterizerState.cullMode = CullMode.None;
     _lineVertexShader = new VertexShader('DebugDrawManager', device);
     _lineFragmentShader = new FragmentShader('DebugDrawManager', device);

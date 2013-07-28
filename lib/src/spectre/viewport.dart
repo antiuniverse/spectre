@@ -23,27 +23,13 @@ part of spectre;
 /// The window dimensions of a render-target surface onto which a 3D
 /// volume projects.
 /// Set using [GraphicsContext.setViewport]
-class Viewport extends DeviceChild {
-  //---------------------------------------------------------------------
-  // Serialization names
-  //---------------------------------------------------------------------
-
-  /// Serialization name for [x].
+class Viewport {
   static const String _xName = 'x';
-  /// Serialization name for [y].
   static const String _yName = 'y';
-  /// Serialization name for [width].
   static const String _widthName = 'width';
-  /// Serialization name for [height].
   static const String _heightName = 'height';
-  /// Serialization name for [minDepth].
   static const String _minDepthName = 'minDepth';
-  /// Serialization name for [maxDepth].
   static const String _maxDepthName = 'maxDepth';
-
-  //---------------------------------------------------------------------
-  // Member variables
-  //---------------------------------------------------------------------
 
   /// The x-coordinate of the upper left corner of the viewport on the
   /// render-target surface.
@@ -60,23 +46,12 @@ class Viewport extends DeviceChild {
   /// The maximum depth of the viewport.
   double _maxDepth = 1.0;
 
-  //---------------------------------------------------------------------
-  // Construction
-  //---------------------------------------------------------------------
-
   /// Creates an instance of the [Viewport] class.
-  Viewport(String name, GraphicsDevice device)
-    : super._internal(name, device);
+  Viewport();
 
   /// Creates an instance of the [Viewport] class.
   /// The rectangular bounding box is specified.
-  Viewport.bounds(String name, GraphicsDevice device, int this._x, int this._y,
-                  int this._width, int this._height)
-    : super._internal(name, device);
-
-  //---------------------------------------------------------------------
-  // Properties
-  //---------------------------------------------------------------------
+  Viewport.bounds(int this._x, int this._y, int this._width, int this._height);
 
   /// The x-coordinate of the upper left corner of the viewport on the
   /// render-target surface.
@@ -137,10 +112,6 @@ class Viewport extends DeviceChild {
     throw new ArgumentError('maxDepth must be in the range [0, 1]');
   }
   double get maxDepth => _maxDepth;
-
-  //---------------------------------------------------------------------
-  // Serialization
-  //---------------------------------------------------------------------
 
   /// Serializes the [RasterizerState] to a JSON.
   dynamic toJson() {

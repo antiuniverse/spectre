@@ -28,7 +28,7 @@ import 'shared/mock_graphics_device.dart';
 GraphicsDevice _graphicsDevice;
 
 void testBlendSetter(String testName, dynamic function) {
-  BlendState blendState = new BlendState('BlendState_$testName', _graphicsDevice);
+  BlendState blendState = new BlendState();
 
   test(testName, () {
     // Shouldn't throw
@@ -52,7 +52,7 @@ void testBlendSetter(String testName, dynamic function) {
 }
 
 void testBlendOperationSetter(String testName, dynamic function) {
-  BlendState blendState = new BlendState('BlendState_$testName', _graphicsDevice);
+  BlendState blendState = new BlendState();
 
   test(testName, () {
     // Shouldn't throw
@@ -66,7 +66,7 @@ void testBlendOperationSetter(String testName, dynamic function) {
 }
 
 void testColorSetter(String testName, dynamic function) {
-  BlendState blendState = new BlendState('BlendState_$testName', _graphicsDevice);
+  BlendState blendState = new BlendState();
 
   test(testName, () {
     expect(function(blendState, 0.0), 0.0);
@@ -111,29 +111,24 @@ void main() {
   // Construction
   test('construction', () {
     // Default constructor
-    BlendState defaultState = new BlendState('BlendStateDefault', _graphicsDevice);
+    BlendState defaultState = new BlendState();
     testConstructor(defaultState, true, Blend.One, Blend.One, Blend.One, Blend.One);
-    expect(() { BlendState constructWithNull = new BlendState('BlendStateNull', null); }, throwsArgumentError);
 
     // BlendState.additive
-    BlendState additive = new BlendState.additive('BlendStateAdditive', _graphicsDevice);
+    BlendState additive = new BlendState.additive();
     testConstructor(additive, true, Blend.One, Blend.SourceAlpha, Blend.One, Blend.SourceAlpha);
-    expect(() { BlendState constructWithNull = new BlendState.additive('BlendStateNull', null); }, throwsArgumentError);
 
     // BlendState.alphaBlend
-    BlendState alphaBlend = new BlendState.alphaBlend('BlendStateAlphaBlend', _graphicsDevice);
+    BlendState alphaBlend = new BlendState.alphaBlend();
     testConstructor(alphaBlend, true, Blend.InverseSourceAlpha, Blend.One, Blend.InverseSourceAlpha, Blend.One);
-    expect(() { BlendState constructWithNull = new BlendState.alphaBlend('BlendStateNull', null); }, throwsArgumentError);
 
     // BlendState.nonPremultiplied
-    BlendState nonPremultiplied = new BlendState.nonPremultiplied('BlendStateNonPremultiplied', _graphicsDevice);
+    BlendState nonPremultiplied = new BlendState.nonPremultiplied();
     testConstructor(nonPremultiplied, true, Blend.InverseSourceAlpha, Blend.SourceAlpha, Blend.InverseSourceAlpha, Blend.SourceAlpha);
-    expect(() { BlendState constructWithNull = new BlendState.nonPremultiplied('BlendStateNull', null); }, throwsArgumentError);
 
     // Blend.opaque
-    BlendState opaque = new BlendState.opaque('BlendStateOpaque', _graphicsDevice);
+    BlendState opaque = new BlendState.opaque();
     testConstructor(opaque, false, Blend.Zero, Blend.One, Blend.Zero, Blend.One);
-    expect(() { BlendState constructWithNull = new BlendState.opaque('BlendStateNull', null); }, throwsArgumentError);
   });
 
   // Enumeration setters
@@ -190,8 +185,8 @@ void main() {
 
   // Equality
   test('equality', () {
-    BlendState blendState0 = new BlendState('BlendState0', _graphicsDevice);
-    BlendState blendState1 = new BlendState('BlendState1', _graphicsDevice);
+    BlendState blendState0 = new BlendState();
+    BlendState blendState1 = new BlendState();
 
     // Check equality
     expect(blendStateEqual(blendState0, blendState0), true);
@@ -271,9 +266,8 @@ void main() {
 
   // Serialization
   test('serialization', () {
-    BlendState original = new BlendState('BlendStateOriginal', _graphicsDevice);
-
-    BlendState copy = new BlendState('BlendStateCopy', _graphicsDevice);
+    BlendState original = new BlendState();
+    BlendState copy = new BlendState();
     copy.alphaBlendOperation = BlendOperation.ReverseSubtract;
     copy.alphaDestinationBlend = Blend.BlendFactor;
     copy.alphaSourceBlend = Blend.BlendFactor;

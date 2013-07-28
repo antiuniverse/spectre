@@ -56,7 +56,7 @@ class MultipleRenderTargets extends Example {
       }
       int offscreenWidth = 1024;
       int offscreenHeight = 1024;
-      offscreenViewport = new Viewport('offscreenViewport', graphicsDevice);
+      offscreenViewport = new Viewport();
       offscreenViewport.width = offscreenWidth;
       offscreenViewport.height = offscreenHeight;
       // Create color buffers.
@@ -92,8 +92,8 @@ class MultipleRenderTargets extends Example {
       model = new Model(assetManager['base.unitCube'],
                         assetManager['base.simpleMultipleRenderTargetsShader'],
                         graphicsDevice);
-      rasterizerState = new RasterizerState('rasterizerState', graphicsDevice);
-      depthState = new DepthState('depthState', graphicsDevice);
+      rasterizerState = new RasterizerState();
+      depthState = new DepthState();
       fullscreenBlitModel = new Model(fullscreenMesh,
                                       assetManager['base.blitMergeColorTexturesShader'],
                                       graphicsDevice);

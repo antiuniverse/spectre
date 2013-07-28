@@ -51,15 +51,14 @@ abstract class Example {
     camera.focusPosition = new Vector3(1.0, 1.0, 1.0);
     element.width = element.clientWidth;
     element.height = element.clientHeight;
-    viewport = new Viewport('element viewport', graphicsDevice);
+    viewport = new Viewport();
     viewport.width = element.width;
     viewport.height = element.height;
     camera.aspectRatio = viewport.aspectRatio;
     defaultSampler = new SamplerState('defaultSampler', graphicsDevice);
     fullscreenSampler = new SamplerState.pointClamp('fullscreenSampler',
                                                     graphicsDevice);
-    fullscreenDepthState = new DepthState('fullscreenDepthState',
-                                          graphicsDevice);
+    fullscreenDepthState = new DepthState();
     _fullscreenInit(graphicsDevice);
   }
 

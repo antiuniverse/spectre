@@ -23,25 +23,12 @@ part of spectre;
 /// RasterizerState controls how the GPU rasterizer functions including
 /// primitive culling and width of rasterized lines
 /// Set using [GraphicsContext.setRasterizerState]
-class RasterizerState extends DeviceChild {
-  //---------------------------------------------------------------------
-  // Serialization names
-  //---------------------------------------------------------------------
-
-  /// Serialization name for [cullMode].
+class RasterizerState {
   static const String _cullModeName = 'cullMode';
-  /// Serialization name for [frontFace].
   static const String _frontFaceName = 'frontFace';
-  /// Serialization name for [depthBias].
   static const String _depthBiasName = 'depthBias';
-  /// Serialization name for [slopeScaleDepthBias].
   static const String _slopeScaleDepthBiasName = 'slopeScaleDepthBias';
-  /// Serialization name for [scissorTestEnabled].
   static const String _scissorTestEnabledName = 'scissorTestEnabled';
-
-  //---------------------------------------------------------------------
-  // Member variables
-  //---------------------------------------------------------------------
 
   /// Spcifies what triangles are culled based on its direction.
   /// The default value is [CullMode.Back].
@@ -69,42 +56,34 @@ class RasterizerState extends DeviceChild {
   //---------------------------------------------------------------------
 
   /// Creates a new instance of the [RasterizerState] class.
-  RasterizerState(String name, GraphicsDevice device)
-    : super._internal(name, device);
+  RasterizerState();
 
   /// Initializes an instance of the [RasterizerState] class with settings for
   /// culling primitives with clockwise winding order.
   /// The state object has the following settings.
   ///     cullMode = CullMode.Back;
   ///     frontFace = FrontFace.CounterClockwise;
-  RasterizerState.cullClockwise(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _cullMode = CullMode.Back
-    , _frontFace = FrontFace.CounterClockwise;
+  RasterizerState.cullClockwise()
+      : _cullMode = CullMode.Back,
+        _frontFace = FrontFace.CounterClockwise;
 
   /// Initializes an instance of the [RasterizerState] class with settings for
   /// culling primitives with counter-clockwise winding order.
   /// The state object has the following settings.
   ///     cullMode = CullMode.Back;
   ///     frontFace = Clockwise;
-  RasterizerState.cullCounterClockwise(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _cullMode = CullMode.Back
-    , _frontFace = FrontFace.Clockwise;
+  RasterizerState.cullCounterClockwise()
+      : _cullMode = CullMode.Back,
+        _frontFace = FrontFace.Clockwise;
 
   /// Initializes an instance of the [RasterizerState] class with settings for
   /// not culling any primitives.
   /// The state object has the following settings.
   ///     cullMode = CullMode.None;
   ///     frontFace = FrontFace.CounterClockwise;
-  RasterizerState.cullNone(String name, GraphicsDevice device)
-    : super._internal(name, device)
-    , _cullMode = CullMode.None
-    , _frontFace = FrontFace.CounterClockwise;
-
-  //---------------------------------------------------------------------
-  // Properties
-  //---------------------------------------------------------------------
+  RasterizerState.cullNone()
+      : _cullMode = CullMode.None,
+        _frontFace = FrontFace.CounterClockwise;
 
   /// Spcifies what triangles are culled based on its direction.
   /// The default value is [CullMode.Back].
@@ -155,10 +134,6 @@ class RasterizerState extends DeviceChild {
   /// The default is false.
   bool get scissorTestEnabled => _scissorTestEnabled;
   set scissorTestEnabled(bool value) { _scissorTestEnabled = value; }
-
-  //---------------------------------------------------------------------
-  // Serialization
-  //---------------------------------------------------------------------
 
   /// Serializes the [RasterizerState] to a JSON.
   dynamic toJson() {
