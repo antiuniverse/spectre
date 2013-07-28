@@ -22,9 +22,9 @@ import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative_main.dart';
 import 'package:vector_math/vector_math.dart';
-
-import 'package:spectre/src/spectre_declarative/element.dart';
 
 class SpectreLinePrimitiveElement extends SpectreElement {
   final Vector4 _color = new Vector4.zero();
@@ -42,11 +42,33 @@ class SpectreLinePrimitiveElement extends SpectreElement {
 
   void inserted() {
     super.inserted();
-    update();
+    init();
   }
 
   void removed() {
     super.removed();
+  }
+
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    update();
+  }
+
+  void apply() {
+    // NOP.
+  }
+
+  void render() {
+    dispatch(DeclarativeState.debugDrawManager);
   }
 
   void _updateColor() {
@@ -293,13 +315,5 @@ class SpectreLinePrimitiveElement extends SpectreElement {
         _updateTriangle();
       break;
     }
-  }
-
-  void apply() {
-    // NOP.
-  }
-
-  void render() {
-    dispatch(SpectreElement.debugDrawManager);
   }
 }

@@ -21,7 +21,8 @@
 library spectre_declarative_transform;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative_main.dart';
 import 'package:vector_math/vector_math.dart';
 
 /**
@@ -39,6 +40,45 @@ class SpectreTransformElement extends SpectreElement {
   final Vector3 _v = new Vector3.zero();
   double _d = 0.0;
 
+  created() {
+    super.created();
+  }
+
+  inserted() {
+    super.inserted();
+    init();
+  }
+
+  removed() {
+    super.removed();
+  }
+
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    _update();
+  }
+
+  apply() {
+    super.apply();
+  }
+
+  render() {
+    super.render();
+    var scene = DeclarativeState.scene;
+    scene.pushTransform(T);
+    renderChildren();
+    scene.popTransform();
+  }
+
   void _update() {
     T.setIdentity();
     if (!parseVector3('axis', _v)) {
@@ -54,31 +94,5 @@ class SpectreTransformElement extends SpectreElement {
       _v[2] = 0.0;
     }
     T.translate(_v);
-  }
-
-  created() {
-    super.created();
-  }
-
-  inserted() {
-    super.inserted();
-    _update();
-  }
-
-  removed() {
-    super.removed();
-  }
-
-  apply() {
-  }
-
-  render() {
-    var scene = SpectreElement.scene;
-    scene.pushTransform(T);
-    renderChildren();
-    scene.popTransform();
-  }
-
-  unapply() {
   }
 }

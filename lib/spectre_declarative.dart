@@ -27,23 +27,7 @@ import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:asset_pack/asset_pack.dart';
-import 'package:game_loop/game_loop_html.dart';
-import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_asset_pack.dart';
-import 'package:spectre/spectre_example_ui.dart';
-
-import 'package:spectre/src/spectre_declarative/camera.dart';
-import 'package:spectre/src/spectre_declarative/element.dart';
-import 'package:spectre/src/spectre_declarative/layer.dart';
-import 'package:spectre/src/spectre_declarative/line_primitive.dart';
-import 'package:spectre/src/spectre_declarative/material.dart';
-import 'package:spectre/src/spectre_declarative/material_constant.dart';
-import 'package:spectre/src/spectre_declarative/model.dart';
-import 'package:spectre/src/spectre_declarative/post_effect.dart';
-import 'package:spectre/src/spectre_declarative/scene.dart';
-import 'package:spectre/src/spectre_declarative/transform.dart';
-
+export 'package:spectre/spectre_element.dart';
 export 'package:spectre/src/spectre_declarative/camera.dart';
 export 'package:spectre/src/spectre_declarative/layer.dart';
 export 'package:spectre/src/spectre_declarative/line_primitive.dart';
@@ -53,7 +37,3 @@ export 'package:spectre/src/spectre_declarative/model.dart';
 export 'package:spectre/src/spectre_declarative/post_effect.dart';
 export 'package:spectre/src/spectre_declarative/scene.dart';
 export 'package:spectre/src/spectre_declarative/transform.dart';
-
-import 'package:vector_math/vector_math.dart';
-
-part 'src/spectre_declarative/example.dart';

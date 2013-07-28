@@ -21,7 +21,9 @@
 library spectre_declarative_layer;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 
 class SpectreLayerElement extends SpectreElement {
   void created() {
@@ -30,18 +32,35 @@ class SpectreLayerElement extends SpectreElement {
 
   void inserted() {
     super.inserted();
+    init();
   }
 
   void removed() {
     super.removed();
   }
 
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+  }
+
   void apply() {
+    super.apply();
   }
 
   void render() {
+    super.render();
     // Configure render targets.
     // Configure scene sort.
     renderChildren();
+    // Restore render targets.
   }
 }

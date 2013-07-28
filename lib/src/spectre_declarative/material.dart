@@ -24,10 +24,10 @@ import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:vector_math/vector_math.dart';
-
-import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/src/spectre_declarative/material_constant.dart';
+import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialElement extends SpectreElement {
   ShaderProgram _shaderProgram;
@@ -39,53 +39,56 @@ class SpectreMaterialElement extends SpectreElement {
 
   ShaderProgram get shaderProgram => _shaderProgram;
 
-  void _update() {
-    var graphicsDevice = SpectreElement.graphicsDevice;
-    if (graphicsDevice == null) {
-      // Not initialized yet.
-      return;
-    }
-    _shaderProgram = getAsset('shader');
-    if (_shaderProgram == null) {
-      return;
-    }
-    if (_dState == null) {
-      _dState = new DepthState('SpectreMaterialElement', graphicsDevice);
-      _rState = new RasterizerState('SpectreMaterialElement', graphicsDevice);
-      _bState = new BlendState.alphaBlend('SpectreMaterialElement',
-                                          graphicsDevice);
-    }
-  }
-
   created() {
     super.created();
   }
 
   inserted() {
     super.inserted();
+    init();
   }
 
   removed() {
     super.removed();
   }
 
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    var graphicsDevice = DeclarativeState.graphicsDevice;
+    _dState = new DepthState('SpectreMaterialElement', graphicsDevice);
+    _rState = new RasterizerState('SpectreMaterialElement', graphicsDevice);
+    _bState = new BlendState.alphaBlend('SpectreMaterialElement',
+                                        graphicsDevice);
+    _update();
+  }
+
   apply() {
-    var graphicsDevice = SpectreElement.graphicsDevice;
+    super.apply();
     if (_shaderProgram == null) {
       return;
     }
-    graphicsDevice.context.setShaderProgram(_shaderProgram);
-    graphicsDevice.context.setDepthState(_dState);
-    graphicsDevice.context.setRasterizerState(_rState);
-    graphicsDevice.context.setBlendState(_bState);
+    var graphicsContext = DeclarativeState.graphicsContext;
+    graphicsContext.setShaderProgram(_shaderProgram);
+    graphicsContext.setDepthState(_dState);
+    graphicsContext.setRasterizerState(_rState);
+    graphicsContext.setBlendState(_bState);
   }
 
   render() {
-    var scene = SpectreElement.scene;
-    _update();
+    super.render();
     if (_shaderProgram == null) {
       return;
     }
+    var scene = DeclarativeState.scene;
     scene.pushMaterial(this);
     _updateCameraConstants(scene.currentCamera);
     renderChildren();
@@ -117,10 +120,7 @@ class SpectreMaterialElement extends SpectreElement {
     }
     var stack = _constantStack[name];
     assert(stack != null);
-    if (stack.length == 0) {
-      print('stack was empty for $name');
-      return;
-    }
+    assert(stack.length > 0);
     assert(constant.name == stack.last.name);
     stack.removeLast();
     if (stack.length == 0) {
@@ -134,19 +134,23 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   _applyConstants() {
-    var l = queryAll('s-material-constant');
+    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
     // Apply all constants, update stack.
-    l.forEach((e) => applyConstant(e.xtag, true));
+    l.forEach((e) {
+      applyConstant(e.xtag, true);
+    });
   }
 
   _unapplyConstants() {
-    var l = queryAll('s-material-constant');
+    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
     // Unapply constants in revers order.
-    l.reversed.forEach((e) => unapplyConstant(e.xtag));
+    l.reversed.forEach((e) {
+      unapplyConstant(e.xtag);
+    });
   }
 
   void _updateCameraConstants(Camera camera) {
-    var graphicsContext = SpectreElement.graphicsContext;
+    var graphicsContext = DeclarativeState.graphicsContext;
     Matrix4 projectionMatrix = camera.projectionMatrix;
     Matrix4 viewMatrix = camera.viewMatrix;
     Matrix4 projectionViewMatrix = camera.projectionMatrix;
@@ -178,5 +182,11 @@ class SpectreMaterialElement extends SpectreElement {
     if (uniform != null) {
       shader.updateUniform(uniform, projectionViewRotationMatrix.storage);
     }
+  }
+
+  // Will go away once attribute change notifications are hooked up.
+  void _update() {
+    assert(inited);
+    _shaderProgram = DeclarativeState.getAsset(attributes['shader']);
   }
 }

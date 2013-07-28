@@ -24,9 +24,9 @@ import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
-
-import 'package:spectre/src/spectre_declarative/element.dart';
 
 /*
 <s-material-constant name="sourceR" texture="assetpack://asset.pack.blah" minification="mipmap">
@@ -43,38 +43,8 @@ class SpectreMaterialConstantElement extends SpectreElement {
   String name;
   SamplerState _sampler;
   SpectreTexture _texture;
-  dynamic index = -1;
+  dynamic index;
   bool _isSampler = false;
-
-  void _update() {
-    var scene = SpectreElement.scene;
-    if (scene == null) {
-      return;
-    }
-    var graphicsDevice = SpectreElement.graphicsDevice;
-    var currentMaterial = scene.currentMaterial;
-    if (currentMaterial == null) {
-      return;
-    }
-    if (_sampler == null) {
-      _sampler = new SamplerState('SpectreMaterialConstantElement',
-                                  graphicsDevice);
-    }
-    name = attributes['name'];
-    if (name == null) {
-      return;
-    }
-    print('applying $name ${attributes['texture']}');
-    var sampler = currentMaterial.shaderProgram.samplers[name];
-    _isSampler = sampler != null;
-    if (_isSampler) {
-      index = sampler.textureUnit;
-      _texture = getAsset('texture');
-      // TODO(johnmccutchan): Update sampler attributes.
-    } else {
-      index = sampler.location;
-    }
-  }
 
   created() {
     super.created();
@@ -82,6 +52,22 @@ class SpectreMaterialConstantElement extends SpectreElement {
 
   inserted() {
     super.inserted();
+    init();
+  }
+
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    _sampler = new SamplerState('SpectreMaterialConstantElement',
+                                DeclarativeState.graphicsDevice);
     _update();
   }
 
@@ -90,9 +76,11 @@ class SpectreMaterialConstantElement extends SpectreElement {
   }
 
   apply() {
-    var scene = SpectreElement.scene;
-    var graphicsContext = SpectreElement.graphicsContext;
-    if (index == -1) {
+    super.apply();
+    _update();
+    var scene = DeclarativeState.scene;
+    var graphicsContext = DeclarativeState.graphicsContext;
+    if (index == null) {
       return;
     }
     if (_isSampler) {
@@ -102,12 +90,35 @@ class SpectreMaterialConstantElement extends SpectreElement {
   }
 
   render() {
-    var scene = SpectreElement.scene;
+    super.render();
+    _update();
+    var scene = DeclarativeState.scene;
     var currentMaterial = scene.currentMaterial;
     if (currentMaterial == null) {
       return;
     }
-    _update();
     currentMaterial.applyConstant(this, true);
+  }
+
+  void _update() {
+    assert(inited);
+    name = attributes['name'];
+    if (name == null) {
+      return;
+    }
+    var graphicsDevice = DeclarativeState.graphicsDevice;
+    var currentMaterial = DeclarativeState.scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    var sampler = currentMaterial.shaderProgram.samplers[name];
+    _isSampler = sampler != null;
+    if (_isSampler) {
+      index = sampler.textureUnit;
+      _texture = DeclarativeState.getAsset(attributes['texture']);
+      // TODO(johnmccutchan): Update sampler attributes.
+    } else {
+      index = sampler.location;
+    }
   }
 }

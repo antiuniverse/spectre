@@ -26,11 +26,6 @@ import 'package:polymer/polymer.dart';
 import 'package:vector_math/vector_math.dart';
 
 abstract class SpectreElement extends PolymerElement {
-  static var scene;
-  static var debugDrawManager;
-  static var graphicsContext;
-  static var graphicsDevice;
-  static var assetManager;
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {
@@ -88,40 +83,19 @@ abstract class SpectreElement extends PolymerElement {
     return l;
   }
 
-  bool _isAssetPackUrl(String url) {
-    return url.startsWith('assetpack://');
-  }
-
-  String _getAssetPackPath(String url) {
-    return url.substring('assetpack://'.length);
-  }
-
-  dynamic getAsset(String attributeName) {
-    if (SpectreElement.assetManager == null) {
-      return null;
-    }
-    var a = attributes[attributeName];
-    if (a == null) {
-      return null;
-    }
-    assert(_isAssetPackUrl(a));
-    var p = _getAssetPackPath(a);
-    return SpectreElement.assetManager[p];
-  }
-
   void created() {
     super.created();
-    print('created $this');
+    //print('created $this');
   }
 
   void inserted() {
     super.inserted();
-    print('inserted $this');
+    //print('inserted $this');
   }
 
   void removed() {
     super.removed();
-    print('removed $this');
+    //print('removed $this');
   }
 
   void attributeChanged(String name, String oldValue, String newValue) {
@@ -129,8 +103,18 @@ abstract class SpectreElement extends PolymerElement {
     print('$name changed from $oldValue to $newValue');
   }
 
+  List findAllTagChildren(String tag) {
+    List l = new List();
+    children.forEach((e) {
+      if (e.tagName == tag) {
+        l.add(e);
+      }
+    });
+    return l;
+  }
+
   void applyChildren() {
-    elements.forEach((e) {
+    children.forEach((e) {
       if (e.xtag is SpectreElement) {
         e.xtag.apply();
       }
@@ -138,22 +122,35 @@ abstract class SpectreElement extends PolymerElement {
   }
 
   void renderChildren() {
-    elements.forEach((e) {
+    children.forEach((e) {
       if (e.xtag is SpectreElement) {
         e.xtag.render();
       }
     });
   }
 
-  void unapplyChildren() {
-    elements.reversed.forEach((e) {
-      if (e.xtag is SpectreElement) {
-        e.xtag.unapply();
-      }
-    });
+  bool _inited = false;
+  bool get inited => _inited;
+
+  /// All elements *must* override the following methods:
+  ///
+  /// * [init]
+  /// * [apply]
+  /// * [render]
+  ///
+
+  /// If element is initialized, do nothing.
+  /// If DeclarativeState.inited is false, do nothing.
+  /// Initialize element.
+  void init() {
+    _inited = true;
   }
-
-  void apply();
-
-  void render();
+  /// Apply this object to the GPU pipeline.
+  void apply() {
+    assert(_inited);
+  }
+  /// Render this object.
+  void render() {
+    assert(_inited);
+  }
 }

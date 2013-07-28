@@ -20,9 +20,11 @@
 
 library spectre_declarative_post_effect;
 
-import 'package:polymer/polymer.dart';
+import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 
-class SpectrePostEffectElement extends PolymerElement {
+class SpectrePostEffectElement extends SpectreElement {
 
   created() {
     super.created();
@@ -36,12 +38,24 @@ class SpectrePostEffectElement extends PolymerElement {
     super.removed();
   }
 
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+  }
+
   void apply() {
+    super.apply();
   }
 
   void render() {
-  }
-
-  void unapply() {
+    super.render();
   }
 }

@@ -25,6 +25,8 @@ void runExample(Example example) {
       .then((_) => example.load())
       .then((_) => example.start())
       .catchError((e) {
-        window.alert('Could not run ${example.name}: $e');
+        print('Could not run ${example.name}: $e');
+        print(e.stackTrace);
+        window.alert('Could not run ${example.name}: $e. See console.');
       });
 }

@@ -22,7 +22,8 @@ library spectre_declarative_camera;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative_main.dart';
 
 /**
  * <s-camera id="mainCamera"></s-camera>
@@ -47,15 +48,33 @@ class SpectreCameraElement extends SpectreElement {
 
   void inserted() {
     super.inserted();
+    init();
   }
 
   void removed() {
     super.removed();
   }
 
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    Camera camera = new Camera('SpectreCameraElement',
+                               DeclarativeState.graphicsDevice);
+  }
+
   void apply() {
+    super.apply();
   }
 
   void render() {
+    super.render();
   }
 }

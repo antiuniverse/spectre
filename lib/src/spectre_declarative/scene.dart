@@ -22,12 +22,12 @@ library spectre_declarative_scene;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/src/spectre_declarative/element.dart';
+import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreSceneElement extends SpectreElement {
-  // Current transforms are held in a stack.
   final Matrix4 I = new Matrix4.identity();
   final Camera C = new Camera();
   final List<Matrix4> _transformStack = new List<Matrix4>();
@@ -45,6 +45,28 @@ class SpectreSceneElement extends SpectreElement {
 
   void removed() {
     super.removed();
+  }
+
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+  }
+
+  apply() {
+    super.apply();
+  }
+
+  render() {
+    super.render();
+    renderChildren();
   }
 
   void pushMaterial(SpectreMaterialElement material) {
@@ -109,15 +131,5 @@ class SpectreSceneElement extends SpectreElement {
     }
     var currentTransform = _transformStack.last;
     return currentTransform;
-  }
-
-  apply() {
-  }
-
-  render() {
-    renderChildren();
-  }
-
-  unapply() {
   }
 }

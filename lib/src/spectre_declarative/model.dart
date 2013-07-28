@@ -24,40 +24,14 @@ import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
-
-import 'package:spectre/src/spectre_declarative/element.dart';
 
 class SpectreModelElement extends SpectreElement {
   SpectreMesh _mesh;
-  bool _indexed;
+  bool _indexed = false;
   InputLayout _inputLayout;
-
-  void _update() {
-    var scene = SpectreElement.scene;
-    if (SpectreElement.graphicsDevice == null) {
-      return;
-    }
-    if (_inputLayout == null) {
-      _inputLayout = new InputLayout('SpectreModelElement',
-                                     SpectreElement.graphicsDevice);
-    }
-    var material = scene.currentMaterial;
-    _mesh = SpectreElement.assetManager['base.unitCube'];
-    _inputLayout.mesh = _mesh;
-    _inputLayout.shaderProgram = material.shaderProgram;
-    _indexed = (_mesh is SingleArrayIndexedMesh);
-  }
-
-  void _updateObjectTransformConstant(Matrix4 T) {
-    var graphicsContext = SpectreElement.graphicsContext;
-    ShaderProgram shader = graphicsContext.shaderProgram;
-    ShaderProgramUniform uniform;
-    uniform = shader.uniforms['objectTransform'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, T.storage);
-    }
-  }
 
   created() {
     super.created();
@@ -65,7 +39,7 @@ class SpectreModelElement extends SpectreElement {
 
   inserted() {
     super.inserted();
-    _update();
+    init();
   }
 
   removed() {
@@ -74,48 +48,85 @@ class SpectreModelElement extends SpectreElement {
     _inputLayout = null;
   }
 
+  void init() {
+    if (inited) {
+      // Already initialized.
+      return;
+    }
+    if (!DeclarativeState.inited) {
+      // Not ready to initialize.
+      return;
+    }
+    // Initialize.
+    super.init();
+    _inputLayout = new InputLayout('SpectreModelElement',
+                                   DeclarativeState.graphicsDevice);
+    _update();
+  }
+
   apply() {
+    super.apply();
     // NOP.
   }
 
-  void applyConstants() {
-    var scene = SpectreElement.scene;
-    var material = scene.currentMaterial;
-    var l = queryAll('s-material-constant');
-    // Apply all constants, update stack.
-    l.forEach((e) {
-      e.xtag.render();
-    });
-  }
-
-  void unapplyConstants() {
-    var scene = SpectreElement.scene;
-    var material = scene.currentMaterial;
-    var l = queryAll('s-material-constant').reversed;
-    l.forEach((e) => material.unapplyConstant(e.xtag));
-  }
-
   render() {
-    var scene = SpectreElement.scene;
-    if (scene == null) {
-      return;
-    }
     _update();
+    super.render();
     applyConstants();
-    var graphicsDevice = SpectreElement.graphicsDevice;
-    graphicsDevice.context.setInputLayout(_inputLayout);
-    _updateObjectTransformConstant(scene.currentTransform);
+    var graphicsContext = DeclarativeState.graphicsContext;
+    graphicsContext.setInputLayout(_inputLayout);
+    _updateObjectTransformConstant(DeclarativeState.scene.currentTransform);
     if (_indexed) {
-      graphicsDevice.context.setIndexedMesh(_mesh);
-      graphicsDevice.context.drawIndexedMesh(_mesh);
+      graphicsContext.setIndexedMesh(_mesh);
+      graphicsContext.drawIndexedMesh(_mesh);
     } else {
-      graphicsDevice.context.setMesh(_mesh);
-      graphicsDevice.context.drawMesh(_mesh);
+      graphicsContext.setMesh(_mesh);
+      graphicsContext.drawMesh(_mesh);
     }
     unapplyConstants();
   }
 
-  unapply() {
-    // NOP.
+  void applyConstants() {
+    var scene = DeclarativeState.scene;
+    var material = scene.currentMaterial;
+    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
+    // Apply all constants, update stack.
+    l.forEach((e) {
+      var elem = e.xtag;
+      material.applyConstant(elem, true);
+    });
+  }
+
+  void unapplyConstants() {
+    var scene = DeclarativeState.scene;
+    var material = scene.currentMaterial;
+    var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
+    l.forEach((e) {
+      var elem = e.xtag;
+      material.unapplyConstant(elem);
+    });
+  }
+
+  void _update() {
+    assert(inited);
+    var scene = DeclarativeState.scene;
+    var material = scene.currentMaterial;
+    if (material == null) {
+      return;
+    }
+    _mesh = DeclarativeState.assetManager['base.unitCube'];
+    _inputLayout.mesh = _mesh;
+    _inputLayout.shaderProgram = material.shaderProgram;
+    _indexed = (_mesh is SingleArrayIndexedMesh);
+  }
+
+  void _updateObjectTransformConstant(Matrix4 T) {
+    var graphicsContext = DeclarativeState.graphicsContext;
+    ShaderProgram shader = graphicsContext.shaderProgram;
+    ShaderProgramUniform uniform;
+    uniform = shader.uniforms['objectTransform'];
+    if (uniform != null) {
+      shader.updateUniform(uniform, T.storage);
+    }
   }
 }
