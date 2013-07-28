@@ -25,7 +25,121 @@ import 'dart:json' as JSON;
 import 'package:polymer/polymer.dart';
 import 'package:vector_math/vector_math.dart';
 
+abstract class SpectreElementAttribute<E> {
+  final String name;
+  final E _defaultValue;
+  E _value;
+  E get value => _value;
+  SpectreElementAttribute(this.name, this._defaultValue) {
+    reset();
+  }
+
+  void reset() {
+    _value = _defaultValue;
+  }
+
+  // Parse the value.
+  void parse(String value);
+
+  void removed() {}
+}
+
+class SpectreElementAttributeBool extends SpectreElementAttribute<bool> {
+  SpectreElementAttributeBool(String key, bool defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    reset();
+    if (value == null) {
+      return;
+    }
+  }
+}
+
+class SpectreElementAttributeDouble extends SpectreElementAttribute<double> {
+  SpectreElementAttributeDouble(String key, double defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    reset();
+    if (value == null) {
+      return;
+    }
+    try {
+      _value = double.parse(value);
+    } catch (e) {
+      return;
+    }
+  }
+}
+
+class SpectreElementAttributeString extends SpectreElementAttribute<String> {
+  SpectreElementAttributeString(String key, String defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    if (value == null) {
+      reset();
+      return;
+    }
+    _value = value;
+  }
+}
+
+class SpectreElementAttributeVector3 extends SpectreElementAttribute<Vector3> {
+  SpectreElementAttributeVector3(String key, Vector3 defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    if (value == null) {
+      reset();
+      return;
+    }
+    try {
+      List l = JSON.parse(value);
+      assert(l.length == 3);
+      if (_value == _defaultValue) {
+        _value = new Vector3.zero();
+      }
+      _value[0] = l[0];
+      _value[1] = l[1];
+      _value[2] = l[2];
+    } catch (e) {
+      reset();
+      return;
+    }
+  }
+}
+
+class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
+  SpectreElementAttributeVector4(String key, Vector3 defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    if (value == null) {
+      reset();
+      return;
+    }
+    try {
+      List l = JSON.parse(value);
+      assert(l.length == 3);
+      if (_value == _defaultValue) {
+        _value = new Vector4.zero();
+      }
+      _value[0] = l[0];
+      _value[1] = l[1];
+      _value[2] = l[2];
+      _value[3] = l[3];
+    } catch (e) {
+      reset();
+      return;
+    }
+  }
+}
+
+typedef SpectreElementAttribute AttributeConstructor();
+
 abstract class SpectreElement extends PolymerElement {
+  final Map<String, SpectreElementAttribute> spectreAttributes =
+      new Map<String, SpectreElementAttribute>();
+  Map<String, AttributeConstructor> get spectreAttributeDefinitions;
+  List<String> get requiredSpectreAttributes;
+
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {
@@ -99,17 +213,39 @@ abstract class SpectreElement extends PolymerElement {
 
   void created() {
     super.created();
-    //print('created $this');
   }
 
   void inserted() {
     super.inserted();
-    //print('inserted $this');
+    refreshAttributes();
+  }
+
+  void refreshAttributes() {
+    spectreAttributes.clear();
+    requiredSpectreAttributes.forEach((k) {
+      AttributeConstructor constructor = spectreAttributeDefinitions[k];
+      if (constructor != null) {
+        var attribute = constructor();
+        spectreAttributes[k] = attribute;
+      }
+    });
+    attributes.forEach((k, v) {
+      var attribute = spectreAttributes[k];
+      if (attribute != null) {
+        attribute.parse(v);
+        return;
+      }
+      AttributeConstructor constructor = spectreAttributeDefinitions[k];
+      if (constructor != null) {
+        var attribute = constructor();
+        attribute.parse(v);
+        spectreAttributes[k] = attribute;
+      }
+    });
   }
 
   void removed() {
     super.removed();
-    //print('removed $this');
   }
 
   void attributeChanged(String name, String oldValue, String newValue) {

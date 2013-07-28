@@ -36,6 +36,15 @@ import 'package:vector_math/vector_math.dart';
  */
 
 class SpectreTransformElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'translate': () => new SpectreElementAttributeVector3('translate',
+                                                          new Vector3.zero()),
+    'axis': () => new SpectreElementAttributeVector3('axis',
+                                                     new Vector3(1.0, 0.0,
+                                                                 0.0)),
+    'angle': () => new SpectreElementAttributeDouble('angle', 0.0)
+  };
+  final List<String> requiredSpectreAttributes = ['translate', 'axis', 'angle'];
   final Matrix4 T = new Matrix4.zero();
   final Vector3 _v = new Vector3.zero();
   double _d = 0.0;
@@ -81,18 +90,7 @@ class SpectreTransformElement extends SpectreElement {
 
   void _update() {
     T.setIdentity();
-    if (!parseVector3('axis', _v)) {
-      _v[0] = 1.0;
-      _v[1] = 0.0;
-      _v[2] = 0.0;
-    }
-    _d = parseDouble('angle', 0.0);
-    T.rotate(_v, _d);
-    if (!parseVector3('translate', _v)) {
-      _v[0] = 0.0;
-      _v[1] = 0.0;
-      _v[2] = 0.0;
-    }
-    T.translate(_v);
+    T.rotate(spectreAttributes['axis'].value, spectreAttributes['angle'].value);
+    T.translate(spectreAttributes['translate'].value);
   }
 }

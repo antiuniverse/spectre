@@ -25,7 +25,8 @@ import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/spectre_element.dart';
 
 class SpectrePostEffectElement extends SpectreElement {
-
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   created() {
     super.created();
   }

@@ -28,6 +28,8 @@ import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreSceneElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   final Matrix4 I = new Matrix4.identity();
   final Camera C = new Camera();
   final List<Matrix4> _transformStack = new List<Matrix4>();

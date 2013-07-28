@@ -30,6 +30,8 @@ import 'package:spectre/src/spectre_declarative/material_constant.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   final DepthState depthState = new DepthState();
   final RasterizerState rasterizerState = new RasterizerState();
   final BlendState blendState = new BlendState.alphaBlend();

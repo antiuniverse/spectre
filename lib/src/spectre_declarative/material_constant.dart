@@ -29,6 +29,8 @@ import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialConstantElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   String name;
 
   // State constants

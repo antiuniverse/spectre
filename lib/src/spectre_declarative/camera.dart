@@ -40,6 +40,8 @@ import 'package:spectre/spectre_declarative_main.dart';
  * * pitch
  */
 class SpectreCameraElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   Camera camera;
 
   void created() {

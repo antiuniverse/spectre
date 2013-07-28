@@ -27,6 +27,8 @@ import 'package:spectre/spectre_declarative_main.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreLinePrimitiveElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
   final Vector4 _color = new Vector4.zero();
   final Vector3 _a = new Vector3.zero();
   final Vector3 _b = new Vector3.zero();
