@@ -28,6 +28,8 @@ class PrimitiveTopology extends Enum {
   /// One vertex point primitive topology.
   static const int Points = WebGL.POINTS;
 
+  static const int Default = Triangles;
+
   static Map<String, int> _values = {
     'PrimitiveTopology.Triangles' : Triangles,
     'PrimitiveTopology.Lines' : Lines,
@@ -35,7 +37,8 @@ class PrimitiveTopology extends Enum {
   };
 
   /// Convert a [String] to a [PrimitiveTopology].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [PrimitiveTopology] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

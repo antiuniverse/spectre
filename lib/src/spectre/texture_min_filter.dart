@@ -49,7 +49,8 @@ class TextureMinFilter extends Enum {
   };
 
   /// Convert a [String] to a [TextureMinFilter].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [TextureMinFilter] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

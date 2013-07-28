@@ -29,6 +29,8 @@ class CullMode extends Enum {
   /// Do not draw if triangle is back-facing.
   static const int Back = WebGL.BACK;
 
+  static const int Default = Back;
+
   static Map<String, int> _values = {
     'CullMode.None' : None,
     'CullMode.Front' : Front,
@@ -36,7 +38,8 @@ class CullMode extends Enum {
   };
 
   /// Convert a [String] to a [CullMode].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [CullMode] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

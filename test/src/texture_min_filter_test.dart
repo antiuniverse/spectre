@@ -55,7 +55,7 @@ void main() {
     expect(TextureMinFilter.parse('TextureMinFilter.LinearMipPoint') , TextureMinFilter.LinearMipPoint);
     expect(TextureMinFilter.parse('TextureMinFilter.LinearMipLinear'), TextureMinFilter.LinearMipLinear);
 
-    expect(() { TextureMinFilter.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(TextureMinFilter.parse('NotValid'), TextureMinFilter.Default);
   });
 
   test('isValid', () {

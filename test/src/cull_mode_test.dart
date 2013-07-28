@@ -44,7 +44,7 @@ void main() {
     expect(CullMode.parse('CullMode.Front'), CullMode.Front);
     expect(CullMode.parse('CullMode.Back') , CullMode.Back);
 
-    expect(() { CullMode.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(CullMode.parse('NotValid'), CullMode.Default);
   });
 
   test('isValid', () {

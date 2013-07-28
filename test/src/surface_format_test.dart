@@ -53,7 +53,7 @@ void main() {
     expect(SurfaceFormat.parse('SurfaceFormat.Dxt3'), SurfaceFormat.Dxt3);
     expect(SurfaceFormat.parse('SurfaceFormat.Dxt5'), SurfaceFormat.Dxt5);
 
-    expect(() { SurfaceFormat.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(SurfaceFormat.parse('NotValid'), SurfaceFormat.Default);
   });
 
   test('isValid', () {

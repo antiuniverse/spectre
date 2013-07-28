@@ -50,7 +50,8 @@ class TextureAddressMode extends Enum {
     'TextureAddressMode.Wrap' : Wrap
   };
   /// Convert a [String] to a [TextureAddressMode].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [TextureAddressMode] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

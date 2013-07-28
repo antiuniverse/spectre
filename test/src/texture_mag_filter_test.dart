@@ -32,23 +32,26 @@ void main() {
   });
 
   test('stringify', () {
-    expect(TextureMagFilter.stringify(TextureMagFilter.Linear)         , 'TextureMagFilter.Linear');
-    expect(TextureMagFilter.stringify(TextureMagFilter.Point)          , 'TextureMagFilter.Point');
+    expect(TextureMagFilter.stringify(TextureMagFilter.Linear),
+           'TextureMagFilter.Linear');
+    expect(TextureMagFilter.stringify(TextureMagFilter.Point),
+           'TextureMagFilter.Point');
 
-    expect(() { TextureMagFilter.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { TextureMagFilter.stringify(-1); },
+                throwsA(new isInstanceOf<AssertionError>()));
   });
 
   test('parse', () {
-    expect(TextureMagFilter.parse('TextureMagFilter.Linear')         , TextureMagFilter.Linear);
-    expect(TextureMagFilter.parse('TextureMagFilter.Point')          , TextureMagFilter.Point);
-
-    expect(() { TextureMagFilter.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(TextureMagFilter.parse('TextureMagFilter.Linear'),
+           TextureMagFilter.Linear);
+    expect(TextureMagFilter.parse('TextureMagFilter.Point'),
+           TextureMagFilter.Point);
+    expect(TextureMagFilter.parse('NotValid'), TextureMagFilter.Default);
   });
 
   test('isValid', () {
-    expect(TextureMagFilter.isValid(TextureMagFilter.Linear)         , true);
-    expect(TextureMagFilter.isValid(TextureMagFilter.Point)          , true);
-
+    expect(TextureMagFilter.isValid(TextureMagFilter.Linear), true);
+    expect(TextureMagFilter.isValid(TextureMagFilter.Point), true);
     expect(TextureMagFilter.isValid(-1), false);
   });
 }

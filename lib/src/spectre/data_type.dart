@@ -30,6 +30,8 @@ class DataType extends Enum {
   static const int Uint32 = WebGL.UNSIGNED_INT;
   static const int Float32 = WebGL.FLOAT;
 
+  static const int Default = Uint8;
+
   static Map<String, int> _values = {
     'DataType.Int8' : Int8,
     'DataType.Uint8' : Uint8,
@@ -41,7 +43,8 @@ class DataType extends Enum {
   };
 
   /// Convert a [String] to a [DataType].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [DataType] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

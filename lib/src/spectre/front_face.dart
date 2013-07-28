@@ -25,8 +25,11 @@ part of spectre;
 class FrontFace extends Enum {
   /// Triangles are considered front-facing if its vertices are clockwise.
   static const int Clockwise = WebGL.CW;
-  /// Triangles are considered front-facing if its vertices are counter-clockwise.
+  /// Triangles are considered front-facing if its vertices are
+  /// counter-clockwise.
   static const int CounterClockwise = WebGL.CCW;
+
+  static const int Default = CounterClockwise;
 
   static Map<String, int> _values = {
     'FrontFace.Clockwise' : Clockwise,
@@ -34,7 +37,8 @@ class FrontFace extends Enum {
   };
 
   /// Convert a [String] to a [FrontFace].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [FrontFace] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

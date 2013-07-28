@@ -85,6 +85,8 @@ class Blend extends Enum {
   /// set in BlendFactor.
   static const int InverseBlendFactor = WebGL.ONE_MINUS_CONSTANT_COLOR;
 
+  static const int Default = One;
+
   static Map<String, int> _values = {
     'Blend.Zero' : Blend.Zero,
     'Blend.One' : Blend.One,
@@ -102,7 +104,8 @@ class Blend extends Enum {
   };
 
   /// Convert a [String] to a [Blend].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int d = Default]) =>
+      Enum._parse(_values, name, d);
   /// Convert a [Blend] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

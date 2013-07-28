@@ -45,7 +45,7 @@ void main() {
     expect(TextureAddressMode.parse('TextureAddressMode.Mirror'), TextureAddressMode.Mirror);
     expect(TextureAddressMode.parse('TextureAddressMode.Wrap')  , TextureAddressMode.Wrap);
 
-    expect(() { CullMode.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(TextureAddressMode.parse('NotValid'), TextureAddressMode.Default);
   });
 
   test('isValid', () {

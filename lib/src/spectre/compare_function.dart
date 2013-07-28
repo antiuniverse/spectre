@@ -46,6 +46,8 @@ class CompareFunction extends Enum {
   /// current pixel.
   static const int NotEqual = WebGL.NOTEQUAL;
 
+  static const int Default = LessEqual;
+
   static Map<String, int> _values = {
     'CompareFunction.Always' : Always,
     'CompareFunction.Equal' : Equal,
@@ -58,7 +60,8 @@ class CompareFunction extends Enum {
   };
 
   /// Convert a [String] to a [CompareFunction].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [CompareFunction] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

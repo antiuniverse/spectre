@@ -26,6 +26,8 @@ class PixelFormat extends Enum {
   static const int Rgba = WebGL.RGBA;
   static const int Depth = WebGL.DEPTH_COMPONENT;
 
+  static const int Default = Rgba;
+
   static Map<String, int> _values = {
     'PixelFormat.Rgb' : Rgb,
     'PixelFormat.Rgba' : Rgba,
@@ -33,7 +35,8 @@ class PixelFormat extends Enum {
   };
 
   /// Convert a [String] to a [DataType].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [DataType] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

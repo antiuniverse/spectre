@@ -37,13 +37,13 @@ class RasterizerState {
   /// The default value is [FrontFace.CounterClockwise].
   int _frontFace = FrontFace.CounterClockwise;
   /// The depth bias for polygons.
-  /// This is the amount of bias to apply to the depth of a primitive to alleviate depth testing
-  /// problems for primitives of similar depth.
+  /// This is the amount of bias to apply to the depth of a primitive to
+  /// alleviate depth testing problems for primitives of similar depth.
   /// The default value is 0.
   double _depthBias = 0.0;
   /// A bias value that takes into account the slope of a polygon.
-  /// This bias value is applied to coplanar primitives to reduce aliasing and other rendering
-  /// artifacts caused by z-fighting.
+  /// This bias value is applied to coplanar primitives to reduce aliasing and
+  /// other rendering artifacts caused by z-fighting.
   /// The default is 0.
   double _slopeScaleDepthBias = 0.0;
   /// Whether scissor testing is enabled.
@@ -91,7 +91,8 @@ class RasterizerState {
   /// [CullMode].
   set cullMode(int value) {
     if (!CullMode.isValid(value)) {
-      throw new ArgumentError('cullMode must be an enumeration within CullMode.');
+      throw new ArgumentError(
+          'cullMode must be an enumeration within CullMode.');
     }
 
     _cullMode = value;
@@ -105,7 +106,8 @@ class RasterizerState {
   /// [FrontFace].
   set frontFace(int value) {
     if (!FrontFace.isValid(value)) {
-      throw new ArgumentError('frontFace must be an enumeration within FrontFace.');
+      throw new ArgumentError(
+          'frontFace must be an enumeration within FrontFace.');
     }
 
     _frontFace = value;

@@ -73,8 +73,7 @@ void main() {
     expect(Blend.parse('Blend.SourceAlphaSaturation')  , Blend.SourceAlphaSaturation);
     expect(Blend.parse('Blend.BlendFactor')            , Blend.BlendFactor);
     expect(Blend.parse('Blend.InverseBlendFactor')     , Blend.InverseBlendFactor);
-
-    expect(() { Blend.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(Blend.parse('NotValid'), Blend.Default);
   });
 
   test('isValid', () {

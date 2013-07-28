@@ -47,7 +47,7 @@ void main() {
     expect(CompareFunction.stringify(CompareFunction.Fail)        , 'CompareFunction.Fail');
     expect(CompareFunction.stringify(CompareFunction.NotEqual)    , 'CompareFunction.NotEqual');
 
-    expect(() { CullMode.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { CompareFunction.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
   });
 
   test('parse', () {
@@ -60,7 +60,7 @@ void main() {
     expect(CompareFunction.parse('CompareFunction.Fail')        , CompareFunction.Fail);
     expect(CompareFunction.parse('CompareFunction.NotEqual')    , CompareFunction.NotEqual);
 
-    expect(() { CullMode.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(CompareFunction.parse('NotValid'), CompareFunction.Default);
   });
 
   test('isValid', () {
@@ -73,6 +73,6 @@ void main() {
     expect(CompareFunction.isValid(CompareFunction.Fail)        , true);
     expect(CompareFunction.isValid(CompareFunction.NotEqual)    , true);
 
-    expect(CullMode.isValid(-1), false);
+    expect(CompareFunction.isValid(-1), false);
   });
 }

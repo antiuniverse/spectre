@@ -45,7 +45,7 @@ void main() {
     expect(BlendOperation.parse('BlendOperation.ReverseSubtract'), BlendOperation.ReverseSubtract);
     expect(BlendOperation.parse('BlendOperation.Subtract')       , BlendOperation.Subtract);
 
-    expect(() { BlendOperation.parse('NotValid'); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(BlendOperation.parse('NotValid'), BlendOperation.Default);
   });
 
   test('isValid', () {

@@ -29,6 +29,8 @@ class UsagePattern extends Enum {
   /// Modified repeatedly. Many uses.
   static const int DynamicDraw = WebGL.DYNAMIC_DRAW;
 
+  static const int Default = StaticDraw;
+
   static Map<String, int> _values = {
     'UsagePattern.StreamDraw' : StreamDraw,
     'UsagePattern.StaticDraw' : StaticDraw,
@@ -36,7 +38,8 @@ class UsagePattern extends Enum {
   };
 
   /// Convert a [String] to a [UsagePattern].
-  static int parse(String name) => Enum._parse(_values, name);
+  static int parse(String name, [int dflt = Default]) =>
+      Enum._parse(_values, name, dflt);
   /// Convert a [UsagePattern] to a [String].
   static String stringify(int value) => Enum._stringify(_values, value);
   /// Checks whether the value is a valid enumeration.

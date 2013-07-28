@@ -57,23 +57,23 @@ class BlendState {
 
   /// The arithmetic operation when blending alpha values.
   /// The default is [BlendOperation.Add].
-  int _alphaBlendOperation = BlendOperation.Add;
+  int _alphaBlendOperation = BlendOperation.Default;
   /// The blend factor for the destination alpha; the percentage of the
   /// destination alpha included in the result.
   /// The default is [Blend.One].
-  int _alphaDestinationBlend = Blend.One;
+  int _alphaDestinationBlend = Blend.Default;
   /// The alpha blend factor.
   /// The default is [Blend.One].
-  int _alphaSourceBlend = Blend.One;
+  int _alphaSourceBlend = Blend.Default;
   /// The arithmetic operation when blending color values.
   /// The default is [BlendOperation.Add].
-  int _colorBlendOperation = BlendOperation.Add;
+  int _colorBlendOperation = BlendOperation.Default;
   /// The blend factor for the destination color.
   /// The default is [Blend.One].
-  int _colorDestinationBlend = Blend.One;
+  int _colorDestinationBlend = Blend.Default;
   /// The blend factor for the source color.
   /// The default is Blend.One.
-  int _colorSourceBlend = Blend.One;
+  int _colorSourceBlend = Blend.Default;
 
   /// Whether the red channel is enabled for writing during color blending.
   bool _writeRenderTargetRed = true;

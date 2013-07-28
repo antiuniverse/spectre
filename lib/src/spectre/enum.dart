@@ -22,9 +22,11 @@ part of spectre;
 
 class Enum {
   /// Convert from a [String] name to the corresponding enumeration value.
-  static int _parse(Map<String, int> values, String name) {
+  static int _parse(Map<String, int> values, String name, int dflt) {
     int r = values[name];
-    assert(r != null);
+    if (r == null) {
+      return dflt;
+    }
     return r;
   }
 

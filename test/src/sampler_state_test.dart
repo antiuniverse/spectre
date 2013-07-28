@@ -63,12 +63,12 @@ void main() {
 
     // SamplerState.anisotropicClamp
     SamplerState anisotropicClamp = new SamplerState.anisotropicClamp('SamplerStateAnisotropicClamp', _graphicsDevice);
-    testConstructor(anisotropicClamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureMinFilter.Linear, TextureMagFilter.Linear, 4);
+    testConstructor(anisotropicClamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureMinFilter.PointMipLinear, TextureMagFilter.Linear, 4);
     expect(() { SamplerState constructWithNull = new SamplerState.anisotropicClamp('SamplerStateNull', null); }, throwsArgumentError);
 
     // SamplerState.anisotropicClamp
     SamplerState anisotropicWrap = new SamplerState.anisotropicWrap('SamplerStateAnisotropicWrap', _graphicsDevice);
-    testConstructor(anisotropicWrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureMinFilter.Linear, TextureMagFilter.Linear, 4);
+    testConstructor(anisotropicWrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureMinFilter.PointMipLinear, TextureMagFilter.Linear, 4);
     expect(() { SamplerState constructWithNull = new SamplerState.anisotropicWrap('SamplerStateNull', null); }, throwsArgumentError);
 
     // SamplerState.linearClamp
