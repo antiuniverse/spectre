@@ -30,13 +30,13 @@ import 'package:spectre/src/spectre_declarative/material_constant.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialElement extends SpectreElement {
-  ShaderProgram _shaderProgram;
-  DepthState _dState;
-  RasterizerState _rState;
-  BlendState _bState;
+  final DepthState _dState = new DepthState();
+  final RasterizerState _rState = new RasterizerState();
+  final BlendState _bState = new BlendState();
   final Map<String, List<SpectreMaterialConstantElement>> _constantStack = new
       Map<String, List<SpectreMaterialConstantElement>>();
 
+  ShaderProgram _shaderProgram;
   ShaderProgram get shaderProgram => _shaderProgram;
 
   created() {
@@ -63,10 +63,6 @@ class SpectreMaterialElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    var graphicsDevice = DeclarativeState.graphicsDevice;
-    _dState = new DepthState();
-    _rState = new RasterizerState();
-    _bState = new BlendState.alphaBlend();
     _update();
   }
 
