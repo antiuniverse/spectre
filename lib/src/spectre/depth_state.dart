@@ -42,7 +42,7 @@ class DepthState {
 
   /// Creates an instance of [DepthState] that writes to the depth buffer.
   DepthState.depthWrite()
-    : _depthBufferEnabled = false,
+    : _depthBufferEnabled = true,
       _depthBufferWriteEnabled = true;
 
   /// Creates an instance of [DepthState] that does depth checks.

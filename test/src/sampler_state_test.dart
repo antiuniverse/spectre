@@ -58,7 +58,7 @@ void main() {
   test('construction', () {
     // Default constructor
     SamplerState defaultState = new SamplerState('SamplerStateDefault', _graphicsDevice);
-    testConstructor(defaultState, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureMinFilter.Linear, TextureMagFilter.Linear, 1);
+    testConstructor(defaultState, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureMinFilter.PointMipLinear, TextureMagFilter.Linear, 1);
     expect(() { SamplerState constructWithNull = new SamplerState('SamplerStateNull', null); }, throwsArgumentError);
 
     // SamplerState.anisotropicClamp
