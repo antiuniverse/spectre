@@ -22,27 +22,37 @@ library spectre_declarative_camera;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_element.dart';
 import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
+import 'package:vector_math/vector_math.dart';
 
 /**
  * <s-camera id="mainCamera"></s-camera>
- *
- * Attributes:
- *
- * * fieldOfViewY (double, radians)
- * * position (Vector3)
- * * eyeDirection (Vector3)
- * * upDirection (Vector3)
- * * zNear (double)
- * * zfar (double)
- * * yaw
- * * pitch
  */
 class SpectreCameraElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-  Camera camera;
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'fieldOfViewY': () => new SpectreElementAttributeDouble('fieldOfViewY',
+                                                            0.785398163),
+    'position': () => new SpectreElementAttributeVector3('position',
+                                                         new Vector3(1.0, 1.0,
+                                                                     1.0)),
+    'upDirection': () => new SpectreElementAttributeVector3('upDirection',
+                                                         new Vector3(0.0, 1.0,
+                                                                     0.0)),
+    'viewDirection': () =>
+        new SpectreElementAttributeVector3('viewDirection',
+                                           new Vector3(-0.33333, -0.33333,
+                                                       -0.33333)),
+    'zNear': () => new SpectreElementAttributeDouble('zNear', 0.5),
+    'zFar': () => new SpectreElementAttributeDouble('zFar', 1000.0),
+  };
+  final List<String> requiredSpectreAttributes = [ 'fieldOfViewY',
+                                                   'position',
+                                                   'upDirection',
+                                                   'viewDirection',
+                                                   'zNear',
+                                                   'zFar'];
+  final Camera camera = new Camera();
 
   void created() {
     super.created();
@@ -68,13 +78,24 @@ class SpectreCameraElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    Camera camera = new Camera();
+    update();
+  }
+
+  void update() {
+    camera.FOV = spectreAttributes['fieldOfViewY'].value;
+    camera.upDirection.setFrom(spectreAttributes['upDirection'].value);
+    camera.position.setFrom(spectreAttributes['position'].value);
+    camera.focusPosition.setFrom(camera.position);
+    camera.focusPosition.add(spectreAttributes['viewDirection'].value);
+    camera.zNear = spectreAttributes['zNear'].value;
+    camera.zFar = spectreAttributes['zFar'].value;
   }
 
   void apply() {
     super.apply();
   }
 
+  // Render model.
   void render() {
     super.render();
   }

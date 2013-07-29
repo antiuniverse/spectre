@@ -66,7 +66,7 @@ class SpectreLinePrimitiveElement extends SpectreElement {
   }
 
   void apply() {
-    // NOP.
+    update();
   }
 
   void render() {
