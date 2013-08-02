@@ -80,6 +80,9 @@ class SpectreMaterialElement extends SpectreElement {
     graphicsContext.setBlendState(blendState);
   }
 
+  void push() {
+  }
+
   render() {
     super.render();
     if (_shaderProgram == null) {
@@ -89,7 +92,11 @@ class SpectreMaterialElement extends SpectreElement {
     scene.pushMaterial(this);
     _updateCameraConstants(scene.currentCamera);
     renderChildren();
-    _unapplyConstants();
+    popChildren();
+  }
+
+  void pop() {
+    var scene = DeclarativeState.scene;
     scene.popMaterial();
   }
 
@@ -135,14 +142,6 @@ class SpectreMaterialElement extends SpectreElement {
     // Apply all constants, update stack.
     l.forEach((e) {
       applyConstant(e.xtag, true);
-    });
-  }
-
-  _unapplyConstants() {
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
-    // Unapply constants in revers order.
-    l.reversed.forEach((e) {
-      unapplyConstant(e.xtag);
     });
   }
 

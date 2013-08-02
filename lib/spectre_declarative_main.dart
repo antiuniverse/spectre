@@ -134,11 +134,14 @@ class DeclarativeExample extends Example {
   }
 }
 
-void main(String backBufferId, String sceneId) {
+Future main(String backBufferId, String sceneId) {
   mdv.initialize();
 
   polymer.setScopedCss('s-camera', {"s-camera":"[is=\"s-camera\"]"});
   polymer.registerPolymerElement('s-camera', () => new SpectreCameraElement());
+
+  polymer.setScopedCss('s-fragment-shader', {"s-fragment-shader":"[is=\"s-fragment-shader\"]"});
+  polymer.registerPolymerElement('s-fragment-shader', () => new SpectreFragmentShaderElement());
 
   polymer.setScopedCss('s-layer', {"s-layer":"[is=\"s-layer\"]"});
   polymer.registerPolymerElement('s-layer', () => new SpectreLayerElement());
@@ -152,6 +155,9 @@ void main(String backBufferId, String sceneId) {
   polymer.setScopedCss('s-material-constant', {"s-material-constant":"[is=\"s-material-constant\"]"});
   polymer.registerPolymerElement('s-material-constant', () => new SpectreMaterialConstantElement());
 
+  polymer.setScopedCss('s-material-program', {"s-material-program":"[is=\"s-material-program\"]"});
+  polymer.registerPolymerElement('s-material-program', () => new SpectreMaterialProgramElement());
+
   polymer.setScopedCss('s-model', {"s-model":"[is=\"s-model\"]"});
   polymer.registerPolymerElement('s-model', () => new SpectreModelElement());
 
@@ -164,7 +170,17 @@ void main(String backBufferId, String sceneId) {
   polymer.setScopedCss('s-transform', {"s-transform":"[is=\"s-transform\"]"});
   polymer.registerPolymerElement('s-transform', () => new SpectreTransformElement());
 
+  polymer.setScopedCss('s-vertex-shader', {"s-vertex-shader":"[is=\"s-vertex-shader\"]"});
+  polymer.registerPolymerElement('s-vertex-shader', () => new SpectreVertexShaderElement());
+
   var example = new DeclarativeExample(query(backBufferId), sceneId);
   example.gameLoop.pointerLock.lockOnClick = true;
-  runExample(example);
+  return example.initialize()
+      .then((_) => example.load())
+      .then((_) => example.start())
+      .catchError((e) {
+        print('Could not run ${example.name}: $e');
+        print(e.stackTrace);
+        window.alert('Could not run ${example.name}: $e. See console.');
+      });
 }

@@ -99,4 +99,12 @@ class SpectreCameraElement extends SpectreElement {
   void render() {
     super.render();
   }
+
+  void push() {
+    super.push();
+  }
+
+  void pop() {
+    super.pop();
+  }
 }

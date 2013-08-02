@@ -97,12 +97,23 @@ class SpectreMaterialConstantElement extends SpectreElement {
   render() {
     super.render();
     _update();
+    renderChildren();
     var scene = DeclarativeState.scene;
     var currentMaterial = scene.currentMaterial;
     if (currentMaterial == null) {
       return;
     }
     currentMaterial.applyConstant(this, true);
+    popChildren();
+  }
+
+  void pop() {
+    var scene = DeclarativeState.scene;
+    var currentMaterial = scene.currentMaterial;
+    if (currentMaterial == null) {
+      return;
+    }
+    currentMaterial.unapplyConstant(this);
   }
 
   void _update() {
@@ -284,8 +295,8 @@ class SpectreMaterialConstantElement extends SpectreElement {
       case 'alphaBlendOperation':
         currentMaterial.blendState.alphaBlendOperation = value;
         break;
-      case 'alphaDestination':
-        currentMaterial.blendState.alphaDestination = value;
+      case 'alphaDestinationBlend':
+        currentMaterial.blendState.alphaDestinationBlend = value;
         break;
       case 'alphaSourceBlend':
         currentMaterial.blendState.alphaSourceBlend = value;
@@ -331,7 +342,7 @@ class SpectreMaterialConstantElement extends SpectreElement {
       case 'alphaBlendOperation':
         value = BlendOperation.parse(attributes['value']);
         break;
-      case 'alphaDestination':
+      case 'alphaDestinationBlend':
         value = Blend.parse(attributes['value']);
         break;
       case 'alphaSourceBlend':
@@ -386,7 +397,7 @@ class SpectreMaterialConstantElement extends SpectreElement {
                                   'blendFactorBlue',
                                   'blendFactorAlpha',
                                   'alphaBlendOperation',
-                                  'alphaDestination',
+                                  'alphaDestinationBlend',
                                   'alphaSourceBlend',
                                   'colorBlendOperation',
                                   'colorDestinationBlend',

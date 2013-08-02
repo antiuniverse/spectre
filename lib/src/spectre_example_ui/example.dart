@@ -212,8 +212,9 @@ abstract class Example {
     return new Future.value(this);
   }
 
-  void start() {
+  Future start() {
     gameLoop.start();
+    return new Future.value(this);
   }
 
   void onUpdate();

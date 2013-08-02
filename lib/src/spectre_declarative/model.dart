@@ -71,10 +71,15 @@ class SpectreModelElement extends SpectreElement {
     // NOP.
   }
 
+  void push() {
+    super.push();
+  }
   render() {
     _update();
     super.render();
-    applyConstants();
+    // Render children.
+    renderChildren();
+    // Render self.
     var graphicsContext = DeclarativeState.graphicsContext;
     graphicsContext.setInputLayout(_inputLayout);
     _updateObjectTransformConstant(DeclarativeState.scene.currentTransform);
@@ -85,28 +90,12 @@ class SpectreModelElement extends SpectreElement {
       graphicsContext.setMesh(_mesh);
       graphicsContext.drawMesh(_mesh);
     }
-    unapplyConstants();
+    // Scope closing.
+    popChildren();
   }
 
-  void applyConstants() {
-    var scene = DeclarativeState.scene;
-    var material = scene.currentMaterial;
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
-    // Apply all constants, update stack.
-    l.forEach((e) {
-      var elem = e.xtag;
-      material.applyConstant(elem, true);
-    });
-  }
-
-  void unapplyConstants() {
-    var scene = DeclarativeState.scene;
-    var material = scene.currentMaterial;
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
-    l.forEach((e) {
-      var elem = e.xtag;
-      material.unapplyConstant(elem);
-    });
+  void pop() {
+    super.pop();
   }
 
   void _update() {

@@ -29,11 +29,14 @@ import 'dart:typed_data';
 
 export 'package:spectre/spectre_element.dart';
 export 'package:spectre/src/spectre_declarative/camera.dart';
+export 'package:spectre/src/spectre_declarative/fragment_shader.dart';
 export 'package:spectre/src/spectre_declarative/layer.dart';
 export 'package:spectre/src/spectre_declarative/line_primitive.dart';
 export 'package:spectre/src/spectre_declarative/material.dart';
 export 'package:spectre/src/spectre_declarative/material_constant.dart';
+export 'package:spectre/src/spectre_declarative/material_program.dart';
 export 'package:spectre/src/spectre_declarative/model.dart';
 export 'package:spectre/src/spectre_declarative/post_effect.dart';
 export 'package:spectre/src/spectre_declarative/scene.dart';
 export 'package:spectre/src/spectre_declarative/transform.dart';
+export 'package:spectre/src/spectre_declarative/vertex_shader.dart';

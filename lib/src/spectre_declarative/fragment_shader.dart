@@ -18,16 +18,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_layer;
+library spectre_declarative_fragment_shader;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/spectre_element.dart';
 
-class SpectreLayerElement extends SpectreElement {
+class SpectreFragmentShaderElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
+
+  FragmentShader _shader;
+  FragmentShader get shader => _shader;
+
   void created() {
     super.created();
   }
@@ -39,6 +43,9 @@ class SpectreLayerElement extends SpectreElement {
 
   void removed() {
     super.removed();
+    if (inited) {
+      _destroy();
+    }
   }
 
   void init() {
@@ -52,22 +59,23 @@ class SpectreLayerElement extends SpectreElement {
     }
     // Initialize.
     super.init();
+    _create();
+    _extractSource();
   }
 
-  void apply() {
-    super.apply();
+  void _create() {
+    assert(inited);
+    var device = DeclarativeState.graphicsDevice;
+    _shader = new FragmentShader('SpectreFragmentShader', device);
   }
 
-  void render() {
-    super.render();
-    // Configure render targets.
-    // Configure scene sort.
-    renderChildren();
-    popChildren();
-    // Restore render targets.
+  void _extractSource() {
+    assert(inited);
+    _shader.source = text;
   }
 
-  void pop() {
-
+  void _destroy() {
+    assert(inited);
+    _shader.dispose();
   }
 }

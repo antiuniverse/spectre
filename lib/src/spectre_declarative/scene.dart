@@ -66,9 +66,18 @@ class SpectreSceneElement extends SpectreElement {
     super.apply();
   }
 
+  void push() {
+    super.push();
+  }
+
   render() {
     super.render();
     renderChildren();
+    popChildren();
+  }
+
+  void pop() {
+    super.pop();
   }
 
   void pushMaterial(SpectreMaterialElement material) {

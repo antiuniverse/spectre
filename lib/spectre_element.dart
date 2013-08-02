@@ -263,10 +263,10 @@ abstract class SpectreElement extends PolymerElement {
     return l;
   }
 
-  void applyChildren() {
+  void pushChildren() {
     children.forEach((e) {
       if (e.xtag is SpectreElement) {
-        e.xtag.apply();
+        e.xtag.push();
       }
     });
   }
@@ -275,6 +275,14 @@ abstract class SpectreElement extends PolymerElement {
     children.forEach((e) {
       if (e.xtag is SpectreElement) {
         e.xtag.render();
+      }
+    });
+  }
+
+  void popChildren() {
+    children.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e.xtag.pop();
       }
     });
   }
@@ -295,12 +303,24 @@ abstract class SpectreElement extends PolymerElement {
   void init() {
     _inited = true;
   }
+
   /// Apply this object to the GPU pipeline.
   void apply() {
     assert(_inited);
   }
+
   /// Render this object.
   void render() {
+    assert(_inited);
+  }
+
+  /// New scope opened.
+  void push() {
+    assert(_inited);
+  }
+
+  /// Scope closing.
+  void pop() {
     assert(_inited);
   }
 }

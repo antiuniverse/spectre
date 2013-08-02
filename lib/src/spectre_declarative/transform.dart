@@ -85,6 +85,11 @@ class SpectreTransformElement extends SpectreElement {
     var scene = DeclarativeState.scene;
     scene.pushTransform(T);
     renderChildren();
+    popChildren();
+  }
+
+  void pop() {
+    var scene = DeclarativeState.scene;
     scene.popTransform();
   }
 
