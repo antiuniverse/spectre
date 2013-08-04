@@ -50,9 +50,8 @@ class _DebugLineCollection {
   }
 
   void startLineObject(double r, double g, double b, double a, double duration){
-    if (_lineObject != null) {
-      _lineObjects.add(_lineObject);
-    }
+    // Can't call recursively.
+    assert(_lineObject == null);
     if (_freeLineObjects.length > 0) {
       _lineObject = _freeLineObjects.removeLast();
     } else {
@@ -66,7 +65,10 @@ class _DebugLineCollection {
   }
 
   void finishLineObject() {
-    // TODO: Verify that there are is a multiple of two vertices.
+    if (_lineObject != null) {
+      _lineObjects.add(_lineObject);
+      _lineObject = null;
+    }
   }
 
   _DebugLineVertex getVertex() {
@@ -96,10 +98,6 @@ class _DebugLineCollection {
   }
 
   void update(num dt) {
-    if (_lineObject != null) {
-      //_lineObjects.add(_lineObject);
-      //_lineObject = null;
-    }
     for (int i = _lineObjects.length-1; i >= 0; i--) {
       _DebugLineObject lineObject = _lineObjects[i];
       lineObject.duration -= dt;
