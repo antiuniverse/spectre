@@ -82,12 +82,20 @@ class SpectreMaterialElement extends SpectreElement {
     if (name == null) {
       return;
     }
-    constant.apply();
+    var old = constant.apply();
     if (updateStack) {
       var l = _constantStack[name];
       if (l == null) {
         l = new List<SpectreMaterialConstantElement>();
         _constantStack[name] = l;
+      }
+      if (l.length == 0 && old != null) {
+        var reset = createElement('s-material-constant');
+        var xt = reset.xtag;
+        xt.init();
+        xt.name = name;
+        xt.value = old;
+        l.add(xt);
       }
       l.add(constant);
     }

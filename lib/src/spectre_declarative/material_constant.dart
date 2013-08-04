@@ -78,31 +78,28 @@ class SpectreMaterialConstantElement extends SpectreElement {
     super.removed();
   }
 
-  apply() {
+  dynamic apply() {
     _update();
     if (_isSampler) {
       _applySampler();
+      return null;
     } else if (_isUniform) {
       _applyUniform();
+      return null;
     } else if (_isRasterizerConstant(name)) {
-      _applyRasterizerConstant(name);
+      return _applyRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
-      _applyDepthConstant(name);
+      return _applyDepthConstant(name);
     } else if (_isBlendConstant(name)) {
-      _applyBlendConstant(name);
+      return _applyBlendConstant(name);
     }
-  }
-
-  void pop() {
-    var scene = SpectreDeclarative.root;
-    var currentMaterial = scene.currentMaterial;
-    assert(currentMaterial != null);
-    currentMaterial.unapplyConstant(this);
   }
 
   void _update() {
     assert(inited);
-    name = attributes['name'];
+    if (name == null) {
+      name = attributes['name'];
+    }
     if (name == null) {
       return;
     }
@@ -154,36 +151,43 @@ class SpectreMaterialConstantElement extends SpectreElement {
   void _updateUniform(ShaderProgramUniform uniform) {
   }
 
-  void _applyRasterizerConstant(String name) {
+  dynamic _applyRasterizerConstant(String name) {
     assert(inited);
     assert(_isRasterizerConstant(name));
     if (value == null) {
       // No value set.
-      return;
+      return null;
     }
     var currentMaterial = SpectreDeclarative.root.currentMaterial;
     if (currentMaterial == null) {
-      return;
+      return null;
     }
     var graphicsContext = SpectreDeclarative.graphicsContext;
+    var old;
     switch (name) {
       case 'cullMode':
+        old = currentMaterial.rasterizerState.cullMode;
         currentMaterial.rasterizerState.cullMode = value;
         break;
       case 'frontFace':
+        old = currentMaterial.rasterizerState.frontFace;
         currentMaterial.rasterizerState.frontFace = value;
         break;
       case 'depthBias':
+        old = currentMaterial.rasterizerState.depthBias;
         currentMaterial.rasterizerState.depthBias = value;
         break;
       case 'slopeScaleDepthBias':
+        old = currentMaterial.rasterizerState.slopeScaleDepthBias;
         currentMaterial.rasterizerState.slopeScaleDepthBias = value;
         break;
       case 'scissorTestEnabled':
+        old = currentMaterial.rasterizerState.scissorTestEnabled;
         currentMaterial.rasterizerState.scissorTestEnabled = value;
         break;
     }
     graphicsContext.setRasterizerState(currentMaterial.rasterizerState);
+    return old;
   }
 
   void _updateRasterizerConstant(String name) {
@@ -206,30 +210,35 @@ class SpectreMaterialConstantElement extends SpectreElement {
     }
   }
 
-  void _applyDepthConstant(String name) {
+  dynamic _applyDepthConstant(String name) {
     assert(inited);
     assert(_isDepthConstant(name));
     if (value == null) {
       // No value set.
-      return;
+      return null;
     }
     var currentMaterial = SpectreDeclarative.root.currentMaterial;
     if (currentMaterial == null) {
-      return;
+      return null;
     }
     var graphicsContext = SpectreDeclarative.graphicsContext;
+    var old;
     switch (name) {
       case 'depthBufferEnabled':
+        old = currentMaterial.depthState.depthBufferEnabled;
         currentMaterial.depthState.depthBufferEnabled = value;
         break;
       case 'depthBufferWriteEnabled':
+        old = currentMaterial.depthState.depthBufferWriteEnabled;
         currentMaterial.depthState.depthBufferWriteEnabled = value;
         break;
       case 'depthBufferFunction':
+        old = currentMaterial.depthState.depthBufferFunction;
         currentMaterial.depthState.depthBufferFunction = value;
         break;
     }
     graphicsContext.setDepthState(currentMaterial.depthState);
+    return old;
   }
 
   void _updateDepthConstant(String name) {
@@ -248,66 +257,83 @@ class SpectreMaterialConstantElement extends SpectreElement {
     }
   }
 
-  void _applyBlendConstant(String name) {
+  dynamic _applyBlendConstant(String name) {
     assert(inited);
     assert(_isBlendConstant(name));
     if (value == null) {
       // No value set.
-      return;
+      return null;
     }
     var currentMaterial = SpectreDeclarative.root.currentMaterial;
     if (currentMaterial == null) {
-      return;
+      return null;
     }
     var graphicsContext = SpectreDeclarative.graphicsContext;
+    var old;
     switch (name) {
       case 'enabled':
+        old = currentMaterial.blendState.enabled;
         currentMaterial.blendState.enabled = value;
         break;
       case 'blendFactorRed':
+        old = currentMaterial.blendState.blendFactorRed;
         currentMaterial.blendState.blendFactorRed = value;
         break;
       case 'blendFactorGreen':
+        old = currentMaterial.blendState.blendFactorGreen;
         currentMaterial.blendState.blendFactorGreen = value;
         break;
       case 'blendFactorBlue':
+        old = currentMaterial.blendState.blendFactorBlue;
         currentMaterial.blendState.blendFactorBlue = value;
         break;
       case 'blendFactorAlpha':
+        old = currentMaterial.blendState.blendFactorAlpha;
         currentMaterial.blendState.blendFactorAlpha = value;
         break;
       case 'alphaBlendOperation':
+        old = currentMaterial.blendState.alphaBlendOperation;
         currentMaterial.blendState.alphaBlendOperation = value;
         break;
       case 'alphaDestinationBlend':
+        old = currentMaterial.blendState.alphaDestinationBlend;
         currentMaterial.blendState.alphaDestinationBlend = value;
         break;
       case 'alphaSourceBlend':
+        old = currentMaterial.blendState.alphaSourceBlend;
         currentMaterial.blendState.alphaSourceBlend = value;
         break;
       case 'colorBlendOperation':
+        old = currentMaterial.blendState.colorBlendOperation;
         currentMaterial.blendState.colorBlendOperation = value;
         break;
       case 'colorDestinationBlend':
+        old = currentMaterial.blendState.colorDestinationBlend;
         currentMaterial.blendState.colorDestinationBlend = value;
         break;
       case 'colorSourceBlend':
+        old = currentMaterial.blendState.colorSourceBlend;
         currentMaterial.blendState.colorSourceBlend = value;
         break;
       case 'writeRenderTargetRed':
+        old = currentMaterial.blendState.writeRenderTargetRed;
         currentMaterial.blendState.writeRenderTargetRed = value;
         break;
       case 'writeRenderTargetGreen':
+        old = currentMaterial.blendState.writeRenderTargetGreen;
         currentMaterial.blendState.writeRenderTargetGreen = value;
         break;
       case 'writeRenderTargetBlue':
+        old = currentMaterial.blendState.writeRenderTargetBlue;
         currentMaterial.blendState.writeRenderTargetBlue = value;
         break;
       case 'writeRenderTargetAlpha':
+        old = currentMaterial.blendState.writeRenderTargetAlpha;
         currentMaterial.blendState.writeRenderTargetAlpha = value;
         break;
     }
     graphicsContext.setBlendState(currentMaterial.blendState);
+    return old;
   }
 
   void _updateBlendConstant(String name) {
