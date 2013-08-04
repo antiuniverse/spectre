@@ -76,7 +76,7 @@
     </s-material-constant>
   </s-material>
   <s-model id="sparseCubes">
-    <s-transform translate="[5.0, 5.0, 5.0]">
+    <s-transform id="tform">
       <s-mesh material-id="#simpleMaterial"
               geometry-path="assetpack://base.unitCube"></s-mesh>
       <s-transform translate="[0.0, 2.0, 0.0]">
@@ -95,7 +95,13 @@
   </s-model>
   <s-scene>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
-    <s-transform translate="[-5.0, -5.0, -5.0]">
+    <s-transform>
+      <s-model-instance model-id="#sparseCubes"></s-model-instance>
+    </s-transform>
+    <s-transform translate="[0.0, 5.0, 0.0]">
+      <s-model-instance model-id="#sparseCubes"></s-model-instance>
+    </s-transform>
+    <s-transform translate="[0.0, -5.0, 0.0]">
       <s-model-instance model-id="#sparseCubes"></s-model-instance>
     </s-transform>
   </s-scene>

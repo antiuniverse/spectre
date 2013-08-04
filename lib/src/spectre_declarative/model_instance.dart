@@ -25,6 +25,7 @@ import 'dart:json' as JSON;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/src/spectre_declarative/model.dart';
 import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
