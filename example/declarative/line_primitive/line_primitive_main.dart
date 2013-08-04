@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library debug_draw_main;
+library line_primitive_main;
 
 import 'dart:async';
 import 'dart:html';

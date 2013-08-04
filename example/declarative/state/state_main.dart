@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library model_main;
+library state_main;
 
 import 'dart:async';
 import 'dart:html';
@@ -38,16 +38,4 @@ import 'package:vector_math/vector_math.dart';
 
 void main() {
   declarative.main('#backBuffer', '#spectre');
-
-
-  double t = 0.0;
-  // Query the dom for the transform element.
-  SpectreTransformElement ste = query('#tform').xtag;
-
-  // Once every 16 milliseconds, adjust the transform node.
-  new Timer.periodic(const Duration(milliseconds: 16), (_) {
-    ste.T.setIdentity();
-    ste.T.setRotationY(t);
-    t += 0.016;
-  });
 }
