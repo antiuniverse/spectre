@@ -44,16 +44,12 @@ class SpectrePostEffectElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
     // Initialize.
     super.init();
-  }
-
-  void apply() {
-    super.apply();
   }
 
   void render() {

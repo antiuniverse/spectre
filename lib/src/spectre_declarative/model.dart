@@ -31,9 +31,6 @@ import 'package:vector_math/vector_math.dart';
 class SpectreModelElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
-  SpectreMesh _mesh;
-  bool _indexed = false;
-  InputLayout _inputLayout;
 
   created() {
     super.created();
@@ -46,8 +43,6 @@ class SpectreModelElement extends SpectreElement {
 
   removed() {
     super.removed();
-    _inputLayout.dispose();
-    _inputLayout = null;
   }
 
   void init() {
@@ -55,69 +50,11 @@ class SpectreModelElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
     // Initialize.
     super.init();
-    _inputLayout = new InputLayout('SpectreModelElement',
-                                   DeclarativeState.graphicsDevice);
-    _update();
-  }
-
-  apply() {
-    super.apply();
-    // NOP.
-  }
-
-  void push() {
-    super.push();
-  }
-  render() {
-    _update();
-    super.render();
-    // Render children.
-    renderChildren();
-    // Render self.
-    var graphicsContext = DeclarativeState.graphicsContext;
-    graphicsContext.setInputLayout(_inputLayout);
-    _updateObjectTransformConstant(DeclarativeState.scene.currentTransform);
-    if (_indexed) {
-      graphicsContext.setIndexedMesh(_mesh);
-      graphicsContext.drawIndexedMesh(_mesh);
-    } else {
-      graphicsContext.setMesh(_mesh);
-      graphicsContext.drawMesh(_mesh);
-    }
-    // Scope closing.
-    popChildren();
-  }
-
-  void pop() {
-    super.pop();
-  }
-
-  void _update() {
-    assert(inited);
-    var scene = DeclarativeState.scene;
-    var material = scene.currentMaterial;
-    if (material == null) {
-      return;
-    }
-    _mesh = DeclarativeState.assetManager['base.unitCube'];
-    _inputLayout.mesh = _mesh;
-    _inputLayout.shaderProgram = material.shaderProgram;
-    _indexed = (_mesh is SingleArrayIndexedMesh);
-  }
-
-  void _updateObjectTransformConstant(Matrix4 T) {
-    var graphicsContext = DeclarativeState.graphicsContext;
-    ShaderProgram shader = graphicsContext.shaderProgram;
-    ShaderProgramUniform uniform;
-    uniform = shader.uniforms['objectTransform'];
-    if (uniform != null) {
-      shader.updateUniform(uniform, T.storage);
-    }
   }
 }

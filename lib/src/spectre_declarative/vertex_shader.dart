@@ -50,7 +50,7 @@ class SpectreVertexShaderElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -62,7 +62,7 @@ class SpectreVertexShaderElement extends SpectreElement {
 
   void _create() {
     assert(inited);
-    var device = DeclarativeState.graphicsDevice;
+    var device = SpectreDeclarative.graphicsDevice;
     _shader = new VertexShader('SpectreVertexShaderElement', device);
   }
 

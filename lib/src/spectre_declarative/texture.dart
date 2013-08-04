@@ -18,36 +18,29 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_transform;
+library spectre_declarative_texture;
 
 import 'package:polymer/polymer.dart';
+import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_element.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:vector_math/vector_math.dart';
 
 /**
- * <s-transform id="transform"></s-transform>
+ * <s-texture id="textureId"></s-texture>
  *
  * Attributes:
  *
- * * translate (Vector3)
- * * axis (Vector3)
- * * angle (double, radians)
+ * * url String
  */
 
-class SpectreTransformElement extends SpectreElement {
+class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'translate': () => new SpectreElementAttributeVector3('translate',
-                                                          new Vector3.zero()),
-    'axis': () => new SpectreElementAttributeVector3('axis',
-                                                     new Vector3(1.0, 0.0,
-                                                                 0.0)),
-    'angle': () => new SpectreElementAttributeDouble('angle', 0.0)
+    'url': () => new SpectreElementAttributeString('url',''),
   };
-  final List<String> requiredSpectreAttributes = ['translate', 'axis', 'angle'];
-  final Matrix4 T = new Matrix4.zero();
-  final Vector3 _v = new Vector3.zero();
-  double _d = 0.0;
+  SpectreTexture _texture;
+  SpectreTexture get texture => _texture;
+  final List<String> requiredSpectreAttributes = ['url'];
 
   created() {
     super.created();
@@ -78,15 +71,8 @@ class SpectreTransformElement extends SpectreElement {
 
   render() {
     super.render();
-    var spectre = SpectreDeclarative.root;
-    spectre.pushTransform(T);
-    renderChildren();
-    spectre.popTransform();
   }
 
   void _update() {
-    T.setIdentity();
-    T.rotate(spectreAttributes['axis'].value, spectreAttributes['angle'].value);
-    T.translate(spectreAttributes['translate'].value);
   }
 }

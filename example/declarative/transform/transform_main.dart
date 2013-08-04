@@ -37,7 +37,7 @@ import 'package:vector_math/vector_math.dart';
 
 
 void main() {
-  declarative.main('#backBuffer', '#scene');
+  declarative.main('#backBuffer', '#spectre');
 
   double t = 0.0;
   // Query the dom for the transform element.

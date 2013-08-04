@@ -26,6 +26,10 @@
   <template><content></content></template>
 </polymer-element>
 
+<polymer-element name="s-mesh" constructor="SpectreMeshElement">
+  <template><content></content></template>
+</polymer-element>
+
 <polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
   <template><content></content></template>
 </polymer-element>
@@ -50,26 +54,52 @@
   <template><content></content></template>
 </polymer-element>
 
+<polymer-element name="s-vertex-shader" constructor="SpectreVertexShaderElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-fragment-shader" constructor="SpectreFragmentShaderElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-material-program" constructor="SpectreMaterialProgramElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-spectre" constructor="SpectreSpectreElement">
+  <template><content></content></template>
+</polymer-element>
+
 <canvas id="backBuffer"></canvas>
 <div id="logo"></div>
 <script type="application/dart" src="line_primitive_main.dart"></script>
 <script src="packages/browser/dart.js"></script>
-<s-scene id="scene">
-  <s-layer>
+<s-spectre id="spectre">
+  <s-scene>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
-    <s-line-primitive type="sphere" color="[0.0, 1.0, 0.0, 1.0]" center="[0.0, 4.0, 3.0]"></s-line-primitive>
-    <s-line-primitive type="line" color="[0.0, 0.0, 1.0, 1.0]"></s-line-primitive>
-    <s-line-primitive type="cross" radius="2" center="[5.0, 5.0, 5.0]"></s-line-primitive>
-    <s-line-primitive type="plane" size="10" center="[0.0, -10.0, 0.0]" color="[1.0, 0.0, 0.0, 1.0]"></s-line-primitive>
-    <s-line-primitive type="plane" size="4" normal="[0.33, 0.33, 0.33]" center="[0.0, -10.0, 0.0]"></s-line-primitive>
-    <s-line-primitive type="arc" radius="4.0" color="[0.0, 1.0, 0.0, 1.0]" normal="[1.0, 0.0, 0.0]" center="[5.0, 5.0, 5.0]"></s-line-primitive>
-    <s-line-primitive type="circle" radius="2.0", normal="[0.0, 0.0, 1.0]" center="[5.0, 5.0, 5.0]"></s-line-primitive>
-    <s-line-primitive type="aabb" min="[6.0, 6.0, 6.0]" max="[10.0, 10.0, 10.0]"></s-line-primitive>
-    <s-line-primitive type="triangle" color="[1.0, 0.7, 0.7, 1.0]"></s-line-primitive>
-    <s-line-primitive type="cone" apex="[-4.0, 0.0, -4.0]" direction="[-1.0, 0.0, 0.0]" height="5.0"></s-line-primitive>
-  </s-layer>
-  <s-layer>
-  </s-layer>
-</s-scene>
+    <s-line-primitive type="sphere" color="[0.0, 1.0, 0.0, 1.0]"
+                      center="[0.0, 4.0, 3.0]"></s-line-primitive>
+    <s-line-primitive type="line" color="[0.0, 0.0, 1.0, 1.0]">
+    </s-line-primitive>
+    <s-line-primitive type="cross" radius="2" center="[5.0, 5.0, 5.0]">
+    </s-line-primitive>
+    <s-line-primitive type="plane" size="10" center="[0.0, -10.0, 0.0]"
+                      color="[1.0, 0.0, 0.0, 1.0]"></s-line-primitive>
+    <s-line-primitive type="plane" size="4" normal="[0.33, 0.33, 0.33]"
+                      center="[0.0, -10.0, 0.0]"></s-line-primitive>
+    <s-line-primitive type="arc" radius="4.0" color="[0.0, 1.0, 0.0, 1.0]"
+                      normal="[1.0, 0.0, 0.0]" center="[5.0, 5.0, 5.0]">
+    </s-line-primitive>
+    <s-line-primitive type="circle" radius="2.0", normal="[0.0, 0.0, 1.0]"
+                      center="[5.0, 5.0, 5.0]"></s-line-primitive>
+    <s-line-primitive type="aabb" min="[6.0, 6.0, 6.0]"
+                      max="[10.0, 10.0, 10.0]"></s-line-primitive>
+    <s-line-primitive type="triangle"
+                      color="[1.0, 0.7, 0.7, 1.0]"></s-line-primitive>
+    <s-line-primitive type="cone" apex="[-4.0, 0.0, -4.0]"
+                      direction="[-1.0, 0.0, 0.0]" height="5.0">
+    </s-line-primitive>
+  </s-scene>
+</s-spectre>
 </body>
 </html>

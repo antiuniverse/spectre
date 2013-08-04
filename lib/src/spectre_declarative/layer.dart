@@ -46,7 +46,7 @@ class SpectreLayerElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -54,20 +54,7 @@ class SpectreLayerElement extends SpectreElement {
     super.init();
   }
 
-  void apply() {
-    super.apply();
-  }
-
   void render() {
     super.render();
-    // Configure render targets.
-    // Configure scene sort.
-    renderChildren();
-    popChildren();
-    // Restore render targets.
-  }
-
-  void pop() {
-
   }
 }

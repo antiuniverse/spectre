@@ -213,11 +213,13 @@ abstract class SpectreElement extends PolymerElement {
 
   void created() {
     super.created();
+    print('created $this');
   }
 
   void inserted() {
     super.inserted();
     refreshAttributes();
+    print('inserted $this');
   }
 
   void refreshAttributes() {
@@ -246,6 +248,7 @@ abstract class SpectreElement extends PolymerElement {
 
   void removed() {
     super.removed();
+    print('removed $this');
   }
 
   void attributeChanged(String name, String oldValue, String newValue) {
@@ -304,23 +307,7 @@ abstract class SpectreElement extends PolymerElement {
     _inited = true;
   }
 
-  /// Apply this object to the GPU pipeline.
-  void apply() {
-    assert(_inited);
-  }
-
-  /// Render this object.
   void render() {
-    assert(_inited);
-  }
-
-  /// New scope opened.
-  void push() {
-    assert(_inited);
-  }
-
-  /// Scope closing.
-  void pop() {
     assert(_inited);
   }
 }

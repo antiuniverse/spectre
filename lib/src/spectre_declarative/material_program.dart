@@ -55,7 +55,7 @@ class SpectreMaterialProgramElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -69,7 +69,7 @@ class SpectreMaterialProgramElement extends SpectreElement {
 
   void _create() {
     assert(inited);
-    var device = DeclarativeState.graphicsDevice;
+    var device = SpectreDeclarative.graphicsDevice;
     _program = new ShaderProgram('SpectreMaterialProgramElement', device);
   }
 

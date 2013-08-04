@@ -36,12 +36,12 @@ import 'package:spectre/spectre_asset_pack.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_declarative.dart';
 
-class DeclarativeState {
+class SpectreDeclarative {
   static AssetManager assetManager;
   static GraphicsDevice graphicsDevice;
   static GraphicsContext graphicsContext;
   static DebugDrawManager debugDrawManager;
-  static SpectreSceneElement scene;
+  static SpectreSpectreElement root;
   static bool _inited = false;
   static bool get inited => _inited;
 
@@ -60,7 +60,7 @@ class DeclarativeState {
       return;
     }
     _inited = true;
-    _initElement(scene);
+    _initElement(root);
   }
 
   static bool _isAssetPackUrl(String url) {
@@ -81,8 +81,8 @@ class DeclarativeState {
 }
 
 class DeclarativeExample extends Example {
-  String sceneId;
-  DeclarativeExample(CanvasElement element, this.sceneId)
+  String spectreId;
+  DeclarativeExample(CanvasElement element, this.spectreId)
       : super('DeclarativeExample', element);
 
   CameraController cameraController;
@@ -90,20 +90,20 @@ class DeclarativeExample extends Example {
   Future initialize() {
     return super.initialize().then((_) {
       cameraController = new FpsFlyCameraController();
-      DeclarativeState.debugDrawManager = debugDrawManager;
-      DeclarativeState.graphicsContext = graphicsContext;
-      DeclarativeState.graphicsDevice = graphicsDevice;
-      DeclarativeState.assetManager = assetManager;
-      var ele = query(sceneId);
+      SpectreDeclarative.debugDrawManager = debugDrawManager;
+      SpectreDeclarative.graphicsContext = graphicsContext;
+      SpectreDeclarative.graphicsDevice = graphicsDevice;
+      SpectreDeclarative.assetManager = assetManager;
+      var ele = query(spectreId);
       if (ele == null) {
-        throw new ArgumentError('Could not find $sceneId in dom.');
+        throw new ArgumentError('Could not find $spectreId in dom.');
       }
-      var scene = ele.xtag;
-      if (scene is! SpectreSceneElement) {
-        throw new ArgumentError('$sceneId is not a <s-scene>');
+      var root = ele.xtag;
+      if (root is! SpectreSpectreElement) {
+        throw new ArgumentError('$spectreId is not a <s-spectre>');
       }
-      DeclarativeState.scene = scene;
-      DeclarativeState._init();
+      SpectreDeclarative.root = root;
+      SpectreDeclarative._init();
     });
   }
 
@@ -123,11 +123,11 @@ class DeclarativeExample extends Example {
     graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
     graphicsContext.clearDepthBuffer(1.0);
 
-    var scene = DeclarativeState.scene;
+    var spectre = SpectreDeclarative.root;
 
-    scene.pushCamera(camera);
-    scene.render();
-    scene.popCamera();
+    spectre.pushCamera(camera);
+    spectre.render();
+    spectre.popCamera();
 
     debugDrawManager.prepareForRender();
     debugDrawManager.render(camera);
@@ -158,14 +158,23 @@ Future main(String backBufferId, String sceneId) {
   polymer.setScopedCss('s-material-program', {"s-material-program":"[is=\"s-material-program\"]"});
   polymer.registerPolymerElement('s-material-program', () => new SpectreMaterialProgramElement());
 
+  polymer.setScopedCss('s-mesh', {"s-mesh":"[is=\"s-mesh\"]"});
+  polymer.registerPolymerElement('s-mesh', () => new SpectreMeshElement());
+
   polymer.setScopedCss('s-model', {"s-model":"[is=\"s-model\"]"});
   polymer.registerPolymerElement('s-model', () => new SpectreModelElement());
+
+  polymer.setScopedCss('s-model-instance', {"s-model-instance":"[is=\"s-model-instance\"]"});
+  polymer.registerPolymerElement('s-model-instance', () => new SpectreModelInstanceElement());
 
   polymer.setScopedCss('s-post-effect', {"s-post-effect":"[is=\"s-post-effect\"]"});
   polymer.registerPolymerElement('s-post-effect', () => new SpectrePostEffectElement());
 
   polymer.setScopedCss('s-scene', {"s-scene":"[is=\"s-scene\"]"});
   polymer.registerPolymerElement('s-scene', () => new SpectreSceneElement());
+
+  polymer.setScopedCss('s-spectre', {"s-spectre":"[is=\"s-spectre\"]"});
+  polymer.registerPolymerElement('s-spectre', () => new SpectreSpectreElement());
 
   polymer.setScopedCss('s-transform', {"s-transform":"[is=\"s-transform\"]"});
   polymer.registerPolymerElement('s-transform', () => new SpectreTransformElement());

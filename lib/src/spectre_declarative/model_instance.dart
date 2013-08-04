@@ -18,36 +18,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_transform;
+library spectre_declarative_model_instance;
+
+import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
-/**
- * <s-transform id="transform"></s-transform>
- *
- * Attributes:
- *
- * * translate (Vector3)
- * * axis (Vector3)
- * * angle (double, radians)
- */
-
-class SpectreTransformElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'translate': () => new SpectreElementAttributeVector3('translate',
-                                                          new Vector3.zero()),
-    'axis': () => new SpectreElementAttributeVector3('axis',
-                                                     new Vector3(1.0, 0.0,
-                                                                 0.0)),
-    'angle': () => new SpectreElementAttributeDouble('angle', 0.0)
-  };
-  final List<String> requiredSpectreAttributes = ['translate', 'axis', 'angle'];
-  final Matrix4 T = new Matrix4.zero();
-  final Vector3 _v = new Vector3.zero();
-  double _d = 0.0;
+class SpectreModelInstanceElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
+  SpectreModelElement _model;
 
   created() {
     super.created();
@@ -78,15 +62,18 @@ class SpectreTransformElement extends SpectreElement {
 
   render() {
     super.render();
-    var spectre = SpectreDeclarative.root;
-    spectre.pushTransform(T);
-    renderChildren();
-    spectre.popTransform();
+    // Render model.
+    if (_model != null) {
+      _model.renderChildren();
+    }
   }
 
   void _update() {
-    T.setIdentity();
-    T.rotate(spectreAttributes['axis'].value, spectreAttributes['angle'].value);
-    T.translate(spectreAttributes['translate'].value);
+    assert(inited);
+    var spectre = SpectreDeclarative.root;
+    var q = spectre.query(attributes['model-id']);
+    if (q != null) {
+      _model = q.xtag;
+    }
   }
 }

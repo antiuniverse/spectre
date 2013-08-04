@@ -72,7 +72,7 @@ class SpectreCameraElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -91,20 +91,7 @@ class SpectreCameraElement extends SpectreElement {
     camera.zFar = spectreAttributes['zFar'].value;
   }
 
-  void apply() {
-    super.apply();
-  }
-
-  // Render model.
   void render() {
     super.render();
-  }
-
-  void push() {
-    super.push();
-  }
-
-  void pop() {
-    super.pop();
   }
 }

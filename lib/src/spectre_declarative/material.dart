@@ -59,7 +59,7 @@ class SpectreMaterialElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -68,36 +68,12 @@ class SpectreMaterialElement extends SpectreElement {
     _update();
   }
 
-  apply() {
-    super.apply();
-    if (_shaderProgram == null) {
-      return;
-    }
-    var graphicsContext = DeclarativeState.graphicsContext;
+  void apply() {
+    var graphicsContext = SpectreDeclarative.graphicsContext;
     graphicsContext.setShaderProgram(_shaderProgram);
     graphicsContext.setDepthState(depthState);
     graphicsContext.setRasterizerState(rasterizerState);
     graphicsContext.setBlendState(blendState);
-  }
-
-  void push() {
-  }
-
-  render() {
-    super.render();
-    if (_shaderProgram == null) {
-      return;
-    }
-    var scene = DeclarativeState.scene;
-    scene.pushMaterial(this);
-    _updateCameraConstants(scene.currentCamera);
-    renderChildren();
-    popChildren();
-  }
-
-  void pop() {
-    var scene = DeclarativeState.scene;
-    scene.popMaterial();
   }
 
   void applyConstant(SpectreMaterialConstantElement constant,
@@ -137,7 +113,9 @@ class SpectreMaterialElement extends SpectreElement {
     }
   }
 
-  _applyConstants() {
+  void applyConstants() {
+    var spectre = SpectreDeclarative.root;
+    _updateCameraConstants(spectre.currentCamera);
     var l = findAllTagChildren('S-MATERIAL-CONSTANT');
     // Apply all constants, update stack.
     l.forEach((e) {
@@ -145,8 +123,16 @@ class SpectreMaterialElement extends SpectreElement {
     });
   }
 
+  void unapplyConstants() {
+    var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
+    // Apply all constants, update stack.
+    l.forEach((e) {
+      unapplyConstant(e.xtag);
+    });
+  }
+
   void _updateCameraConstants(Camera camera) {
-    var graphicsContext = DeclarativeState.graphicsContext;
+    var graphicsContext = SpectreDeclarative.graphicsContext;
     Matrix4 projectionMatrix = camera.projectionMatrix;
     Matrix4 viewMatrix = camera.viewMatrix;
     Matrix4 projectionViewMatrix = camera.projectionMatrix;
@@ -183,6 +169,6 @@ class SpectreMaterialElement extends SpectreElement {
   // Will go away once attribute change notifications are hooked up.
   void _update() {
     assert(inited);
-    _shaderProgram = DeclarativeState.getAsset(attributes['shader']);
+    _shaderProgram = SpectreDeclarative.getAsset(attributes['shader']);
   }
 }

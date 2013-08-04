@@ -30,12 +30,6 @@ import 'package:vector_math/vector_math.dart';
 class SpectreSceneElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
-  final Matrix4 I = new Matrix4.identity();
-  final Camera C = new Camera();
-  final List<Matrix4> _transformStack = new List<Matrix4>();
-  final List<Camera> _cameraStack = new List<Camera>();
-  final List<SpectreMaterialElement> _materialStack =
-      new List<SpectreMaterialElement>();
 
   void created() {
     super.created();
@@ -54,7 +48,7 @@ class SpectreSceneElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!DeclarativeState.inited) {
+    if (!SpectreDeclarative.inited) {
       // Not ready to initialize.
       return;
     }
@@ -62,85 +56,8 @@ class SpectreSceneElement extends SpectreElement {
     super.init();
   }
 
-  apply() {
-    super.apply();
-  }
-
-  void push() {
-    super.push();
-  }
-
   render() {
     super.render();
     renderChildren();
-    popChildren();
-  }
-
-  void pop() {
-    super.pop();
-  }
-
-  void pushMaterial(SpectreMaterialElement material) {
-    _materialStack.add(material);
-    material.apply();
-  }
-
-  void popMaterial() {
-    assert(_materialStack.length > 0);
-    _materialStack.removeLast();
-    if (_materialStack.length == 0) {
-      return;
-    }
-    var m = _materialStack.last;
-    // Reapply previous material.
-    m.apply();
-  }
-
-  SpectreMaterialElement get currentMaterial {
-    if (_materialStack.length == 0) {
-      // TODO(johnmccutchan): Provide a default material.
-      return null;
-    }
-    return _materialStack.last;
-  }
-
-  void pushCamera(Camera C) {
-    _cameraStack.add(C);
-  }
-
-  void popCamera() {
-    assert(_cameraStack.length > 0);
-    _cameraStack.removeLast();
-  }
-
-  Camera get currentCamera {
-    if (_cameraStack.length == 0) {
-      return C;
-    }
-    return _cameraStack.last;
-  }
-
-  void pushTransform(Matrix4 M) {
-    var T;
-    if (_transformStack.length == 0) {
-      T = M.clone();
-    } else {
-      var currentTransform = _transformStack.last;
-      T = currentTransform * M;
-    }
-    _transformStack.add(T);
-  }
-
-  void popTransform() {
-    assert(_transformStack.length > 0);
-    _transformStack.removeLast();
-  }
-
-  Matrix4 get currentTransform {
-    if (_transformStack.length == 0) {
-      return I;
-    }
-    var currentTransform = _transformStack.last;
-    return currentTransform;
   }
 }
