@@ -27,19 +27,26 @@ import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_element.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/src/spectre_declarative/material_constant.dart';
+import 'package:spectre/src/spectre_declarative/material_program.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'material-program-id': () =>
+        new SpectreElementAttributeString('material-program-id', ''),
+    'shader-program-path': () =>
+        new SpectreElementAttributeString('shader-program-path', '')
+  };
   final List<String> requiredSpectreAttributes = [];
   final DepthState depthState = new DepthState();
   final RasterizerState rasterizerState = new RasterizerState();
   final BlendState blendState = new BlendState.alphaBlend();
   final Map<String, List<SpectreMaterialConstantElement>> _constantStack = new
       Map<String, List<SpectreMaterialConstantElement>>();
-
+  SpectreMaterialProgramElement _materialProgram;
   ShaderProgram _shaderProgram;
-  ShaderProgram get shaderProgram => _shaderProgram;
+  ShaderProgram get shaderProgram =>
+      _materialProgram != null ? _materialProgram.program : _shaderProgram;
 
   created() {
     super.created();
@@ -65,7 +72,7 @@ class SpectreMaterialElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _update();
+    applyAttributes();
   }
 
   void apply() {
@@ -174,9 +181,11 @@ class SpectreMaterialElement extends SpectreElement {
     }
   }
 
-  // Will go away once attribute change notifications are hooked up.
-  void _update() {
+  void applyAttributes() {
     assert(inited);
-    _shaderProgram = SpectreDeclarative.getAsset(attributes['shader']);
+    _shaderProgram = SpectreDeclarative.getAsset(
+          spectreAttributes['shader-program-path'].value);
+    _materialProgram = SpectreDeclarative.getElement(
+          spectreAttributes['material-program-id'].value);
   }
 }

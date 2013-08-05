@@ -72,7 +72,7 @@
 
 <canvas id="backBuffer"></canvas>
 <div id="logo"></div>
-<script type="application/dart" src="transform_main.dart"></script>
+<script type="application/dart" src="material_program_main.dart"></script>
 <script src="packages/browser/dart.js"></script>
 
 <s-spectre id="spectre">
@@ -83,12 +83,15 @@
   </s-material>
   <s-scene>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
-    <s-transform id="tform" translate="[5.0, 5.0, 5.0]">
+    <s-transform>
       <s-mesh material-id="#simpleMaterial"
               geometry-path="assetpack://base.unitCube"></s-mesh>
       <s-transform translate="[0.0, 2.0, 0.0]">
         <s-mesh material-id="#simpleMaterial"
                 geometry-path="assetpack://base.unitCube">
+          <!-- Set this mesh's front face to be the opposite. -->
+          <s-material-constant name="frontFace" value="FrontFace.Clockwise">
+          </s-material-constant>
           <s-material-constant name="diffuse"
                                texture="assetpack://base.bumpyMetal">
           </s-material-constant>

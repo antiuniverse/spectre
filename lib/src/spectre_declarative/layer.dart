@@ -23,11 +23,27 @@ library spectre_declarative_layer;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/src/spectre_declarative/scene.dart';
+import 'package:spectre/src/spectre_declarative/camera.dart';
+import 'package:spectre/src/spectre_declarative/post_effect.dart';
 import 'package:spectre/spectre_element.dart';
 
 class SpectreLayerElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'scene-id': () => new SpectreElementAttributeString('scene-id', ''),
+    'camera-id': () => new SpectreElementAttributeString('camera-id', ''),
+    'post-effect-id': () =>
+        new SpectreElementAttributeString('post-effect-id', ''),
+    'sort-order': () => new SpectreElementAttributeString('sord-order', 'none'),
+    'render-target-id': () =>
+        new SpectreElementAttributeString('render-target-id', 'system'),
+  };
+  SpectreSceneElement scene;
+  SpectreCameraElement camera;
+  SpectrePostEffectElement postEffect;
+  //SpectreRenderTargetElement renderTarget;
+  final List<String> requiredSpectreAttributes = [ 'sort-order' ];
+
   void created() {
     super.created();
   }
@@ -35,6 +51,7 @@ class SpectreLayerElement extends SpectreElement {
   void inserted() {
     super.inserted();
     init();
+    applyAttributes();
   }
 
   void removed() {
@@ -56,5 +73,9 @@ class SpectreLayerElement extends SpectreElement {
 
   void render() {
     super.render();
+    // apply render target.
+  }
+
+  void applyAttributes() {
   }
 }

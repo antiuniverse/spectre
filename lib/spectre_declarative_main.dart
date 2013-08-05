@@ -44,6 +44,7 @@ class SpectreDeclarative {
   static SpectreSpectreElement root;
   static bool _inited = false;
   static bool get inited => _inited;
+  static Example example;
 
   static void _initElement(SpectreElement element) {
     element.init();
@@ -73,10 +74,17 @@ class SpectreDeclarative {
 
   static dynamic getAsset(String url) {
     assert(_inited == true);
-    assert(_isAssetPackUrl(url));
+    if (url == null) return null;
+    if (!_isAssetPackUrl(url)) return null;
     var p = _getAssetPackPath(url);
     var a = assetManager[p];
     return a;
+  }
+
+  static SpectreElement getElement(String id) {
+    var q = document.query(id);
+    if (q != null) return q.xtag;
+    return null;
   }
 }
 

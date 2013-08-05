@@ -31,20 +31,20 @@ import 'package:vector_math/vector_math.dart';
  */
 class SpectreCameraElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'fieldOfViewY': () => new SpectreElementAttributeDouble('fieldOfViewY',
-                                                            0.785398163),
-    'position': () => new SpectreElementAttributeVector3('position',
-                                                         new Vector3(1.0, 1.0,
-                                                                     1.0)),
-    'upDirection': () => new SpectreElementAttributeVector3('upDirection',
-                                                         new Vector3(0.0, 1.0,
-                                                                     0.0)),
-    'viewDirection': () =>
-        new SpectreElementAttributeVector3('viewDirection',
+    'field-of-view-y': () =>
+        new SpectreElementAttributeDouble('field-of-view-y', 0.785398163),
+    'position': () =>
+        new SpectreElementAttributeVector3('position',
+                                           new Vector3(1.0, 1.0, 1.0)),
+    'up-direction': () =>
+        new SpectreElementAttributeVector3('up-direction',
+                                           new Vector3(0.0, 1.0, 0.0)),
+    'view-direction': () =>
+        new SpectreElementAttributeVector3('view-direction',
                                            new Vector3(-0.33333, -0.33333,
                                                        -0.33333)),
-    'zNear': () => new SpectreElementAttributeDouble('zNear', 0.5),
-    'zFar': () => new SpectreElementAttributeDouble('zFar', 1000.0),
+    'z-near': () => new SpectreElementAttributeDouble('z-near', 0.5),
+    'z-far': () => new SpectreElementAttributeDouble('z-far', 1000.0),
   };
   final List<String> requiredSpectreAttributes = [ 'fieldOfViewY',
                                                    'position',
@@ -78,17 +78,17 @@ class SpectreCameraElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    update();
+    applyAttributes();
   }
 
-  void update() {
-    camera.FOV = spectreAttributes['fieldOfViewY'].value;
-    camera.upDirection.setFrom(spectreAttributes['upDirection'].value);
+  void applyAttributes() {
+    camera.FOV = spectreAttributes['field-of-view-y'].value;
+    camera.upDirection.setFrom(spectreAttributes['up-direction'].value);
     camera.position.setFrom(spectreAttributes['position'].value);
     camera.focusPosition.setFrom(camera.position);
-    camera.focusPosition.add(spectreAttributes['viewDirection'].value);
-    camera.zNear = spectreAttributes['zNear'].value;
-    camera.zFar = spectreAttributes['zFar'].value;
+    camera.focusPosition.add(spectreAttributes['view-direction'].value);
+    camera.zNear = spectreAttributes['z-near'].value;
+    camera.zFar = spectreAttributes['z-far'].value;
   }
 
   void render() {

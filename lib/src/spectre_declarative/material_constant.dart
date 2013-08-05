@@ -423,4 +423,32 @@ class SpectreMaterialConstantElement extends SpectreElement {
     }
     return false;
   }
+
+  double parseDouble(String attributeName, double d) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return d;
+    }
+    var l;
+    try {
+      l = double.parse(a);
+    } catch (e) {
+      return d;
+    }
+    return l;
+  }
+
+  bool parseBool(String attributeName, bool b) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return b;
+    }
+    bool l;
+    try {
+      l = JSON.parse(a);
+    } catch (e) {
+      return b;
+    }
+    return l;
+  }
 }

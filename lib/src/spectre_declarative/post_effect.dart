@@ -22,11 +22,16 @@ library spectre_declarative_post_effect;
 
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:spectre/spectre_element.dart';
 
 class SpectrePostEffectElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
+  SingleArrayMesh get fullscreenMesh =>
+      SpectreDeclarative.example.fullscreenMesh;
+  SpectreMaterialElement material;
+
   created() {
     super.created();
   }

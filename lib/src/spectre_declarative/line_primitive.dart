@@ -69,6 +69,63 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     dispatch(SpectreDeclarative.debugDrawManager);
   }
 
+  bool parseVector3(String attributeName, Vector3 vec) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return false;
+    }
+    var l;
+    try {
+      l = JSON.parse(a);
+    } catch (e) {
+      return false;
+    }
+    try {
+      vec[0] = l[0].toDouble();
+      vec[1] = l[1].toDouble();
+      vec[2] = l[2].toDouble();
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  bool parseVector4(String attributeName, Vector4 vec) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return false;
+    }
+    var l;
+    try {
+      l = JSON.parse(a);
+    } catch (e) {
+      return false;
+    }
+    try {
+      vec[0] = l[0].toDouble();
+      vec[1] = l[1].toDouble();
+      vec[2] = l[2].toDouble();
+      vec[3] = l[3].toDouble();
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  double parseDouble(String attributeName, double d) {
+    var a = attributes[attributeName];
+    if (a == null) {
+      return d;
+    }
+    var l;
+    try {
+      l = double.parse(a);
+    } catch (e) {
+      return d;
+    }
+    return l;
+  }
+
   void _updateColor() {
     if (!parseVector4('color', _color)) {
       _color[0] = 0.0;
