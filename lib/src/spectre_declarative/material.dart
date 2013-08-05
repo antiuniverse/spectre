@@ -77,7 +77,7 @@ class SpectreMaterialElement extends SpectreElement {
 
   void apply() {
     var graphicsContext = SpectreDeclarative.graphicsContext;
-    graphicsContext.setShaderProgram(_shaderProgram);
+    graphicsContext.setShaderProgram(shaderProgram);
     graphicsContext.setDepthState(depthState);
     graphicsContext.setRasterizerState(rasterizerState);
     graphicsContext.setBlendState(blendState);

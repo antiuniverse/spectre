@@ -76,8 +76,29 @@
 <script src="packages/browser/dart.js"></script>
 
 <s-spectre id="spectre">
-  <s-material id="simpleMaterial"
-              shader-program-path="assetpack://base.simpleShader">
+  <s-material-program id="simpleMaterialProgram">
+    <s-vertex-shader>
+attribute vec3 POSITION;
+attribute vec2 TEXCOORD0;
+uniform mat4 cameraProjectionView;
+uniform mat4 objectTransform;
+varying vec2 texCoord;
+void main() {
+  texCoord = TEXCOORD0;
+  gl_Position = cameraProjectionView * objectTransform * vec4(POSITION, 1.0);
+}
+    </s-vertex-shader>
+    <s-fragment-shader>
+precision mediump float;
+uniform sampler2D diffuse;
+varying vec2 texCoord;
+void main()
+{
+  gl_FragColor = texture2D(diffuse, texCoord);
+}
+    </s-fragment-shader>
+  </s-material-program>
+  <s-material id="simpleMaterial" material-program-id="#simpleMaterialProgram">
     <s-material-constant name="diffuse" texture="assetpack://base.wood">
     </s-material-constant>
   </s-material>
@@ -86,20 +107,6 @@
     <s-transform>
       <s-mesh material-id="#simpleMaterial"
               geometry-path="assetpack://base.unitCube"></s-mesh>
-      <s-transform translate="[0.0, 2.0, 0.0]">
-        <s-mesh material-id="#simpleMaterial"
-                geometry-path="assetpack://base.unitCube">
-          <!-- Set this mesh's front face to be the opposite. -->
-          <s-material-constant name="frontFace" value="FrontFace.Clockwise">
-          </s-material-constant>
-          <s-material-constant name="diffuse"
-                               texture="assetpack://base.bumpyMetal">
-          </s-material-constant>
-        </s-mesh>
-      </s-transform>
-      <s-transform translate="[5.0, 0.0, 0.0]">
-        <s-mesh material-id="#simpleMaterial"
-                geometry-path="assetpack://base.unitCube"></s-mesh>
       </s-transform>
     </s-transform>
   </s-scene>
