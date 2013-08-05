@@ -183,9 +183,14 @@ class SpectreMaterialElement extends SpectreElement {
 
   void applyAttributes() {
     assert(inited);
-    _shaderProgram = SpectreDeclarative.getAsset(
-          spectreAttributes['shader-program-path'].value);
-    _materialProgram = SpectreDeclarative.getElement(
-          spectreAttributes['material-program-id'].value);
+    var a = spectreAttributes['shader-program-path'];
+    if (a != null) {
+      _shaderProgram = SpectreDeclarative.getAsset(a.value);
+    }
+
+    a = spectreAttributes['material-program-id'];
+    if (a != null) {
+      _materialProgram = SpectreDeclarative.getElement(a.value);
+    }
   }
 }
