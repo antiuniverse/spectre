@@ -11,6 +11,7 @@ dependencies:
     git: https://github.com/johnmccutchan/asset_pack.git
   logging: any
   polymer: any
+  pathos: any
   vector_math:
     git: https://github.com/johnmccutchan/vector_math.git
 dev_dependencies:

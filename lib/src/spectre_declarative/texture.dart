@@ -20,6 +20,7 @@
 
 library spectre_declarative_texture;
 
+import 'package:pathos/path.dart' as path;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_element.dart';
@@ -37,10 +38,21 @@ import 'package:vector_math/vector_math.dart';
 class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'url': () => new SpectreElementAttributeString('url',''),
+    'type': () => new SpectreElementAttributeString('type', 'auto'),
+    'format': () => new SpectreElementAttributeString('format',
+                                                      'PixelFormat.Rgba'),
+    'datatype': () => new SpectreElementAttributeString('datatype',
+                                                        'DataType.Uint8')
   };
+  final List<String> requiredSpectreAttributes = [ 'url',
+                                                   'type',
+                                                   'format',
+                                                   'storage' ];
   SpectreTexture _texture;
   SpectreTexture get texture => _texture;
-  final List<String> requiredSpectreAttributes = ['url'];
+  String _uri;
+  int _pixelFormat;
+  int _dataType;
 
   created() {
     super.created();
@@ -67,6 +79,44 @@ class SpectreTextureElement extends SpectreElement {
     // Initialize.
     super.init();
     _update();
+    _applyAttributes();
+  }
+
+  String _detectType(String uri) {
+    String extension = path.extension(uri);
+    if ((extension == 'jpg') || (extension == 'png') || (extension == 'gif')) {
+      return '2d';
+    }
+    if ((extension == 'texCube')) {
+      return 'cube';
+    }
+    throw new FallThroughError();
+  }
+
+  void _createTexture() {
+    String type = spectreAttributes['type'].value;
+    if (type == 'auto') {
+      type = _detectType(_uri);
+    }
+    if (type == '2d') {
+      _texture = new Texture2D('SpectreTextureElement',
+                               SpectreDeclarative.graphicsDevice);
+    } else if (type == 'cube') {
+      _texture = new TextureCube('SpectreTextureElement',
+                                 SpectreDeclarative.graphicsDevice);
+    } else {
+      throw new FallThroughError();
+    }
+  }
+
+  void _applyAttributes() {
+    _pixelFormat = PixelFormat.parse(spectreAttributes['format'].value);
+    _dataType = DataType.parse(spectreAttributes['datatype'].value);
+    _uri = spectreAttributes['url'].value;
+    _createTexture();
+  }
+
+  void _loadTexture() {
   }
 
   render() {
