@@ -129,12 +129,13 @@ class SpectreTextureElement extends SpectreElement {
     Uint8List colorBuffer = new Uint8List(4);
     _parseColorIntoColorBuffer(colorBuffer);
     // Create new texture.
-    _texture = new Texture2D('SpectreTextureElement',
-                             SpectreDeclarative.graphicsDevice);
+    var t = new Texture2D('SpectreTextureElement',
+                          SpectreDeclarative.graphicsDevice);
     // Upload a 1x1 pixel texture.
-    _texture.uploadPixelArray(1, 1, colorBuffer);
+    t.uploadPixelArray(1, 1, colorBuffer);
     // Generate mip maps.
-    _texture.generateMipmap();
+    t.generateMipmap();
+    _texture = t;
   }
 
   void _createTexture() {
