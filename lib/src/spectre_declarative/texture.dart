@@ -20,6 +20,7 @@
 
 library spectre_declarative_texture;
 
+import 'dart:typed_data';
 import 'package:pathos/path.dart' as path;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
@@ -33,8 +34,13 @@ import 'package:vector_math/vector_math.dart';
  * Attributes:
  *
  * * url String
+ * * type String ('auto', '2d', 'cube')
+ * * format String (see pixel_format.dart)
+ * * datatype String (see data_type.dart)
+ * * color String (4 component hex string #rrggbbaa)
+ * * width String (width of mip level 0)
+ * * height String (height of mip level 0)
  */
-
 class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'url': () => new SpectreElementAttributeString('url',''),
@@ -42,12 +48,18 @@ class SpectreTextureElement extends SpectreElement {
     'format': () => new SpectreElementAttributeString('format',
                                                       'PixelFormat.Rgba'),
     'datatype': () => new SpectreElementAttributeString('datatype',
-                                                        'DataType.Uint8')
+                                                        'DataType.Uint8'),
+    'color': () => new SpectreElementAttributeString('color', '#ff00ffff'),
+    'width': () => new SpectreElementAttributeString('width', '1'),
+    'height': () => new SpectreElementAttributeString('height', '1'),
   };
   final List<String> requiredSpectreAttributes = [ 'url',
                                                    'type',
                                                    'format',
-                                                   'storage' ];
+                                                   'storage',
+                                                   'color',
+                                                   'width',
+                                                   'height' ];
   SpectreTexture _texture;
   SpectreTexture get texture => _texture;
   String _uri;
@@ -93,7 +105,40 @@ class SpectreTextureElement extends SpectreElement {
     throw new FallThroughError();
   }
 
+  void _destroyOldTexture() {
+    if (_texture != null) {
+      _texture.dispose();
+      _texture = null;
+    }
+  }
+
+  void _parseColorIntoColorBuffer(Uint8List colorBuffer) {
+    String color = spectreAttributes['color'].value;
+    String r = color.substring(1, 3);
+    String g = color.substring(3, 5);
+    String b = color.substring(5, 7);
+    String a = color.substring(7, 9);
+    colorBuffer[0] = int.parse(r, radix:16) & 0xFF;
+    colorBuffer[1] = int.parse(g, radix:16) & 0xFF;
+    colorBuffer[2] = int.parse(b, radix:16) & 0xFF;
+    colorBuffer[3] = int.parse(a, radix:16) & 0xFF;
+  }
+
+  void _createColorTexture() {
+    _destroyOldTexture();
+    Uint8List colorBuffer = new Uint8List(4);
+    _parseColorIntoColorBuffer(colorBuffer);
+    // Create new texture.
+    _texture = new Texture2D('SpectreTextureElement',
+                             SpectreDeclarative.graphicsDevice);
+    // Upload a 1x1 pixel texture.
+    _texture.uploadPixelArray(1, 1, colorBuffer);
+    // Generate mip maps.
+    _texture.generateMipmap();
+  }
+
   void _createTexture() {
+    _destroyOldTexture();
     String type = spectreAttributes['type'].value;
     if (type == 'auto') {
       type = _detectType(_uri);
@@ -114,9 +159,20 @@ class SpectreTextureElement extends SpectreElement {
     _dataType = DataType.parse(spectreAttributes['datatype'].value);
     _uri = spectreAttributes['url'].value;
     _createTexture();
+    _loadTexture();
   }
 
   void _loadTexture() {
+    if (_texture == null) {
+      return;
+    }
+    if (_texture is Texture2D) {
+      (_texture as Texture2D).uploadFromURL(_uri.toString());
+    } else if (_texture is TextureCube) {
+      throw new FallThroughError();
+    } else {
+      throw new FallThroughError();
+    }
   }
 
   render() {
