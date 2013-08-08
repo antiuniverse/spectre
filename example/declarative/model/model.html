@@ -73,7 +73,7 @@
 <s-spectre id="spectre">
   <s-material id="simpleMaterial"
               shader-program-path="assetpack://base.simpleShader">
-    <s-material-constant name="diffuse" texture="assetpack://base.wood">
+    <s-material-constant name="diffuse" texture-path="assetpack://base.wood">
     </s-material-constant>
   </s-material>
   <s-model id="sparseCubes">
@@ -84,7 +84,7 @@
         <s-mesh material-id="#simpleMaterial"
                 geometry-path="assetpack://base.unitCube">
           <s-material-constant name="diffuse"
-                               texture="assetpack://base.bumpyMetal">
+                               texture-path="assetpack://base.bumpyMetal">
           </s-material-constant>
         </s-mesh>
       </s-transform>

@@ -142,7 +142,15 @@ class SpectreMaterialConstantElement extends SpectreElement {
 
   void _updateSampler(ShaderProgramSampler sampler) {
     _index = sampler.textureUnit;
-    _texture = SpectreDeclarative.getAsset(attributes['texture']);
+    var t = SpectreDeclarative.getAsset(attributes['texture-path']);
+    var te = SpectreDeclarative.getElement(attributes['texture-id']);
+    if (te != null) {
+      _texture = te.xtag.texture;
+    } else if (t != null) {
+      _texture = t;
+    } else {
+      _texture = null;
+    }
   }
 
   void _applyUniform() {

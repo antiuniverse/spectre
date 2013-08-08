@@ -34,7 +34,7 @@ import 'package:vector_math/vector_math.dart';
  * Attributes:
  *
  * * url String
- * * type String ('auto', '2d', 'cube')
+ * * type String ('auto', '2d', 'cube', 'color')
  * * format String (see pixel_format.dart)
  * * datatype String (see data_type.dart)
  * * color String (4 component hex string #rrggbbaa)
@@ -49,13 +49,14 @@ class SpectreTextureElement extends SpectreElement {
                                                       'PixelFormat.Rgba'),
     'datatype': () => new SpectreElementAttributeString('datatype',
                                                         'DataType.Uint8'),
-    'color': () => new SpectreElementAttributeString('color', '#ff00ffff'),
-    'width': () => new SpectreElementAttributeString('width', '1'),
-    'height': () => new SpectreElementAttributeString('height', '1'),
+    'color': () => new SpectreElementAttributeString('color', ''),
+    'width': () => new SpectreElementAttributeInt('width', 0),
+    'height': () => new SpectreElementAttributeInt('height', 0),
   };
   final List<String> requiredSpectreAttributes = [ 'url',
                                                    'type',
                                                    'format',
+                                                   'datatype',
                                                    'storage',
                                                    'color',
                                                    'width',
@@ -65,6 +66,8 @@ class SpectreTextureElement extends SpectreElement {
   String _uri;
   int _pixelFormat;
   int _dataType;
+  int _width;
+  int _height;
 
   created() {
     super.created();
@@ -102,6 +105,9 @@ class SpectreTextureElement extends SpectreElement {
     if ((extension == 'texCube')) {
       return 'cube';
     }
+    if (uri == '') {
+      return 'color';
+    }
     throw new FallThroughError();
   }
 
@@ -128,6 +134,7 @@ class SpectreTextureElement extends SpectreElement {
     _destroyOldTexture();
     Uint8List colorBuffer = new Uint8List(4);
     _parseColorIntoColorBuffer(colorBuffer);
+    print(colorBuffer);
     // Create new texture.
     var t = new Texture2D('SpectreTextureElement',
                           SpectreDeclarative.graphicsDevice);
@@ -150,6 +157,8 @@ class SpectreTextureElement extends SpectreElement {
     } else if (type == 'cube') {
       _texture = new TextureCube('SpectreTextureElement',
                                  SpectreDeclarative.graphicsDevice);
+    } else if (type == 'color') {
+      _createColorTexture();
     } else {
       throw new FallThroughError();
     }
@@ -159,6 +168,8 @@ class SpectreTextureElement extends SpectreElement {
     _pixelFormat = PixelFormat.parse(spectreAttributes['format'].value);
     _dataType = DataType.parse(spectreAttributes['datatype'].value);
     _uri = spectreAttributes['url'].value;
+    _width = spectreAttributes['width'].value;
+    _height = spectreAttributes['height'].value;
     _createTexture();
     _loadTexture();
   }

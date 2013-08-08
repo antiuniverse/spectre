@@ -82,6 +82,9 @@ class SpectreDeclarative {
   }
 
   static SpectreElement getElement(String id) {
+    if (id == null) {
+      return null;
+    }
     var q = document.query(id);
     if (q != null) return q.xtag;
     return null;
@@ -186,6 +189,9 @@ Future main(String backBufferId, String sceneId) {
 
   polymer.setScopedCss('s-transform', {"s-transform":"[is=\"s-transform\"]"});
   polymer.registerPolymerElement('s-transform', () => new SpectreTransformElement());
+
+  polymer.setScopedCss('s-texture', {"s-texture":"[is=\"s-texture\"]"});
+  polymer.registerPolymerElement('s-texture', () => new SpectreTextureElement());
 
   polymer.setScopedCss('s-vertex-shader', {"s-vertex-shader":"[is=\"s-vertex-shader\"]"});
   polymer.registerPolymerElement('s-vertex-shader', () => new SpectreVertexShaderElement());
