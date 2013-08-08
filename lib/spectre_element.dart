@@ -71,6 +71,22 @@ class SpectreElementAttributeDouble extends SpectreElementAttribute<double> {
   }
 }
 
+class SpectreElementAttributeInt extends SpectreElementAttribute<int> {
+  SpectreElementAttributeInt(String key, int defaultValue)
+      : super(key, defaultValue);
+  void parse(String value) {
+    reset();
+    if (value == null) {
+      return;
+    }
+    try {
+      _value = int.parse(value);
+    } catch (e) {
+      return;
+    }
+  }
+}
+
 class SpectreElementAttributeString extends SpectreElementAttribute<String> {
   SpectreElementAttributeString(String key, String defaultValue)
       : super(key, defaultValue);
