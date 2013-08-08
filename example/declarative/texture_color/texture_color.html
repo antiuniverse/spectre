@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Spectre Declarative Example: Texture Color</title>
+    <link rel="stylesheet" href="packages/spectre/src/spectre_example_ui/style.css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat'
+          rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<polymer-element name="s-transform" constructor="SpectreTransformElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-scene" constructor="SpectreSceneElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-post-effect" constructor="SpectrePostEffectElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-model" constructor="SpectreModelElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-mesh" constructor="SpectreMeshElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-material" constructor="SpectreMaterialElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-line-primitive" constructor="SpectreLinePrimitiveElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-layer" constructor="SpectreLayerElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-camera" constructor="SpectreCameraElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-vertex-shader" constructor="SpectreVertexShaderElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-fragment-shader" constructor="SpectreFragmentShaderElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-material-program" constructor="SpectreMaterialProgramElement">
+  <template></template>
+</polymer-element>
+
+<polymer-element name="s-texture" constructor="SpectreTextureElement">
+  <template><content></content></template>
+</polymer-element>
+
+<polymer-element name="s-spectre" constructor="SpectreSpectreElement">
+  <template><content></content></template>
+</polymer-element>
+
+<canvas id="backBuffer"></canvas>
+<div id="logo"></div>
+<script type="application/dart" src="texture_color_main.dart"></script>
+<script src="packages/browser/dart.js"></script>
+
+<s-spectre id="spectre">
+  <s-material id="simpleMaterial"
+              shader-program-path="assetpack://base.simpleShader">
+    <s-material-constant name="diffuse" texture-id="#alphaGreenTexture">
+    </s-material-constant>
+  </s-material>
+  <s-texture id="redTexture" color="#ff0000ff"></s-texture>
+  <s-texture id="alphaGreenTexture" color="#00ff0077"></s-texture>
+  <s-scene>
+    <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
+    <s-transform>
+      <s-mesh material-id="#simpleMaterial"
+              geometry-path="assetpack://base.unitCube"></s-mesh>
+      <s-transform translate="[0.0, 2.0, 0.0]">
+        <s-mesh material-id="#simpleMaterial"
+                geometry-path="assetpack://base.unitCube">
+          <!-- Set this mesh's front face to be the opposite. -->
+          <s-material-constant name="frontFace" value="FrontFace.Clockwise">
+          </s-material-constant>
+          <s-material-constant name="diffuse"
+                               texture-id="#redTexture">
+          </s-material-constant>
+        </s-mesh>
+      </s-transform>
+      <s-transform translate="[5.0, 0.0, 0.0]">
+        <s-mesh material-id="#simpleMaterial"
+                geometry-path="assetpack://base.unitCube"></s-mesh>
+      </s-transform>
+    </s-transform>
+  </s-scene>
+</s-spectre>
+
+</body>
+</html>
