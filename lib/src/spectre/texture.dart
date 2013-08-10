@@ -56,6 +56,10 @@ class SpectreTexture extends DeviceChild {
     super.finalize();
   }
 
+  bool canGenerateMipmap() {
+    return _isPowerOfTwo(_width) && _isPowerOfTwo(_height);
+  }
+
   /// Determines whether a [value] is a power of two.
   ///
   /// Assumes that the given value will always be positive.
