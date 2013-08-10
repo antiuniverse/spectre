@@ -29,8 +29,24 @@ import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
 class SpectreMaterialConstantElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'address-u': () =>
+        new SpectreElementAttributeString('address-u',
+                                          'TextureAddressMode.Wrap'),
+    'address-v': () =>
+        new SpectreElementAttributeString('address-v',
+                                          'TextureAddressMode.Wrap'),
+    'min-filter': () =>
+        new SpectreElementAttributeString('min-filter',
+                                          'TextureMinFilter.PointMipLinear'),
+    'mag-filter': () =>
+            new SpectreElementAttributeString('mag-filter',
+                                              'TextureMagFilter.Linear')
+  };
+  final List<String> requiredSpectreAttributes = [ 'address-u',
+                                                   'address-v',
+                                                   'min-filter',
+                                                   'mag-filter' ];
   String name;
 
   // State constants
@@ -151,6 +167,14 @@ class SpectreMaterialConstantElement extends SpectreElement {
     } else {
       _texture = null;
     }
+    _sampler.addressU =
+        TextureAddressMode.parse(spectreAttributes['address-u'].value);
+    _sampler.addressV =
+        TextureAddressMode.parse(spectreAttributes['address-v'].value);
+    _sampler.minFilter =
+        TextureMinFilter.parse(spectreAttributes['min-filter'].value);
+    _sampler.magFilter =
+        TextureMagFilter.parse(spectreAttributes['mag-filter'].value);
   }
 
   void _applyUniform() {

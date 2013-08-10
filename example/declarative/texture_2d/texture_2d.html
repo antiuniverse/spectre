@@ -76,17 +76,21 @@
 
 <canvas id="backBuffer"></canvas>
 <div id="logo"></div>
-<script type="application/dart" src="texture_color_main.dart"></script>
+<script type="application/dart" src="texture_2d_main.dart"></script>
 <script src="packages/browser/dart.js"></script>
 
 <s-spectre id="spectre">
   <s-material id="simpleMaterial"
               shader-program-path="assetpack://base.simpleShader">
-    <s-material-constant name="diffuse" texture-id="#alphaGreenTexture">
+    <s-material-constant name="diffuse" texture-id="#pot">
     </s-material-constant>
   </s-material>
-  <s-texture id="redTexture" color="#ff0000ff"></s-texture>
-  <s-texture id="alphaGreenTexture" color="#00ff0077"></s-texture>
+  <!-- A power of two in dimension texture. -->
+  <s-texture id="pot" src="pot.png"></s-texture>
+  <!-- A non-power of two texture -->
+  <s-texture id="npot" src="npot.jpg"></s-texture>
+  <!-- A texture that is filled in programatically. -->
+  <s-texture id="program-filled"></s-texture>
   <s-scene>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
     <s-transform>
@@ -96,13 +100,21 @@
         <s-mesh material-id="#simpleMaterial"
                 geometry-path="assetpack://base.unitCube">
           <s-material-constant name="diffuse"
-                               texture-id="#redTexture">
+                               texture-id="#npot"
+                               address-u="TextureAddressMode.Clamp"
+                               address-v="TextureAddressMode.Clamp"
+                               min-filter="TextureMinFilter.Point"
+                               mag-filter="TextureMagFilter.Point">
           </s-material-constant>
         </s-mesh>
       </s-transform>
       <s-transform translate="[5.0, 0.0, 0.0]">
         <s-mesh material-id="#simpleMaterial"
-                geometry-path="assetpack://base.unitCube"></s-mesh>
+                geometry-path="assetpack://base.unitCube">
+          <s-material-constant name="diffuse"
+                               texture-id="#program-filled">
+          </s-material-constant>
+        </s-mesh>
       </s-transform>
     </s-transform>
   </s-scene>

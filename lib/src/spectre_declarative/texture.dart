@@ -33,7 +33,7 @@ import 'package:vector_math/vector_math.dart';
  *
  * Attributes:
  *
- * * url String
+ * * src String
  * * type String ('auto', '2d', 'cube', 'color')
  * * format String (see pixel_format.dart)
  * * datatype String (see data_type.dart)
@@ -43,7 +43,7 @@ import 'package:vector_math/vector_math.dart';
  */
 class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'url': () => new SpectreElementAttributeString('url',''),
+    'src': () => new SpectreElementAttributeString('src',''),
     'type': () => new SpectreElementAttributeString('type', 'auto'),
     'format': () => new SpectreElementAttributeString('format',
                                                       'PixelFormat.Rgba'),
@@ -53,7 +53,7 @@ class SpectreTextureElement extends SpectreElement {
     'width': () => new SpectreElementAttributeInt('width', 0),
     'height': () => new SpectreElementAttributeInt('height', 0),
   };
-  final List<String> requiredSpectreAttributes = [ 'url',
+  final List<String> requiredSpectreAttributes = [ 'src',
                                                    'type',
                                                    'format',
                                                    'datatype',
@@ -63,7 +63,7 @@ class SpectreTextureElement extends SpectreElement {
                                                    'height' ];
   SpectreTexture _texture;
   SpectreTexture get texture => _texture;
-  String _uri;
+  String _src;
   int _pixelFormat;
   int _dataType;
   int _width;
@@ -99,16 +99,14 @@ class SpectreTextureElement extends SpectreElement {
 
   String _detectType(String uri) {
     String extension = path.extension(uri);
-    if ((extension == 'jpg') || (extension == 'png') || (extension == 'gif')) {
+    if ((extension == '.jpg') || (extension == '.png') ||
+        (extension == '.gif')) {
       return '2d';
     }
     if ((extension == 'texCube')) {
       return 'cube';
     }
-    if (uri == '') {
-      return 'color';
-    }
-    throw new FallThroughError();
+    return 'color';
   }
 
   void _destroyOldTexture() {
@@ -119,22 +117,31 @@ class SpectreTextureElement extends SpectreElement {
   }
 
   void _parseColorIntoColorBuffer(Uint8List colorBuffer) {
+    colorBuffer[0] = 0x77;
+    colorBuffer[1] = 0x77;
+    colorBuffer[2] = 0x77;
+    colorBuffer[3] = 0xFF;
     String color = spectreAttributes['color'].value;
-    String r = color.substring(1, 3);
-    String g = color.substring(3, 5);
-    String b = color.substring(5, 7);
-    String a = color.substring(7, 9);
-    colorBuffer[0] = int.parse(r, radix:16) & 0xFF;
-    colorBuffer[1] = int.parse(g, radix:16) & 0xFF;
-    colorBuffer[2] = int.parse(b, radix:16) & 0xFF;
-    colorBuffer[3] = int.parse(a, radix:16) & 0xFF;
+    if (color.length != 9) {
+      return;
+    }
+    try {
+      String r = color.substring(1, 3);
+      String g = color.substring(3, 5);
+      String b = color.substring(5, 7);
+      String a = color.substring(7, 9);
+      colorBuffer[0] = int.parse(r, radix:16) & 0xFF;
+      colorBuffer[1] = int.parse(g, radix:16) & 0xFF;
+      colorBuffer[2] = int.parse(b, radix:16) & 0xFF;
+      colorBuffer[3] = int.parse(a, radix:16) & 0xFF;
+    } catch (e) {
+    }
   }
 
   void _createColorTexture() {
     _destroyOldTexture();
     Uint8List colorBuffer = new Uint8List(4);
     _parseColorIntoColorBuffer(colorBuffer);
-    print(colorBuffer);
     // Create new texture.
     var t = new Texture2D('SpectreTextureElement',
                           SpectreDeclarative.graphicsDevice);
@@ -149,7 +156,7 @@ class SpectreTextureElement extends SpectreElement {
     _destroyOldTexture();
     String type = spectreAttributes['type'].value;
     if (type == 'auto') {
-      type = _detectType(_uri);
+      type = _detectType(_src);
     }
     if (type == '2d') {
       _texture = new Texture2D('SpectreTextureElement',
@@ -167,7 +174,7 @@ class SpectreTextureElement extends SpectreElement {
   void _applyAttributes() {
     _pixelFormat = PixelFormat.parse(spectreAttributes['format'].value);
     _dataType = DataType.parse(spectreAttributes['datatype'].value);
-    _uri = spectreAttributes['url'].value;
+    _src = spectreAttributes['src'].value;
     _width = spectreAttributes['width'].value;
     _height = spectreAttributes['height'].value;
     _createTexture();
@@ -175,11 +182,11 @@ class SpectreTextureElement extends SpectreElement {
   }
 
   void _loadTexture() {
-    if (_texture == null) {
+    if (_texture == null || _src == '') {
       return;
     }
     if (_texture is Texture2D) {
-      (_texture as Texture2D).uploadFromURL(_uri.toString());
+      (_texture as Texture2D).uploadFromURL(_src.toString());
     } else if (_texture is TextureCube) {
       throw new FallThroughError();
     } else {
