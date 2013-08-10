@@ -72,6 +72,6 @@ void main() {
     canvas.height = 512;
     CanvasRenderingContext2D context2d = canvas.getContext('2d');
     _drawGrid(context2d, 512, 512, 8, 8);
-    ste.texture.uploadElement(canvas);
+    (ste.texture as Texture2D).uploadElement(canvas);
   });
 }

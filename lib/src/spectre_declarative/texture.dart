@@ -122,7 +122,7 @@ class SpectreTextureElement extends SpectreElement {
     colorBuffer[2] = 0x77;
     colorBuffer[3] = 0xFF;
     String color = spectreAttributes['color'].value;
-    if (color.length != 9) {
+    if (color.length != 9 || color[0] != '#') {
       return;
     }
     try {
