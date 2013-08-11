@@ -56,7 +56,6 @@ class Texture2D extends SpectreTexture {
     _width = width;
     _height = height;
     _uploadPixelArray(width, height, array);
-    _generateMipmap();
     device.context.setTexture(device.context._tempTextureUnit, old);
   }
 
@@ -90,7 +89,6 @@ class Texture2D extends SpectreTexture {
       device.gl.texImage2DVideo(_textureTarget, 0, pixelFormat, pixelFormat,
                                 pixelDataType, element);
     }
-    _generateMipmap();
     device.context.setTexture(device.context._tempTextureUnit, old);
   }
 
