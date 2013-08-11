@@ -20,6 +20,7 @@
 
 library spectre_declarative_texture;
 
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:pathos/path.dart' as path;
 import 'package:polymer/polymer.dart';
@@ -44,21 +45,57 @@ import 'package:vector_math/vector_math.dart';
 class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'src': () => new SpectreElementAttributeString('src',''),
+    'src-cube-negative-x':
+        () => new SpectreElementAttributeString('src-cube-negative-x', null),
+    'src-cube-negative-y':
+        () => new SpectreElementAttributeString('src-cube-negative-y', null),
+    'src-cube-negative-z':
+        () => new SpectreElementAttributeString('src-cube-negative-z', null),
+    'src-cube-positive-x':
+        () => new SpectreElementAttributeString('src-cube-positive-x', null),
+    'src-cube-positive-y':
+        () => new SpectreElementAttributeString('src-cube-positive-y', null),
+    'src-cube-positive-z':
+        () => new SpectreElementAttributeString('src-cube-positive-z', null),
     'type': () => new SpectreElementAttributeString('type', 'auto'),
     'format': () => new SpectreElementAttributeString('format',
                                                       'PixelFormat.Rgba'),
     'datatype': () => new SpectreElementAttributeString('datatype',
                                                         'DataType.Uint8'),
     'color': () => new SpectreElementAttributeString('color', ''),
+    'color-cube-negative-x':
+        () => new SpectreElementAttributeString('color-cube-negative-x', null),
+    'color-cube-negative-y':
+        () => new SpectreElementAttributeString('color-cube-negative-y', null),
+    'color-cube-negative-z':
+        () => new SpectreElementAttributeString('color-cube-negative-z', null),
+    'color-cube-positive-x':
+        () => new SpectreElementAttributeString('color-cube-positive-x', null),
+    'color-cube-positive-y':
+        () => new SpectreElementAttributeString('color-cube-positive-y', null),
+    'color-cube-positive-z':
+        () => new SpectreElementAttributeString('color-cube-positive-z', null),
     'width': () => new SpectreElementAttributeInt('width', 0),
     'height': () => new SpectreElementAttributeInt('height', 0),
   };
   final List<String> requiredSpectreAttributes = [ 'src',
+                                                   'src-cube-positive-x',
+                                                   'src-cube-positive-y',
+                                                   'src-cube-positive-z',
+                                                   'src-cube-negative-x',
+                                                   'src-cube-negative-y',
+                                                   'src-cube-negative-z',
                                                    'type',
                                                    'format',
                                                    'datatype',
                                                    'storage',
                                                    'color',
+                                                   'color-cube-positive-x',
+                                                   'color-cube-positive-y',
+                                                   'color-cube-positive-z',
+                                                   'color-cube-negative-x',
+                                                   'color-cube-negative-y',
+                                                   'color-cube-negative-z',
                                                    'width',
                                                    'height' ];
   SpectreTexture _texture;
@@ -97,14 +134,29 @@ class SpectreTextureElement extends SpectreElement {
     _applyAttributes();
   }
 
-  String _detectType(String uri) {
-    String extension = path.extension(uri);
+  bool _hasCubeAttributes() {
+    return (spectreAttributes['color-cube-negative-x'].value != null) ||
+           (spectreAttributes['color-cube-negative-y'].value != null) ||
+           (spectreAttributes['color-cube-negative-z'].value != null) ||
+           (spectreAttributes['color-cube-positive-x'].value != null) ||
+           (spectreAttributes['color-cube-positive-y'].value != null) ||
+           (spectreAttributes['color-cube-positive-z'].value != null) ||
+           (spectreAttributes['src-cube-negative-x'].value != null) ||
+           (spectreAttributes['src-cube-negative-y'].value != null) ||
+           (spectreAttributes['src-cube-negative-z'].value != null) ||
+           (spectreAttributes['src-cube-positive-x'].value != null) ||
+           (spectreAttributes['src-cube-positive-y'].value != null) ||
+           (spectreAttributes['src-cube-positive-z'].value != null);
+  }
+
+  String _detectType() {
+    String extension = path.extension(_src);
+    if ((extension == '.texCube') || _hasCubeAttributes()) {
+      return 'cube';
+    }
     if ((extension == '.jpg') || (extension == '.png') ||
         (extension == '.gif')) {
       return '2d';
-    }
-    if ((extension == 'texCube')) {
-      return 'cube';
     }
     return 'color';
   }
@@ -116,12 +168,11 @@ class SpectreTextureElement extends SpectreElement {
     }
   }
 
-  void _parseColorIntoColorBuffer(Uint8List colorBuffer) {
+  void _parseColorIntoColorBuffer(String color, Uint8List colorBuffer) {
     colorBuffer[0] = 0x77;
     colorBuffer[1] = 0x77;
     colorBuffer[2] = 0x77;
     colorBuffer[3] = 0xFF;
-    String color = spectreAttributes['color'].value;
     if (color.length != 9 || color[0] != '#') {
       return;
     }
@@ -141,7 +192,7 @@ class SpectreTextureElement extends SpectreElement {
   void _createColorTexture() {
     _destroyOldTexture();
     Uint8List colorBuffer = new Uint8List(4);
-    _parseColorIntoColorBuffer(colorBuffer);
+    _parseColorIntoColorBuffer(spectreAttributes['color'].value, colorBuffer);
     // Create new texture.
     var t = new Texture2D('SpectreTextureElement',
                           SpectreDeclarative.graphicsDevice);
@@ -156,7 +207,7 @@ class SpectreTextureElement extends SpectreElement {
     _destroyOldTexture();
     String type = spectreAttributes['type'].value;
     if (type == 'auto') {
-      type = _detectType(_src);
+      type = _detectType();
     }
     if (type == '2d') {
       _texture = new Texture2D('SpectreTextureElement',
@@ -181,14 +232,52 @@ class SpectreTextureElement extends SpectreElement {
     _loadTexture();
   }
 
+  Future _loadCubeTexture(Texture2D texture2D, String face) {
+    String src = spectreAttributes['src-$face'].value;
+    if (src == null) {
+      src = spectreAttributes['src'].value;
+    }
+    String color = spectreAttributes['color-$face'].value;
+    if (color == null) {
+      color = spectreAttributes['color'].value;
+    }
+    if (src != '') {
+      // Upload from source.
+      print('$face $src');
+      return texture2D.uploadFromURL(src);
+    } else {
+      // Parse color.
+      Uint8List colorBuffer = new Uint8List(4);
+      _parseColorIntoColorBuffer(color, colorBuffer);
+      // Upload a 1x1 pixel texture.
+      texture2D.uploadPixelArray(1, 1, colorBuffer);
+    }
+    return new Future.value(texture2D);
+  }
+
   void _loadTexture() {
-    if (_texture == null || _src == '') {
+    if (_texture == null) {
       return;
     }
     if (_texture is Texture2D) {
-      (_texture as Texture2D).uploadFromURL(_src.toString());
+      if (_src == '') {
+        return;
+      }
+      (_texture as Texture2D).uploadFromURL(_src.toString()).then((t) {
+        t.generateMipmap();
+      });
     } else if (_texture is TextureCube) {
-      throw new FallThroughError();
+      var t = _texture;
+      List l = [];
+      l.add(_loadCubeTexture(t.positiveX, 'cube-positive-x'));
+      l.add(_loadCubeTexture(t.positiveY, 'cube-positive-y'));
+      l.add(_loadCubeTexture(t.positiveZ, 'cube-positive-z'));
+      l.add(_loadCubeTexture(t.negativeX, 'cube-negative-x'));
+      l.add(_loadCubeTexture(t.negativeY, 'cube-negative-y'));
+      l.add(_loadCubeTexture(t.negativeZ, 'cube-negative-z'));
+      Future.wait(l).then((_) {
+        t.generateMipmap();
+      });
     } else {
       throw new FallThroughError();
     }
