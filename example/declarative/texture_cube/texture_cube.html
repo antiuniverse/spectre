@@ -113,6 +113,8 @@ void main()
     </s-material-constant>
   </s-material>
   <s-texture id="redTexture" color="#ff0000ff"></s-texture>
+  <s-texture id="bad-2d" src="nope.png"></s-texture>
+  <s-texture id="bad-cube" src="nope.png" type="cube"></s-texture>
   <!-- Create a cube map texture. -->
   <s-texture id="space-cube"
              src-cube-positive-x="positiveX.png"
@@ -122,6 +124,14 @@ void main()
              src-cube-negative-y="negativeY.png"
              src-cube-negative-z="negativeZ.png">
   </s-texture>
+  <s-texture id="color-cube"
+             color-cube-positive-x="#ff0000ff"
+             color-cube-positive-y="#00ff00ff"
+             color-cube-positive-z="#0000ffff"
+             color-cube-negative-x="#00ffffff"
+             color-cube-negative-y="#ff00ffff"
+             color-cube-negative-z="#ffff00ff">
+  </s-texture>
   <s-scene>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
     <s-transform>
@@ -130,10 +140,9 @@ void main()
       <s-transform translate="[0.0, 2.0, 0.0]">
         <s-mesh material-id="#simpleMaterial"
                 geometry-path="assetpack://base.unitCube">
-                  <!--
           <s-material-constant name="diffuse"
-                     texture-id="#space-cube">
-          </s-material-constant>-->
+                     texture-id="#bad-2d">
+          </s-material-constant>
         </s-mesh>
       </s-transform>
       <s-transform translate="[5.0, 0.0, 0.0]">
@@ -160,6 +169,34 @@ void main()
               geometry-path="assetpack://base.skybox">
         <s-material-constant name="diffuse"
                              texture-id="#space-cube"
+                             address-u="TextureAddressMode.Clamp"
+                             address-v="TextureAddressMode.Clamp">
+        </s-material-constant>
+        <s-material-constant name="cullMode" value="CullMode.None">
+        </s-material-constant>
+      </s-mesh>
+    </s-transform>
+
+    <s-transform translate="[0.0, 0.0, 15.0]">
+      <!-- Draw a skybox with a cube map texture. -->
+      <s-mesh material-id="#simpleCubeMaterial"
+              geometry-path="assetpack://base.skybox">
+        <s-material-constant name="diffuse"
+                             texture-id="#color-cube"
+                             address-u="TextureAddressMode.Clamp"
+                             address-v="TextureAddressMode.Clamp">
+        </s-material-constant>
+        <s-material-constant name="cullMode" value="CullMode.None">
+        </s-material-constant>
+      </s-mesh>
+    </s-transform>
+
+    <s-transform translate="[0.0, 0.0, 20.0]">
+      <!-- Draw a skybox with a cube map texture. -->
+      <s-mesh material-id="#simpleCubeMaterial"
+              geometry-path="assetpack://base.skybox">
+        <s-material-constant name="diffuse"
+                             texture-id="#bad-cube"
                              address-u="TextureAddressMode.Clamp"
                              address-v="TextureAddressMode.Clamp">
         </s-material-constant>
