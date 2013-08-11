@@ -121,7 +121,7 @@ class SpectreMeshElement extends SpectreElement {
     assert(inited);
     var spectre = SpectreDeclarative.root;
     String geometryPath = spectreAttributes['geometry-path'].value;
-    _mesh = SpectreDeclarative.assetManager['base.unitCube'];
+    _mesh = SpectreDeclarative.getAsset(geometryPath);
     String materialId = spectreAttributes['material-id'].value;
     if (materialId != null) {
       var q = spectre.query(materialId);
