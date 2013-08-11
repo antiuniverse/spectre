@@ -34,6 +34,7 @@ abstract class Example {
   SamplerState fullscreenSampler;
   SingleArrayMesh fullscreenMesh;
   DepthState fullscreenDepthState;
+  SingleArrayIndexedMesh skyboxMesh;
 
   Example(this.name, this.element) {
     graphicsDevice = new GraphicsDevice(element);
@@ -60,6 +61,7 @@ abstract class Example {
                                                     graphicsDevice);
     fullscreenDepthState = new DepthState();
     _fullscreenInit(graphicsDevice);
+    _skyboxInit(graphicsDevice);
   }
 
   void _onRender(GameLoopHtml gl) {
@@ -113,13 +115,82 @@ abstract class Example {
     vertexData[10] = 0.0;
     vertexData[11] = 2.0;
     fullscreenMesh.vertexArray.uploadData(vertexData, UsagePattern.StaticDraw);
-    fullscreenMesh.attributes['vPosition'] =
-        new SpectreMeshAttribute('vPosition',
+    fullscreenMesh.attributes['POSITION'] =
+        new SpectreMeshAttribute('POSITION',
             new VertexAttribute(0, 0, 0, 16, DataType.Float32, 2, false));
-    fullscreenMesh.attributes['vTexCoord'] =
-        new SpectreMeshAttribute('vTexCoord',
+    fullscreenMesh.attributes['TEXCOORD0'] =
+        new SpectreMeshAttribute('TEXCOORD0',
             new VertexAttribute(0, 0, 8, 16, DataType.Float32, 2, false));
     fullscreenMesh.count = 3;
+  }
+
+  void _registerFullscreenMesh() {
+    var pack = assetManager.root['base'];
+    if (pack['fullscreen'] != null) {
+      return;
+    }
+    var asset = pack.registerAsset('fullscreen', 'mesh', '', {}, {});
+    asset.imported = fullscreenMesh;
+  }
+
+  void _skyboxInit(GraphicsDevice device) {
+    skyboxMesh = new SingleArrayIndexedMesh('SkyboxMesh', device);
+    Float32List vertexData = new Float32List.fromList([
+        -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+        -1.0, 1.0, -1.0, -1.0, 1.0, -1.0,
+        1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
+        1.0, -1.0, -1.0, 1.0, -1.0, -1.0,
+        -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+        -1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
+        -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+        -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+        1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
+        1.0, -1.0, -1.0, 1.0, -1.0, -1.0,
+        -1.0, 1.0, -1.0, -1.0, 1.0, -1.0,
+        -1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
+        -1.0, -1.0, -1.0, -1.0, -1.0, -1.0,
+        -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
+        -1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+        -1.0, 1.0, -1.0, -1.0, 1.0, -1.0,
+        1.0, -1.0, -1.0, 1.0, -1.0, -1.0,
+        1.0, -1.0, 1.0, 1.0, -1.0, 1.0,
+        1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+        1.0, 1.0, -1.0, 1.0, 1.0, -1.0]);
+    skyboxMesh.vertexArray.uploadData(vertexData, UsagePattern.StaticDraw);
+    Uint16List indexData = new Uint16List.fromList([
+        0, 1, 2,
+        0, 2, 3,
+        4, 5, 6,
+        4, 6, 7,
+        8, 9, 10,
+        8, 10, 11,
+        12, 13, 14,
+        12, 14, 15,
+        16, 17, 18,
+        16, 18, 19,
+        20, 21, 22,
+        20, 22, 23]);
+    skyboxMesh.indexArray.uploadData(indexData, UsagePattern.StaticDraw);
+    skyboxMesh.attributes['POSITION'] = new SpectreMeshAttribute(
+        'POSITION',
+        new VertexAttribute(0, 0, 0, 24, DataType.Float32, 3, false));
+    skyboxMesh.attributes['TEXCOORD0'] = new SpectreMeshAttribute(
+        'TEXCOORD0',
+        new VertexAttribute(0, 0, 12, 24, DataType.Float32, 3, false));
+    skyboxMesh.count = indexData.length;
+  }
+
+  void _registerSkyboxMesh() {
+    var pack = assetManager.root['base'];
+    if (pack['skybox'] != null) {
+      return;
+    }
+    var asset = pack.registerAsset('skybox', 'mesh', '', {}, {});
+    asset.imported = skyboxMesh;
   }
 
   void updateCameraConstants(Camera camera) {
@@ -196,6 +267,8 @@ abstract class Example {
   Future initialize() {
     String assetUrl = 'packages/spectre/asset/base/_.pack';
     return assetManager.loadPack('base', assetUrl).then((_) {
+      _registerSkyboxMesh();
+      _registerFullscreenMesh();
       print('Base assets:');
       assetManager.root['base'].assets.forEach((k, v) {
         print('$k ${v.type} ${v.url}');
