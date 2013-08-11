@@ -134,6 +134,7 @@ class SpectreTextureElement extends SpectreElement {
     _applyAttributes();
   }
 
+
   bool _hasCubeAttributes() {
     return (spectreAttributes['color-cube-negative-x'].value != null) ||
            (spectreAttributes['color-cube-negative-y'].value != null) ||
@@ -189,6 +190,20 @@ class SpectreTextureElement extends SpectreElement {
     }
   }
 
+  static final Uint8List _patternColorBuffer = new Uint8List.fromList(
+      [0x1e, 0x90, 0xff, 0xff, 0x1e, 0x90, 0xff, 0xff,
+       0x70, 0x80, 0x90, 0xff, 0x70, 0x80, 0x90, 0xff,
+       0x1e, 0x90, 0xff, 0xff, 0x1e, 0x90, 0xff, 0xff,
+       0x70, 0x80, 0x90, 0xff, 0x70, 0x80, 0x90, 0xff,
+       0x70, 0x80, 0x90, 0xff, 0x70, 0x80, 0x90, 0xff,
+       0x1e, 0x90, 0xff, 0xff, 0x1e, 0x90, 0xff, 0xff,
+       0x70, 0x80, 0x90, 0xff, 0x70, 0x80, 0x90, 0xff,
+       0x1e, 0x90, 0xff, 0xff, 0x1e, 0x90, 0xff, 0xff]);
+
+  void _uploadDefaultColorPattern(Texture2D texture) {
+    texture.uploadPixelArray(4, 4, _patternColorBuffer);
+  }
+
   void _createColorTexture() {
     _destroyOldTexture();
     Uint8List colorBuffer = new Uint8List(4);
@@ -210,11 +225,22 @@ class SpectreTextureElement extends SpectreElement {
       type = _detectType();
     }
     if (type == '2d') {
-      _texture = new Texture2D('SpectreTextureElement',
-                               SpectreDeclarative.graphicsDevice);
+      var t = new Texture2D('SpectreTextureElement',
+                            SpectreDeclarative.graphicsDevice);
+      _uploadDefaultColorPattern(t);
+      t.generateMipmap();
+      _texture = t;
     } else if (type == 'cube') {
-      _texture = new TextureCube('SpectreTextureElement',
-                                 SpectreDeclarative.graphicsDevice);
+      var t = new TextureCube('SpectreTextureElement',
+                              SpectreDeclarative.graphicsDevice);
+      _uploadDefaultColorPattern(t.positiveX);
+      _uploadDefaultColorPattern(t.positiveY);
+      _uploadDefaultColorPattern(t.positiveZ);
+      _uploadDefaultColorPattern(t.negativeX);
+      _uploadDefaultColorPattern(t.negativeY);
+      _uploadDefaultColorPattern(t.negativeZ);
+      t.generateMipmap();
+      _texture = t;
     } else if (type == 'color') {
       _createColorTexture();
     } else {
@@ -243,7 +269,6 @@ class SpectreTextureElement extends SpectreElement {
     }
     if (src != '') {
       // Upload from source.
-      print('$face $src');
       return texture2D.uploadFromURL(src);
     } else {
       // Parse color.
