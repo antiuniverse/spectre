@@ -29,6 +29,7 @@ import 'package:spectre/src/spectre_declarative/model.dart';
 import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
+@CustomTag('s-model-instance')
 class SpectreModelInstanceElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];

@@ -34,7 +34,7 @@ import 'package:vector_math/vector_math.dart';
  * * axis (Vector3)
  * * angle (double, radians)
  */
-
+@CustomTag('s-transform')
 class SpectreTransformElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'translate': () => new SpectreElementAttributeVector3('translate',

@@ -26,6 +26,7 @@ import 'package:spectre/spectre_element.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:vector_math/vector_math.dart';
 
+@CustomTag('s-line-primitive')
 class SpectreLinePrimitiveElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];

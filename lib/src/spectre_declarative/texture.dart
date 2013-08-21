@@ -42,6 +42,7 @@ import 'package:vector_math/vector_math.dart';
  * * width String (width of mip level 0)
  * * height String (height of mip level 0)
  */
+@CustomTag('s-texture')
 class SpectreTextureElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'src': () => new SpectreElementAttributeString('src',''),

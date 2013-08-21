@@ -29,6 +29,7 @@ import 'package:vector_math/vector_math.dart';
 /**
  * <s-camera id="mainCamera"></s-camera>
  */
+@CustomTag('s-camera')
 class SpectreCameraElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'field-of-view-y': () =>
