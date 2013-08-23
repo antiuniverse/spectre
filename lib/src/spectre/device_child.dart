@@ -42,7 +42,7 @@ abstract class DeviceChild extends Disposable {
   }
 
   void finalize() {
-    print('Finalizing ${this.runtimeType} $name.');
+    _spectreLog.fine('Finalizing ${this.runtimeType} $name.');
     device._removeChild(this);
   }
 }
