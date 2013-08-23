@@ -303,7 +303,7 @@ void importAnimation(SkinnedMesh mesh, Map json) {
   json['boneAnimations'].forEach((ba) {
     Bone bone = mesh.skeleton.bones[ba['name']];
     if (bone == null) {
-      print('Cannot find ${ba['name']}');
+      _spectreLog.shout('Cannot find ${ba['name']}');
       return;
     }
     int id = bone._boneIndex;
@@ -374,7 +374,7 @@ SkinnedMesh importSkinnedMesh2(String name, GraphicsDevice device, Map json) {
     for (int i = 0; i < children.length; i++) {
       Bone childBone = mesh.skeleton.bones[children[i]];
       if (childBone == null) {
-        print('Could not find ${children[i]}');
+        _spectreLog.shout('Could not find ${children[i]}');
         continue;
       }
       assert(childBone.parent == null);
