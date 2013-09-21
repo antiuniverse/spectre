@@ -269,6 +269,7 @@ class SpectreTextureElement extends SpectreElement {
     }
     if (src != '') {
       // Upload from source.
+      print('upload $src');
       return texture2D.uploadFromURL(src);
     } else {
       // Parse color.

@@ -110,6 +110,8 @@ class DeclarativeExample extends Example {
         throw new ArgumentError('Could not find $spectreId in dom.');
       }
       var root = ele.xtag;
+      print(ele);
+      print(root);
       if (root is! SpectreSpectreElement) {
         throw new ArgumentError('$spectreId is not a <s-spectre>');
       }
@@ -146,56 +148,6 @@ class DeclarativeExample extends Example {
 }
 
 Future main(String backBufferId, String sceneId) {
-  mdv.initialize();
-
-  polymer.setScopedCss('s-camera', {"s-camera":"[is=\"s-camera\"]"});
-  polymer.registerPolymerElement('s-camera', () => new SpectreCameraElement());
-
-  polymer.setScopedCss('s-fragment-shader', {"s-fragment-shader":"[is=\"s-fragment-shader\"]"});
-  polymer.registerPolymerElement('s-fragment-shader', () => new SpectreFragmentShaderElement());
-
-  polymer.setScopedCss('s-layer', {"s-layer":"[is=\"s-layer\"]"});
-  polymer.registerPolymerElement('s-layer', () => new SpectreLayerElement());
-
-  polymer.setScopedCss('s-line-primitive', {"s-line-primitive":"[is=\"s-line-primitive\"]"});
-  polymer.registerPolymerElement('s-line-primitive', () => new SpectreLinePrimitiveElement());
-
-  polymer.setScopedCss('s-material', {"s-material":"[is=\"s-material\"]"});
-  polymer.registerPolymerElement('s-material', () => new SpectreMaterialElement());
-
-  polymer.setScopedCss('s-material-constant', {"s-material-constant":"[is=\"s-material-constant\"]"});
-  polymer.registerPolymerElement('s-material-constant', () => new SpectreMaterialConstantElement());
-
-  polymer.setScopedCss('s-material-program', {"s-material-program":"[is=\"s-material-program\"]"});
-  polymer.registerPolymerElement('s-material-program', () => new SpectreMaterialProgramElement());
-
-  polymer.setScopedCss('s-mesh', {"s-mesh":"[is=\"s-mesh\"]"});
-  polymer.registerPolymerElement('s-mesh', () => new SpectreMeshElement());
-
-  polymer.setScopedCss('s-model', {"s-model":"[is=\"s-model\"]"});
-  polymer.registerPolymerElement('s-model', () => new SpectreModelElement());
-
-  polymer.setScopedCss('s-model-instance', {"s-model-instance":"[is=\"s-model-instance\"]"});
-  polymer.registerPolymerElement('s-model-instance', () => new SpectreModelInstanceElement());
-
-  polymer.setScopedCss('s-post-effect', {"s-post-effect":"[is=\"s-post-effect\"]"});
-  polymer.registerPolymerElement('s-post-effect', () => new SpectrePostEffectElement());
-
-  polymer.setScopedCss('s-scene', {"s-scene":"[is=\"s-scene\"]"});
-  polymer.registerPolymerElement('s-scene', () => new SpectreSceneElement());
-
-  polymer.setScopedCss('s-spectre', {"s-spectre":"[is=\"s-spectre\"]"});
-  polymer.registerPolymerElement('s-spectre', () => new SpectreSpectreElement());
-
-  polymer.setScopedCss('s-transform', {"s-transform":"[is=\"s-transform\"]"});
-  polymer.registerPolymerElement('s-transform', () => new SpectreTransformElement());
-
-  polymer.setScopedCss('s-texture', {"s-texture":"[is=\"s-texture\"]"});
-  polymer.registerPolymerElement('s-texture', () => new SpectreTextureElement());
-
-  polymer.setScopedCss('s-vertex-shader', {"s-vertex-shader":"[is=\"s-vertex-shader\"]"});
-  polymer.registerPolymerElement('s-vertex-shader', () => new SpectreVertexShaderElement());
-
   var example = new DeclarativeExample(query(backBufferId), sceneId);
   example.gameLoop.pointerLock.lockOnClick = true;
   return example.initialize()

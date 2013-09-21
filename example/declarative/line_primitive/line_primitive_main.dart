@@ -30,7 +30,7 @@ import 'package:game_loop/game_loop_html.dart';
 
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_asset_pack.dart';
-import 'package:spectre/spectre_declarative.dart';
+//import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_declarative_main.dart' as declarative;
 import 'package:vector_math/vector_math.dart';

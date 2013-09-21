@@ -27,6 +27,7 @@ import 'package:spectre/spectre_element.dart';
 import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:vector_math/vector_math.dart';
 
+@CustomTag('s-spectre')
 class SpectreSpectreElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
