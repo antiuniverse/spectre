@@ -20,6 +20,7 @@
 
 library spectre_declarative_post_effect;
 
+import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/src/spectre_declarative/material.dart';
