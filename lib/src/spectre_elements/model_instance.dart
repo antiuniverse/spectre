@@ -18,44 +18,32 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_layer;
+library spectre_declarative_model_instance;
+
+import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/src/spectre_declarative/scene.dart';
-import 'package:spectre/src/spectre_declarative/camera.dart';
-import 'package:spectre/src/spectre_declarative/post_effect.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
+import 'package:vector_math/vector_math.dart';
 
-@CustomTag('s-layer')
-class SpectreLayerElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'scene-id': () => new SpectreElementAttributeString('scene-id', ''),
-    'camera-id': () => new SpectreElementAttributeString('camera-id', ''),
-    'post-effect-id': () =>
-        new SpectreElementAttributeString('post-effect-id', ''),
-    'sort-order': () => new SpectreElementAttributeString('sord-order', 'none'),
-    'render-target-id': () =>
-        new SpectreElementAttributeString('render-target-id', 'system'),
-  };
-  SpectreSceneElement scene;
-  SpectreCameraElement camera;
-  SpectrePostEffectElement postEffect;
-  //SpectreRenderTargetElement renderTarget;
-  final List<String> requiredSpectreAttributes = [ 'sort-order' ];
+@CustomTag('s-model-instance')
+class SpectreModelInstanceElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
+  final List<String> requiredSpectreAttributes = [];
+  SpectreModelElement _model;
 
-  void created() {
+  created() {
     super.created();
   }
 
-  void inserted() {
+  inserted() {
     super.inserted();
     init();
-    applyAttributes();
   }
 
-  void removed() {
+  removed() {
     super.removed();
   }
 
@@ -70,13 +58,23 @@ class SpectreLayerElement extends SpectreElement {
     }
     // Initialize.
     super.init();
+    _update();
   }
 
-  void render() {
+  render() {
     super.render();
-    // apply render target.
+    // Render model.
+    if (_model != null) {
+      _model.renderChildren();
+    }
   }
 
-  void applyAttributes() {
+  void _update() {
+    assert(inited);
+    var spectre = SpectreDeclarative.root;
+    var q = spectre.query(attributes['model-id']);
+    if (q != null) {
+      _model = q.xtag;
+    }
   }
 }

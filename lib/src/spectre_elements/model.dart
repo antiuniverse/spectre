@@ -18,22 +18,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_model_instance;
+library spectre_model_element;
 
 import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/src/spectre_declarative/model.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
-@CustomTag('s-model-instance')
-class SpectreModelInstanceElement extends SpectreElement {
+@CustomTag('s-model')
+class SpectreModelElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
-  SpectreModelElement _model;
 
   created() {
     super.created();
@@ -59,23 +57,5 @@ class SpectreModelInstanceElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _update();
-  }
-
-  render() {
-    super.render();
-    // Render model.
-    if (_model != null) {
-      _model.renderChildren();
-    }
-  }
-
-  void _update() {
-    assert(inited);
-    var spectre = SpectreDeclarative.root;
-    var q = spectre.query(attributes['model-id']);
-    if (q != null) {
-      _model = q.xtag;
-    }
   }
 }

@@ -25,9 +25,7 @@ import 'dart:typed_data';
 import 'package:pathos/path.dart' as path;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_element.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:spectre/spectre_declarative.dart';
 
 /**
  * <s-texture id="textureId"></s-texture>

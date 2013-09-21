@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2013 John McCutchan <john@johnmccutchan.com>
+  Copyright (C) 2013 John McCutchan
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -16,7 +16,6 @@
   2. Altered source versions must be plainly marked as such, and must not be
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
-
 */
 
 library spectre_declarative;
@@ -27,20 +26,136 @@ import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
 
-export 'package:spectre/spectre_element.dart';
-export 'package:spectre/src/spectre_declarative/camera.dart';
-export 'package:spectre/src/spectre_declarative/fragment_shader.dart';
-export 'package:spectre/src/spectre_declarative/layer.dart';
-export 'package:spectre/src/spectre_declarative/line_primitive.dart';
-export 'package:spectre/src/spectre_declarative/material.dart';
-export 'package:spectre/src/spectre_declarative/material_constant.dart';
-export 'package:spectre/src/spectre_declarative/material_program.dart';
-export 'package:spectre/src/spectre_declarative/mesh.dart';
-export 'package:spectre/src/spectre_declarative/model.dart';
-export 'package:spectre/src/spectre_declarative/model_instance.dart';
-export 'package:spectre/src/spectre_declarative/post_effect.dart';
-export 'package:spectre/src/spectre_declarative/scene.dart';
-export 'package:spectre/src/spectre_declarative/spectre.dart';
-export 'package:spectre/src/spectre_declarative/texture.dart';
-export 'package:spectre/src/spectre_declarative/transform.dart';
-export 'package:spectre/src/spectre_declarative/vertex_shader.dart';
+import 'package:asset_pack/asset_pack.dart';
+import 'package:game_loop/game_loop_html.dart';
+import 'package:polymer/polymer.dart';
+import 'package:spectre/spectre.dart';
+import 'package:spectre/spectre_asset_pack.dart';
+import 'package:spectre/spectre_example_ui.dart';
+import 'package:spectre/spectre_elements.dart';
+import 'package:vector_math/vector_math.dart';
+part 'src/spectre_declarative/spectre_element.dart';
+
+class SpectreDeclarative {
+  static AssetManager assetManager;
+  static GraphicsDevice graphicsDevice;
+  static GraphicsContext graphicsContext;
+  static DebugDrawManager debugDrawManager;
+  static SpectreSpectreElement root;
+  static bool _inited = false;
+  static bool get inited => _inited;
+  static Example example;
+
+  static void _initElement(SpectreElement element) {
+    element.init();
+    element.children.forEach((e) {
+      if (e.xtag is SpectreElement) {
+        e = e.xtag;
+        _initElement(e);
+      }
+    });
+  }
+
+  static void _init() {
+    if (_inited) {
+      return;
+    }
+    _inited = true;
+    _initElement(root);
+  }
+
+  static bool _isAssetPackUrl(String url) {
+    return url.startsWith('assetpack://');
+  }
+
+  static String _getAssetPackPath(String url) {
+    return url.substring('assetpack://'.length);
+  }
+
+  static dynamic getAsset(String url) {
+    assert(_inited == true);
+    if (url == null) return null;
+    if (!_isAssetPackUrl(url)) return null;
+    var p = _getAssetPackPath(url);
+    var a = assetManager[p];
+    return a;
+  }
+
+  static SpectreElement getElement(String id) {
+    if (id == null) {
+      return null;
+    }
+    var q = document.query(id);
+    if (q != null) return q.xtag;
+    return null;
+  }
+}
+
+class DeclarativeExample extends Example {
+  String spectreId;
+  DeclarativeExample(CanvasElement element, this.spectreId)
+      : super('DeclarativeExample', element);
+
+  CameraController cameraController;
+
+  Future initialize() {
+    return super.initialize().then((_) {
+      cameraController = new FpsFlyCameraController();
+      SpectreDeclarative.debugDrawManager = debugDrawManager;
+      SpectreDeclarative.graphicsContext = graphicsContext;
+      SpectreDeclarative.graphicsDevice = graphicsDevice;
+      SpectreDeclarative.assetManager = assetManager;
+      var ele = query(spectreId);
+      if (ele == null) {
+        throw new ArgumentError('Could not find $spectreId in dom.');
+      }
+      var root = ele.xtag;
+      print(ele);
+      print(root);
+      if (root is! SpectreSpectreElement) {
+        throw new ArgumentError('$spectreId is not a <s-spectre>');
+      }
+      SpectreDeclarative.root = root;
+      SpectreDeclarative._init();
+    });
+  }
+
+  Future load() {
+    return super.load().then((_) {
+    });
+  }
+
+  onUpdate() {
+    updateCameraController(cameraController);
+  }
+
+  onRender() {
+    // Set the viewport (2D area of render target to render on to).
+    graphicsContext.setViewport(viewport);
+    // Clear it.
+    graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
+    graphicsContext.clearDepthBuffer(1.0);
+
+    var spectre = SpectreDeclarative.root;
+
+    spectre.pushCamera(camera);
+    spectre.render();
+    spectre.popCamera();
+
+    debugDrawManager.prepareForRender();
+    debugDrawManager.render(camera);
+  }
+}
+
+Future main(String backBufferId, String sceneId) {
+  var example = new DeclarativeExample(query(backBufferId), sceneId);
+  example.gameLoop.pointerLock.lockOnClick = true;
+  return example.initialize()
+      .then((_) => example.load())
+      .then((_) => example.start())
+      .catchError((e) {
+        print('Could not run ${example.name}: $e');
+        print(e.stackTrace);
+        window.alert('Could not run ${example.name}: $e. See console.');
+      });
+}

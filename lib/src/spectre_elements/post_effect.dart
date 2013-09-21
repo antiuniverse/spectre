@@ -18,20 +18,20 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_model;
-
-import 'dart:json' as JSON;
+library spectre_declarative_post_effect;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/spectre_element.dart';
-import 'package:vector_math/vector_math.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 
-@CustomTag('s-model')
-class SpectreModelElement extends SpectreElement {
+@CustomTag('s-post-effect')
+class SpectrePostEffectElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
+  SingleArrayMesh get fullscreenMesh =>
+      SpectreDeclarative.example.fullscreenMesh;
+  SpectreMaterialElement material;
 
   created() {
     super.created();
@@ -39,7 +39,6 @@ class SpectreModelElement extends SpectreElement {
 
   inserted() {
     super.inserted();
-    init();
   }
 
   removed() {
@@ -57,5 +56,9 @@ class SpectreModelElement extends SpectreElement {
     }
     // Initialize.
     super.init();
+  }
+
+  void render() {
+    super.render();
   }
 }

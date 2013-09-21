@@ -18,31 +18,31 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_post_effect;
+library spectre_declarative_vertex_shader;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/src/spectre_declarative/material.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 
-@CustomTag('s-post-effect')
-class SpectrePostEffectElement extends SpectreElement {
+@CustomTag('s-vertex-shader')
+class SpectreVertexShaderElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
-  SingleArrayMesh get fullscreenMesh =>
-      SpectreDeclarative.example.fullscreenMesh;
-  SpectreMaterialElement material;
 
-  created() {
+  VertexShader _shader;
+  VertexShader get shader => _shader;
+
+  void created() {
     super.created();
   }
 
-  inserted() {
+  void inserted() {
     super.inserted();
+    init();
   }
 
-  removed() {
+  void removed() {
     super.removed();
   }
 
@@ -57,9 +57,23 @@ class SpectrePostEffectElement extends SpectreElement {
     }
     // Initialize.
     super.init();
+    _create();
+    _extractSource();
   }
 
-  void render() {
-    super.render();
+  void _create() {
+    assert(inited);
+    var device = SpectreDeclarative.graphicsDevice;
+    _shader = new VertexShader('SpectreVertexShaderElement', device);
+  }
+
+  void _extractSource() {
+    assert(inited);
+    _shader.source = text;
+  }
+
+  void _destroy() {
+    assert(inited);
+    _shader.dispose();
   }
 }

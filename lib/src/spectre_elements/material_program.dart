@@ -18,14 +18,12 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_material_program;
+library spectre_material_program_element;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/src/spectre_declarative/fragment_shader.dart';
-import 'package:spectre/src/spectre_declarative/vertex_shader.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-material-program')
 class SpectreMaterialProgramElement extends SpectreElement {

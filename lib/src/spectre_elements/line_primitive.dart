@@ -18,12 +18,13 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+library spectre_line_primitive_element;
+
 import 'dart:json' as JSON;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_element.dart';
-import 'package:spectre/spectre_declarative_main.dart';
+import 'package:spectre/spectre_declarative.dart';
 import 'package:vector_math/vector_math.dart';
 
 @CustomTag('s-line-primitive')

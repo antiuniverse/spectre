@@ -18,12 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_element;
-
-import 'dart:json' as JSON;
-
-import 'package:polymer/polymer.dart';
-import 'package:vector_math/vector_math.dart';
+part of spectre_declarative;
 
 abstract class SpectreElementAttribute<E> {
   final String name;
@@ -150,7 +145,7 @@ class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
 
 typedef SpectreElementAttribute AttributeConstructor();
 
-abstract class SpectreElement extends PolymerElement {
+abstract class SpectreElement extends PolymerElement with ObservableMixin {
   final Map<String, SpectreElementAttribute> spectreAttributes =
       new Map<String, SpectreElementAttribute>();
   Map<String, AttributeConstructor> get spectreAttributeDefinitions;

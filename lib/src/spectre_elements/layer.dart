@@ -18,20 +18,28 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_vertex_shader;
+library spectre_layer_element;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 
-@CustomTag('s-vertex-shader')
-class SpectreVertexShaderElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-
-  VertexShader _shader;
-  VertexShader get shader => _shader;
+@CustomTag('s-layer')
+class SpectreLayerElement extends SpectreElement {
+  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
+    'scene-id': () => new SpectreElementAttributeString('scene-id', ''),
+    'camera-id': () => new SpectreElementAttributeString('camera-id', ''),
+    'post-effect-id': () =>
+        new SpectreElementAttributeString('post-effect-id', ''),
+    'sort-order': () => new SpectreElementAttributeString('sord-order', 'none'),
+    'render-target-id': () =>
+        new SpectreElementAttributeString('render-target-id', 'system'),
+  };
+  SpectreSceneElement scene;
+  SpectreCameraElement camera;
+  SpectrePostEffectElement postEffect;
+  //SpectreRenderTargetElement renderTarget;
+  final List<String> requiredSpectreAttributes = [ 'sort-order' ];
 
   void created() {
     super.created();
@@ -40,6 +48,7 @@ class SpectreVertexShaderElement extends SpectreElement {
   void inserted() {
     super.inserted();
     init();
+    applyAttributes();
   }
 
   void removed() {
@@ -57,23 +66,13 @@ class SpectreVertexShaderElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _create();
-    _extractSource();
   }
 
-  void _create() {
-    assert(inited);
-    var device = SpectreDeclarative.graphicsDevice;
-    _shader = new VertexShader('SpectreVertexShaderElement', device);
+  void render() {
+    super.render();
+    // apply render target.
   }
 
-  void _extractSource() {
-    assert(inited);
-    _shader.source = text;
-  }
-
-  void _destroy() {
-    assert(inited);
-    _shader.dispose();
+  void applyAttributes() {
   }
 }

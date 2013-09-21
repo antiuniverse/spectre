@@ -236,8 +236,9 @@ abstract class Example {
     }
   }
 
-  void updateCameraController(CameraController controller) {
-    if (controller is FpsFlyCameraController) {
+  void updateCameraController(CameraController controller_) {
+    if (controller_ is FpsFlyCameraController) {
+      FpsFlyCameraController controller = controller_;
       controller.forward =
       gameLoop.keyboard.buttons[Keyboard.W].down;
       controller.backward =
@@ -251,7 +252,8 @@ abstract class Example {
         controller.accumDY = gameLoop.mouse.dy;
       }
       controller.updateCamera(gameLoop.dt, camera);
-    } else if (controller is OrbitCameraController) {
+    } else if (controller_ is OrbitCameraController) {
+      OrbitCameraController controller = controller_;
       Mouse mouse = gameLoop.mouse;
       if (mouse.isDown(Mouse.LEFT) || gameLoop.pointerLock.locked) {
         controller.accumDX = mouse.dx;

@@ -20,21 +20,7 @@
 
 library line_primitive_main;
 
-import 'dart:async';
-import 'dart:html';
-import 'dart:math' as Math;
-import 'dart:typed_data';
-
-import 'package:asset_pack/asset_pack.dart';
-import 'package:game_loop/game_loop_html.dart';
-
-import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_asset_pack.dart';
-//import 'package:spectre/spectre_declarative.dart';
-import 'package:spectre/spectre_example_ui.dart';
-import 'package:spectre/spectre_declarative_main.dart' as declarative;
-import 'package:vector_math/vector_math.dart';
-
+import 'package:spectre/spectre_declarative.dart' as declarative;
 
 void main() {
   declarative.main('#backBuffer', '#spectre');

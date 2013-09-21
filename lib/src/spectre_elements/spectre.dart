@@ -22,9 +22,8 @@ library spectre_declarative_spectre;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/spectre_element.dart';
-import 'package:spectre/src/spectre_declarative/material.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
 @CustomTag('s-spectre')

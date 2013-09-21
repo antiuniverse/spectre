@@ -18,12 +18,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_fragment_shader;
+library spectre_fragment_shader_element;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative_main.dart';
-import 'package:spectre/spectre_element.dart';
+import 'package:spectre/spectre_declarative.dart';
 
 @CustomTag('s-fragment-shader')
 class SpectreFragmentShaderElement extends SpectreElement {
