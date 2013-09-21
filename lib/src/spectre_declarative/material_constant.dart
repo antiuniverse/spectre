@@ -28,6 +28,7 @@ import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/spectre_element.dart';
 import 'package:vector_math/vector_math.dart';
 
+@CustomTag('s-material-constant')
 class SpectreMaterialConstantElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'address-u': () =>

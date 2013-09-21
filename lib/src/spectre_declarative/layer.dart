@@ -28,6 +28,7 @@ import 'package:spectre/src/spectre_declarative/camera.dart';
 import 'package:spectre/src/spectre_declarative/post_effect.dart';
 import 'package:spectre/spectre_element.dart';
 
+@CustomTag('s-layer')
 class SpectreLayerElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'scene-id': () => new SpectreElementAttributeString('scene-id', ''),

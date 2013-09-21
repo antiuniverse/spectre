@@ -58,12 +58,12 @@ class InputLayout extends DeviceChild {
     }
 
     if (_shaderProgram.attributes.length == 0) {
-      print('InputLayout $name shaderProgram has 0 attributes.');
+      _spectreLog.fine('InputLayout $name shaderProgram has 0 attributes.');
       return;
     }
 
     if (_mesh.attributes.length == 0) {
-      print('InputLayout $name mesh has 0 attributes.');
+      _spectreLog.fine('InputLayout $name mesh has 0 attributes.');
       return;
     }
 

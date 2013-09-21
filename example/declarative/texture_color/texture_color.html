@@ -4,81 +4,44 @@
 <head>
     <meta charset="utf-8">
     <title>Spectre Declarative Example: Texture Color</title>
-    <link rel="stylesheet" href="packages/spectre/src/spectre_example_ui/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Montserrat'
-          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet"
+          href="packages/spectre/src/spectre_example_ui/style.css">
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/line_primitive.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/camera.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/transform.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/texture.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/spectre.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/scene.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/material.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/mesh.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/model.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/model_instance.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/material_program.html">
+    <link
+        rel="import"
+        href="packages/spectre/src/spectre_declarative/material_constant.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/vertex_shader.html">
+    <link rel="import"
+          href="packages/spectre/src/spectre_declarative/fragment_shader.html">
+    <script src="packages/polymer/boot.js"></script>
 </head>
 <body>
-
-<polymer-element name="s-transform" constructor="SpectreTransformElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-scene" constructor="SpectreSceneElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-post-effect" constructor="SpectrePostEffectElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-model" constructor="SpectreModelElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-mesh" constructor="SpectreMeshElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material" constructor="SpectreMaterialElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-line-primitive" constructor="SpectreLinePrimitiveElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-layer" constructor="SpectreLayerElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-camera" constructor="SpectreCameraElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-vertex-shader" constructor="SpectreVertexShaderElement">
-  <template></template>
-</polymer-element>
-
-<polymer-element name="s-fragment-shader" constructor="SpectreFragmentShaderElement">
-  <template></template>
-</polymer-element>
-
-<polymer-element name="s-material-program" constructor="SpectreMaterialProgramElement">
-  <template></template>
-</polymer-element>
-
-<polymer-element name="s-texture" constructor="SpectreTextureElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-spectre" constructor="SpectreSpectreElement">
-  <template><content></content></template>
-</polymer-element>
-
 <canvas id="backBuffer"></canvas>
 <div id="logo"></div>
-<script type="application/dart" src="texture_color_main.dart"></script>
-<script src="packages/browser/dart.js"></script>
-
 <s-spectre id="spectre">
   <s-material id="simpleMaterial"
               shader-program-path="assetpack://base.simpleShader">
@@ -107,6 +70,6 @@
     </s-transform>
   </s-scene>
 </s-spectre>
-
+<script type="application/dart" src="texture_color_main.dart"></script>
 </body>
 </html>

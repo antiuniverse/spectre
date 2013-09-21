@@ -25,6 +25,7 @@ import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/src/spectre_declarative/material.dart';
 import 'package:spectre/spectre_element.dart';
 
+@CustomTag('s-post-effect')
 class SpectrePostEffectElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];

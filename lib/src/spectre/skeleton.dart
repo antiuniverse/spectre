@@ -207,10 +207,22 @@ class SIMDSkeletonPoser implements SkeletonPoser {
     var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3],
         b0 = b[0], b1 = b[1], b2 = b[2], b3 = b[3];
 
-    out[0] = b0.xxxx*a0 + b0.yyyy*a1 + b0.zzzz*a2 + b0.wwww*a3;
-    out[1] = b1.xxxx*a0 + b1.yyyy*a1 + b1.zzzz*a2 + b1.wwww*a3;
-    out[2] = b2.xxxx*a0 + b2.yyyy*a1 + b2.zzzz*a2 + b2.wwww*a3;
-    out[3] = b3.xxxx*a0 + b3.yyyy*a1 + b3.zzzz*a2 + b3.wwww*a3;
+    out[0] = b0.shuffle(Float32x4.XXXX) * a0 +
+             b0.shuffle(Float32x4.YYYY) * a1 +
+             b0.shuffle(Float32x4.ZZZZ) * a2 +
+             b0.shuffle(Float32x4.WWWW) * a3;
+    out[1] = b1.shuffle(Float32x4.XXXX) * a0 +
+             b1.shuffle(Float32x4.YYYY) * a1 +
+             b1.shuffle(Float32x4.ZZZZ) * a2 +
+             b1.shuffle(Float32x4.WWWW) * a3;
+    out[2] = b2.shuffle(Float32x4.XXXX) * a0 +
+             b2.shuffle(Float32x4.YYYY) * a1 +
+             b2.shuffle(Float32x4.ZZZZ) * a2 +
+             b2.shuffle(Float32x4.WWWW) * a3;
+    out[3] = b3.shuffle(Float32x4.XXXX) * a0 +
+             b3.shuffle(Float32x4.YYYY) * a1 +
+             b3.shuffle(Float32x4.ZZZZ) * a2 +
+             b3.shuffle(Float32x4.WWWW) * a3;
   }
 
   void updateGlobalTransform(

@@ -25,6 +25,7 @@ import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative_main.dart';
 import 'package:spectre/spectre_element.dart';
 
+@CustomTag('s-vertex-shader')
 class SpectreVertexShaderElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];

@@ -30,6 +30,7 @@ import 'package:spectre/src/spectre_declarative/material_constant.dart';
 import 'package:spectre/src/spectre_declarative/material_program.dart';
 import 'package:vector_math/vector_math.dart';
 
+@CustomTag('s-material')
 class SpectreMaterialElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
     'material-program-id': () =>
