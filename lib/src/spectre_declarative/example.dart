@@ -39,12 +39,11 @@ class DeclarativeExample extends Example {
         throw new ArgumentError('Could not find $spectreId in dom.');
       }
       var root = ele.xtag;
-      print(ele);
-      print(root);
       if (root is! SpectreSpectreElement) {
         throw new ArgumentError('$spectreId is not a <s-spectre>');
       }
       SpectreDeclarative.root = root;
+      SpectreDeclarative.example = this;
       SpectreDeclarative._init();
     });
   }
@@ -56,6 +55,18 @@ class DeclarativeExample extends Example {
 
   onUpdate() {
     updateCameraController(cameraController);
+  }
+
+  void onResize(width, height) {
+    if (camera != null) {
+      // Change the aspect ratio of the camera
+      camera.aspectRatio = viewport.aspectRatio;
+    }
+  }
+
+  toggleFullscreen() {
+    bool fs = gameLoop.isFullscreen;
+    gameLoop.enableFullscreen(!fs);
   }
 
   onRender() {

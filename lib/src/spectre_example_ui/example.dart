@@ -83,16 +83,20 @@ abstract class Example {
     onUpdate();
   }
 
-  void _onResize(GameLoopHtml gl) {
-    element.width = gl.width;
-    element.height = gl.height;
-    viewport.width = gl.width;
-    viewport.height = gl.height;
+  void onResize(width, height) {
+    element.width = width;
+    element.height = height;
+    viewport.width = width;
+    viewport.height = height;
 
     if (camera != null) {
       // Change the aspect ratio of the camera
       camera.aspectRatio = viewport.aspectRatio;
     }
+  }
+
+  void _onResize(GameLoopHtml gl) {
+    onResize(gl.width, gl.height);
   }
 
 

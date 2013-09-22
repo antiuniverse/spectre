@@ -3,9 +3,25 @@
 <html>
 <body>
 <polymer-element name="s-spectre">
-  <canvas id="backBuffer"></canvas>
-  <div id="logo"></div>
-  <template></template>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="https://github.com/johnmccutchan/spectre">
+          <img src="images/logo.png">
+        </a>
+      </div>
+      <button type="button" id="fsbutton" class="btn btn-default navbar-btn">Fullscreen</button>
+    </nav>
+    <div class="row">
+      <span class="col-md-9">
+        <canvas id="backBuffer" width="960" height="544"></canvas>
+      </span>
+      <span class="col-md-3">
+        SIDE BAR
+      </span>
+    </div>
+    <div id="bottombar">
+      <p>BOTTOM</p>
+    </div>
   <script type="application/dart" src="spectre.dart"></script>
 </polymer-element>
 </body>

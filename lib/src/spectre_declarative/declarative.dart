@@ -28,7 +28,7 @@ class SpectreDeclarative {
   static SpectreSpectreElement root;
   static bool _inited = false;
   static bool get inited => _inited;
-  static Example example;
+  static DeclarativeExample example;
 
   static void _initElement(SpectreElement element) {
     element.init();

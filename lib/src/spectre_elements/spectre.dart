@@ -20,6 +20,7 @@
 
 library spectre_declarative_spectre;
 
+import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
@@ -37,8 +38,14 @@ class SpectreSpectreElement extends SpectreElement {
   final List<SpectreMaterialElement> _materialStack =
       new List<SpectreMaterialElement>();
 
+  void toggleFullscreen(Event e, var detail, Node target) {
+    SpectreDeclarative.example.toggleFullscreen();
+  }
+
   void created() {
     super.created();
+    ButtonElement b = query('#fsbutton');
+    b.onClick.listen((E) => toggleFullscreen(E, '', b));
   }
 
   void inserted() {
