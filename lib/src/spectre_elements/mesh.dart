@@ -20,8 +20,6 @@
 
 library spectre_mesh_element;
 
-import 'dart:convert';
-
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
@@ -63,14 +61,14 @@ class SpectreMeshElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
     // Initialize.
     super.init();
     _inputLayout = new InputLayout('SpectreMeshElement',
-                                   SpectreDeclarative.graphicsDevice);
+                                   declarativeInstance.graphicsDevice);
     _update();
   }
 
@@ -80,13 +78,13 @@ class SpectreMeshElement extends SpectreElement {
     if (!_inputLayout.ready) {
       return;
     }
-    var spectre = SpectreDeclarative.root;
+    var spectre = declarativeInstance.root;
     spectre.pushMaterial(_material);
     applyConstants();
     // Render self.
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     graphicsContext.setInputLayout(_inputLayout);
-    _updateObjectTransformConstant(SpectreDeclarative.root.currentTransform);
+    _updateObjectTransformConstant(declarativeInstance.root.currentTransform);
     if (_indexed) {
       graphicsContext.setIndexedMesh(_mesh);
       graphicsContext.drawIndexedMesh(_mesh);
@@ -119,9 +117,9 @@ class SpectreMeshElement extends SpectreElement {
 
   void _update() {
     assert(inited);
-    var spectre = SpectreDeclarative.root;
+    var spectre = declarativeInstance.root;
     String geometryPath = spectreAttributes['geometry-path'].value;
-    _mesh = SpectreDeclarative.getAsset(geometryPath);
+    _mesh = declarativeInstance.getAsset(geometryPath);
     String materialId = spectreAttributes['material-id'].value;
     if (materialId != null) {
       var q = spectre.query(materialId);
@@ -143,7 +141,7 @@ class SpectreMeshElement extends SpectreElement {
   }
 
   void _updateObjectTransformConstant(Matrix4 T) {
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     ShaderProgram shader = graphicsContext.shaderProgram;
     ShaderProgramUniform uniform;
     uniform = shader.uniforms['objectTransform'];

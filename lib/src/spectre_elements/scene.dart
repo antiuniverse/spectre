@@ -48,7 +48,7 @@ class SpectreSceneElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }

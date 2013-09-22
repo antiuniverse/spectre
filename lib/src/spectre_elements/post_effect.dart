@@ -30,7 +30,7 @@ class SpectrePostEffectElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
   SingleArrayMesh get fullscreenMesh =>
-      SpectreDeclarative.example.fullscreenMesh;
+      declarativeInstance.example.fullscreenMesh;
   SpectreMaterialElement material;
 
   created() {
@@ -50,7 +50,7 @@ class SpectrePostEffectElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }

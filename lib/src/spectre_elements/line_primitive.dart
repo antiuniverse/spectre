@@ -59,7 +59,7 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -69,7 +69,7 @@ class SpectreLinePrimitiveElement extends SpectreElement {
   }
 
   void render() {
-    dispatch(SpectreDeclarative.debugDrawManager);
+    dispatch(declarativeInstance.debugDrawManager);
   }
 
   bool parseVector3(String attributeName, Vector3 vec) {

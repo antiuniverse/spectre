@@ -67,7 +67,7 @@ class SpectreTransformElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -78,7 +78,7 @@ class SpectreTransformElement extends SpectreElement {
 
   render() {
     super.render();
-    var spectre = SpectreDeclarative.root;
+    var spectre = declarativeInstance.root;
     spectre.pushTransform(T);
     renderChildren();
     spectre.popTransform();

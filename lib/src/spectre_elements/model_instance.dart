@@ -52,7 +52,7 @@ class SpectreModelInstanceElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -71,7 +71,7 @@ class SpectreModelInstanceElement extends SpectreElement {
 
   void _update() {
     assert(inited);
-    var spectre = SpectreDeclarative.root;
+    var spectre = declarativeInstance.root;
     var q = spectre.query(attributes['model-id']);
     if (q != null) {
       _model = q.xtag;

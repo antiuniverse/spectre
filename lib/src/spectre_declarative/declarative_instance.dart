@@ -20,17 +20,17 @@
 
 part of spectre_declarative;
 
-class SpectreDeclarative {
-  static AssetManager assetManager;
-  static GraphicsDevice graphicsDevice;
-  static GraphicsContext graphicsContext;
-  static DebugDrawManager debugDrawManager;
-  static SpectreSpectreElement root;
-  static bool _inited = false;
-  static bool get inited => _inited;
-  static DeclarativeExample example;
+class DeclarativeInstance {
+  AssetManager assetManager;
+  GraphicsDevice graphicsDevice;
+  GraphicsContext graphicsContext;
+  DebugDrawManager debugDrawManager;
+  SpectreSpectreElement root;
+  bool _inited = false;
+  bool get inited => _inited;
+  DeclarativeExample example;
 
-  static void _initElement(SpectreElement element) {
+  void _initElement(SpectreElement element) {
     element.init();
     element.children.forEach((e) {
       if (e.xtag is SpectreElement) {
@@ -40,7 +40,7 @@ class SpectreDeclarative {
     });
   }
 
-  static void _init() {
+  void _init() {
     if (_inited) {
       return;
     }
@@ -48,15 +48,15 @@ class SpectreDeclarative {
     _initElement(root);
   }
 
-  static bool _isAssetPackUrl(String url) {
+  bool _isAssetPackUrl(String url) {
     return url.startsWith('assetpack://');
   }
 
-  static String _getAssetPackPath(String url) {
+  String _getAssetPackPath(String url) {
     return url.substring('assetpack://'.length);
   }
 
-  static dynamic getAsset(String url) {
+  dynamic getAsset(String url) {
     assert(_inited == true);
     if (url == null) return null;
     if (!_isAssetPackUrl(url)) return null;
@@ -65,7 +65,7 @@ class SpectreDeclarative {
     return a;
   }
 
-  static SpectreElement getElement(String id) {
+  SpectreElement getElement(String id) {
     if (id == null) {
       return null;
     }
@@ -74,3 +74,5 @@ class SpectreDeclarative {
     return null;
   }
 }
+
+final DeclarativeInstance _declarativeInstance = new DeclarativeInstance();

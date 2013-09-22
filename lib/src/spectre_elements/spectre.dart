@@ -39,7 +39,7 @@ class SpectreSpectreElement extends SpectreElement {
       new List<SpectreMaterialElement>();
 
   void toggleFullscreen(Event e, var detail, Node target) {
-    SpectreDeclarative.example.toggleFullscreen();
+    declarativeInstance.example.toggleFullscreen();
   }
 
   void created() {
@@ -61,7 +61,7 @@ class SpectreSpectreElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -78,7 +78,7 @@ class SpectreSpectreElement extends SpectreElement {
     if (material == null) {
       return;
     }
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     var shaderProgram = material.shaderProgram;
     if (shaderProgram != null) {
       graphicsContext.setShaderProgram(shaderProgram);

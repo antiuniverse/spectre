@@ -30,10 +30,10 @@ class DeclarativeExample extends Example {
   Future initialize() {
     return super.initialize().then((_) {
       cameraController = new FpsFlyCameraController();
-      SpectreDeclarative.debugDrawManager = debugDrawManager;
-      SpectreDeclarative.graphicsContext = graphicsContext;
-      SpectreDeclarative.graphicsDevice = graphicsDevice;
-      SpectreDeclarative.assetManager = assetManager;
+      _declarativeInstance.debugDrawManager = debugDrawManager;
+      _declarativeInstance.graphicsContext = graphicsContext;
+      _declarativeInstance.graphicsDevice = graphicsDevice;
+      _declarativeInstance.assetManager = assetManager;
       var ele = query(spectreId);
       if (ele == null) {
         throw new ArgumentError('Could not find $spectreId in dom.');
@@ -42,9 +42,9 @@ class DeclarativeExample extends Example {
       if (root is! SpectreSpectreElement) {
         throw new ArgumentError('$spectreId is not a <s-spectre>');
       }
-      SpectreDeclarative.root = root;
-      SpectreDeclarative.example = this;
-      SpectreDeclarative._init();
+      _declarativeInstance.root = root;
+      _declarativeInstance.example = this;
+      _declarativeInstance._init();
     });
   }
 
@@ -76,7 +76,7 @@ class DeclarativeExample extends Example {
     graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
     graphicsContext.clearDepthBuffer(1.0);
 
-    var spectre = SpectreDeclarative.root;
+    var spectre = _declarativeInstance.root;
 
     spectre.pushCamera(camera);
     spectre.render();

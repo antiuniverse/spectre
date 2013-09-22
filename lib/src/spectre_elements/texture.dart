@@ -123,7 +123,7 @@ class SpectreTextureElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -209,7 +209,7 @@ class SpectreTextureElement extends SpectreElement {
     _parseColorIntoColorBuffer(spectreAttributes['color'].value, colorBuffer);
     // Create new texture.
     var t = new Texture2D('SpectreTextureElement',
-                          SpectreDeclarative.graphicsDevice);
+                          declarativeInstance.graphicsDevice);
     // Upload a 1x1 pixel texture.
     t.uploadPixelArray(1, 1, colorBuffer);
     // Generate mip maps.
@@ -225,13 +225,13 @@ class SpectreTextureElement extends SpectreElement {
     }
     if (type == '2d') {
       var t = new Texture2D('SpectreTextureElement',
-                            SpectreDeclarative.graphicsDevice);
+                            declarativeInstance.graphicsDevice);
       _uploadDefaultColorPattern(t);
       t.generateMipmap();
       _texture = t;
     } else if (type == 'cube') {
       var t = new TextureCube('SpectreTextureElement',
-                              SpectreDeclarative.graphicsDevice);
+                              declarativeInstance.graphicsDevice);
       _uploadDefaultColorPattern(t.positiveX);
       _uploadDefaultColorPattern(t.positiveY);
       _uploadDefaultColorPattern(t.positiveZ);

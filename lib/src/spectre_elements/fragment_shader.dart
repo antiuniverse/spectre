@@ -53,7 +53,7 @@ class SpectreFragmentShaderElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -65,7 +65,7 @@ class SpectreFragmentShaderElement extends SpectreElement {
 
   void _create() {
     assert(inited);
-    var device = SpectreDeclarative.graphicsDevice;
+    var device = declarativeInstance.graphicsDevice;
     _shader = new FragmentShader('SpectreFragmentShader', device);
   }
 

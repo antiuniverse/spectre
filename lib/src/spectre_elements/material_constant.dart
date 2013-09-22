@@ -79,14 +79,14 @@ class SpectreMaterialConstantElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
     // Initialize.
     super.init();
     _sampler = new SamplerState('SpectreMaterialConstantElement',
-                                SpectreDeclarative.graphicsDevice);
+                                declarativeInstance.graphicsDevice);
     _update();
   }
 
@@ -119,7 +119,7 @@ class SpectreMaterialConstantElement extends SpectreElement {
     if (name == null) {
       return;
     }
-    var currentMaterial = SpectreDeclarative.root.currentMaterial;
+    var currentMaterial = declarativeInstance.root.currentMaterial;
     if (currentMaterial == null) {
       return;
     }
@@ -151,15 +151,15 @@ class SpectreMaterialConstantElement extends SpectreElement {
       return;
     }
     assert(_isSampler);
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     graphicsContext.setTexture(_index, _texture);
     graphicsContext.setSampler(_index, _sampler);
   }
 
   void _updateSampler(ShaderProgramSampler sampler) {
     _index = sampler.textureUnit;
-    var t = SpectreDeclarative.getAsset(attributes['texture-path']);
-    var te = SpectreDeclarative.getElement(attributes['texture-id']);
+    var t = declarativeInstance.getAsset(attributes['texture-path']);
+    var te = declarativeInstance.getElement(attributes['texture-id']);
     if (te != null) {
       _texture = te.xtag.texture;
     } else if (t != null) {
@@ -190,11 +190,11 @@ class SpectreMaterialConstantElement extends SpectreElement {
       // No value set.
       return null;
     }
-    var currentMaterial = SpectreDeclarative.root.currentMaterial;
+    var currentMaterial = declarativeInstance.root.currentMaterial;
     if (currentMaterial == null) {
       return null;
     }
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     var old;
     switch (name) {
       case 'cullMode':
@@ -249,11 +249,11 @@ class SpectreMaterialConstantElement extends SpectreElement {
       // No value set.
       return null;
     }
-    var currentMaterial = SpectreDeclarative.root.currentMaterial;
+    var currentMaterial = declarativeInstance.root.currentMaterial;
     if (currentMaterial == null) {
       return null;
     }
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     var old;
     switch (name) {
       case 'depthBufferEnabled':
@@ -296,11 +296,11 @@ class SpectreMaterialConstantElement extends SpectreElement {
       // No value set.
       return null;
     }
-    var currentMaterial = SpectreDeclarative.root.currentMaterial;
+    var currentMaterial = declarativeInstance.root.currentMaterial;
     if (currentMaterial == null) {
       return null;
     }
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     var old;
     switch (name) {
       case 'enabled':

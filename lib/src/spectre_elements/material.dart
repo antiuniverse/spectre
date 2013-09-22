@@ -63,7 +63,7 @@ class SpectreMaterialElement extends SpectreElement {
       // Already initialized.
       return;
     }
-    if (!SpectreDeclarative.inited) {
+    if (!declarativeInstance.inited) {
       // Not ready to initialize.
       return;
     }
@@ -73,7 +73,7 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   void apply() {
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     graphicsContext.setShaderProgram(shaderProgram);
     graphicsContext.setDepthState(depthState);
     graphicsContext.setRasterizerState(rasterizerState);
@@ -126,7 +126,7 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   void applyConstants() {
-    var spectre = SpectreDeclarative.root;
+    var spectre = declarativeInstance.root;
     _updateCameraConstants(spectre.currentCamera);
     var l = findAllTagChildren('S-MATERIAL-CONSTANT');
     // Apply all constants, update stack.
@@ -144,7 +144,7 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   void _updateCameraConstants(Camera camera) {
-    var graphicsContext = SpectreDeclarative.graphicsContext;
+    var graphicsContext = declarativeInstance.graphicsContext;
     Matrix4 projectionMatrix = camera.projectionMatrix;
     Matrix4 viewMatrix = camera.viewMatrix;
     Matrix4 projectionViewMatrix = camera.projectionMatrix;
@@ -182,12 +182,12 @@ class SpectreMaterialElement extends SpectreElement {
     assert(inited);
     var a = spectreAttributes['shader-program-path'];
     if (a != null) {
-      _shaderProgram = SpectreDeclarative.getAsset(a.value);
+      _shaderProgram = declarativeInstance.getAsset(a.value);
     }
 
     a = spectreAttributes['material-program-id'];
     if (a != null) {
-      _materialProgram = SpectreDeclarative.getElement(a.value);
+      _materialProgram = declarativeInstance.getElement(a.value);
     }
   }
 }

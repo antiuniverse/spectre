@@ -257,4 +257,6 @@ abstract class SpectreElement extends PolymerElement with ObservableMixin {
   void render() {
     assert(_inited);
   }
+
+  DeclarativeInstance get declarativeInstance => _declarativeInstance;
 }

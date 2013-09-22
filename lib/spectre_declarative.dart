@@ -37,7 +37,7 @@ import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
 part 'src/spectre_declarative/spectre_element.dart';
-part 'src/spectre_declarative/declarative.dart';
+part 'src/spectre_declarative/declarative_instance.dart';
 part 'src/spectre_declarative/example.dart';
 
 Future main(String backBufferId, String sceneId) {
