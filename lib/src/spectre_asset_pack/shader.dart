@@ -83,7 +83,7 @@ class _TextListLoader extends AssetLoader {
     return futureText.then((text) {
       List parsed;
       try {
-        parsed = JSON.parse(text);
+        parsed = JSON.decode(text);
       } on FormatException catch (e) {
         tracer.assetImportError(asset, e.message);
         return new Future.value(null);

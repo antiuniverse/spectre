@@ -24,7 +24,7 @@
 library spectre_asset_pack;
 
 import 'dart:html';
-import 'dart:json' as JSON;
+import 'dart:convert';
 import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';

@@ -20,7 +20,7 @@
 
 library spectre_mesh_element;
 
-import 'dart:json' as JSON;
+import 'dart:convert';
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';

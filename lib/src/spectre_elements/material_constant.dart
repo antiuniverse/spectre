@@ -20,7 +20,7 @@
 
 library spectre_material_constant_element;
 
-import 'dart:json' as JSON;
+import 'dart:convert';
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
@@ -477,7 +477,7 @@ class SpectreMaterialConstantElement extends SpectreElement {
     }
     bool l;
     try {
-      l = JSON.parse(a);
+      l = JSON.decode(a);
     } catch (e) {
       return b;
     }

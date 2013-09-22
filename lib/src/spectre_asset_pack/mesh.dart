@@ -92,7 +92,7 @@ class MeshImporter extends AssetImporter {
   Future<Asset> import(dynamic payload, Asset asset, AssetPackTrace tracer) {
     if (payload is String) {
       try {
-        Map parsed = JSON.parse(payload);
+        Map parsed = JSON.decode(payload);
         SpectreMesh mesh;
 
         mesh = _processMesh(asset, parsed);

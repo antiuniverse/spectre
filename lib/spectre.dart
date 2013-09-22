@@ -24,7 +24,6 @@ library spectre;
 
 import 'dart:html';
 import 'dart:web_gl' as WebGL;
-import 'dart:json' as JSON;
 import 'dart:async';
 import 'dart:math' as Math;
 import 'dart:typed_data';

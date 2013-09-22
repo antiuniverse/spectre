@@ -12,10 +12,9 @@
   <script src="packages/polymer/boot.js"></script>
 </head>
 <body>
-<canvas id="backBuffer"></canvas>
-<div id="logo"></div>
 <s-spectre id="spectre">
   <s-scene>
+    <s-line-primitive type="sphere" banana="{{ Vector3(1.0, 2.0, 3.0) }}"></s-line-primitive>
     <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
     <s-line-primitive type="sphere" color="[0.0, 1.0, 0.0, 1.0]"
                       center="[0.0, 4.0, 3.0]"></s-line-primitive>

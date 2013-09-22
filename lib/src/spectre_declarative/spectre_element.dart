@@ -103,7 +103,7 @@ class SpectreElementAttributeVector3 extends SpectreElementAttribute<Vector3> {
       return;
     }
     try {
-      List l = JSON.parse(value);
+      List l = JSON.decode(value);
       assert(l.length == 3);
       if (_value == _defaultValue) {
         _value = new Vector3.zero();
@@ -127,7 +127,7 @@ class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
       return;
     }
     try {
-      List l = JSON.parse(value);
+      List l = JSON.decode(value);
       assert(l.length == 3);
       if (_value == _defaultValue) {
         _value = new Vector4.zero();
@@ -146,10 +146,33 @@ class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
 typedef SpectreElementAttribute AttributeConstructor();
 
 abstract class SpectreElement extends PolymerElement with ObservableMixin {
+  static BindingDelegate _spectreSyntax = new PolymerExpressions(globals: {
+    'Vector2': (x, y) {
+      return new Vector2(x, y);
+    },
+    'Vector3': (x, y, z) {
+      print('Evaluating Vector3($x, $y, $z)');
+      return new Vector3(x, y, z);
+    },
+    'Vector4': (x, y, z, w) {
+      return new Vector4(x, y, z, w);
+    },
+    'ensureDouble': (x) {
+      return x.toDouble();
+    },
+    'ensureInt': (x) {
+      return x.toInt();
+    }
+  });
+
   final Map<String, SpectreElementAttribute> spectreAttributes =
       new Map<String, SpectreElementAttribute>();
   Map<String, AttributeConstructor> get spectreAttributeDefinitions;
   List<String> get requiredSpectreAttributes;
+
+  bool get applyAuthorStyles => true;
+  DocumentFragment instanceTemplate(Element template) =>
+      template.createInstance(this, _spectreSyntax);
 
   void created() {
     super.created();

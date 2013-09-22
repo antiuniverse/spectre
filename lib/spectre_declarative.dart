@@ -21,7 +21,7 @@
 library spectre_declarative;
 
 import 'dart:html';
-import 'dart:json' as JSON;
+import 'dart:convert';
 import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
@@ -29,123 +29,16 @@ import 'dart:typed_data';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:polymer/polymer.dart';
+import 'package:polymer_expressions/polymer_expressions.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_asset_pack.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
+
 part 'src/spectre_declarative/spectre_element.dart';
-
-class SpectreDeclarative {
-  static AssetManager assetManager;
-  static GraphicsDevice graphicsDevice;
-  static GraphicsContext graphicsContext;
-  static DebugDrawManager debugDrawManager;
-  static SpectreSpectreElement root;
-  static bool _inited = false;
-  static bool get inited => _inited;
-  static Example example;
-
-  static void _initElement(SpectreElement element) {
-    element.init();
-    element.children.forEach((e) {
-      if (e.xtag is SpectreElement) {
-        e = e.xtag;
-        _initElement(e);
-      }
-    });
-  }
-
-  static void _init() {
-    if (_inited) {
-      return;
-    }
-    _inited = true;
-    _initElement(root);
-  }
-
-  static bool _isAssetPackUrl(String url) {
-    return url.startsWith('assetpack://');
-  }
-
-  static String _getAssetPackPath(String url) {
-    return url.substring('assetpack://'.length);
-  }
-
-  static dynamic getAsset(String url) {
-    assert(_inited == true);
-    if (url == null) return null;
-    if (!_isAssetPackUrl(url)) return null;
-    var p = _getAssetPackPath(url);
-    var a = assetManager[p];
-    return a;
-  }
-
-  static SpectreElement getElement(String id) {
-    if (id == null) {
-      return null;
-    }
-    var q = document.query(id);
-    if (q != null) return q.xtag;
-    return null;
-  }
-}
-
-class DeclarativeExample extends Example {
-  String spectreId;
-  DeclarativeExample(CanvasElement element, this.spectreId)
-      : super('DeclarativeExample', element);
-
-  CameraController cameraController;
-
-  Future initialize() {
-    return super.initialize().then((_) {
-      cameraController = new FpsFlyCameraController();
-      SpectreDeclarative.debugDrawManager = debugDrawManager;
-      SpectreDeclarative.graphicsContext = graphicsContext;
-      SpectreDeclarative.graphicsDevice = graphicsDevice;
-      SpectreDeclarative.assetManager = assetManager;
-      var ele = query(spectreId);
-      if (ele == null) {
-        throw new ArgumentError('Could not find $spectreId in dom.');
-      }
-      var root = ele.xtag;
-      print(ele);
-      print(root);
-      if (root is! SpectreSpectreElement) {
-        throw new ArgumentError('$spectreId is not a <s-spectre>');
-      }
-      SpectreDeclarative.root = root;
-      SpectreDeclarative._init();
-    });
-  }
-
-  Future load() {
-    return super.load().then((_) {
-    });
-  }
-
-  onUpdate() {
-    updateCameraController(cameraController);
-  }
-
-  onRender() {
-    // Set the viewport (2D area of render target to render on to).
-    graphicsContext.setViewport(viewport);
-    // Clear it.
-    graphicsContext.clearColorBuffer(0.97, 0.97, 0.97, 1.0);
-    graphicsContext.clearDepthBuffer(1.0);
-
-    var spectre = SpectreDeclarative.root;
-
-    spectre.pushCamera(camera);
-    spectre.render();
-    spectre.popCamera();
-
-    debugDrawManager.prepareForRender();
-    debugDrawManager.render(camera);
-  }
-}
+part 'src/spectre_declarative/declarative.dart';
+part 'src/spectre_declarative/example.dart';
 
 Future main(String backBufferId, String sceneId) {
   var example = new DeclarativeExample(query(backBufferId), sceneId);

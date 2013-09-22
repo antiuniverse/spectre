@@ -20,7 +20,7 @@
 
 library spectre_line_primitive_element;
 
-import 'dart:json' as JSON;
+import 'dart:convert';
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
@@ -31,6 +31,7 @@ import 'package:vector_math/vector_math.dart';
 class SpectreLinePrimitiveElement extends SpectreElement {
   final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
   final List<String> requiredSpectreAttributes = [];
+  @observable Vector3 banana = new Vector3.zero();
   final Vector4 _color = new Vector4.zero();
   final Vector3 _a = new Vector3.zero();
   final Vector3 _b = new Vector3.zero();
@@ -78,7 +79,7 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     }
     var l;
     try {
-      l = JSON.parse(a);
+      l = JSON.decode(a);
     } catch (e) {
       return false;
     }
@@ -99,7 +100,7 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     }
     var l;
     try {
-      l = JSON.parse(a);
+      l = JSON.decode(a);
     } catch (e) {
       return false;
     }
@@ -338,6 +339,10 @@ class SpectreLinePrimitiveElement extends SpectreElement {
   }
 
   void update() {
+    attributes.forEach((k, v) {
+      print('$k -> $v');
+    });
+    print(banana);
     String t = attributes['type'];
     if (t == null) {
       return;
