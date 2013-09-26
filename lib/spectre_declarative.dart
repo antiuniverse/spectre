@@ -22,16 +22,13 @@ library spectre_declarative;
 
 import 'dart:html';
 import 'dart:convert';
-import 'dart:math' as Math;
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:polymer/polymer.dart';
 import 'package:polymer_expressions/polymer_expressions.dart';
 import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_asset_pack.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';

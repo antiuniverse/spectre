@@ -45,7 +45,7 @@ class DeclarativeInstance {
       return;
     }
     _inited = true;
-    _initElement(root);
+    _initElement(root as SpectreElement);
   }
 
   bool _isAssetPackUrl(String url) {

@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'dart:math' as Math;
 import 'package:spectre/spectre.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:game_loop/game_loop_html.dart';
