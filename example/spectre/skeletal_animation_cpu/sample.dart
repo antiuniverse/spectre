@@ -25,7 +25,6 @@ library skeletal_animation_cpu;
 //---------------------------------------------------------------------
 
 import 'dart:html';
-import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:vector_math/vector_math.dart';

@@ -25,8 +25,6 @@ import 'package:unittest/unittest.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_renderer.dart';
-import 'shared/device_child_equality.dart';
-import 'shared/mock_graphics_device.dart';
 
 GraphicsDevice _graphicsDevice;
 Renderer _renderer;

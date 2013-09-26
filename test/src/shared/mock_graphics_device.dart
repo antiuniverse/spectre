@@ -20,9 +20,7 @@
 
 library mock_graphics_device;
 
-import 'dart:html';
 import 'dart:web_gl' as WebGL;
-import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 import 'package:spectre/spectre.dart';
 import 'mock_webgl_rendering_context.dart';
@@ -65,4 +63,5 @@ class MockGraphicsDevice extends Mock implements GraphicsDevice {
 
   WebGL.RenderingContext get gl => _gl;
   GraphicsDeviceCapabilities get capabilities => _capabilities;
+
 }

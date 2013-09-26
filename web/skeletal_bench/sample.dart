@@ -574,7 +574,7 @@ class Application {
       -size, 0.0,size,   0.0, uvScale,           0.0, 1.0, 0.0,
     ]);
 
-    _roomVertCount = (verts.length/8.0).toInt();
+    _roomVertCount = verts.length ~/ 8.0;
     _room = new SingleArrayMesh('FloorMesh', _graphicsDevice);
     _room.vertexArray.uploadData(verts, UsagePattern.StaticDraw);
 
