@@ -28,7 +28,6 @@ import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_asset_pack.dart';
-import 'package:vector_math/vector_math.dart';
 
 part 'src/spectre_example_ui/example.dart';
 part 'src/spectre_example_ui/model.dart';

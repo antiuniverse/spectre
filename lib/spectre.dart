@@ -32,6 +32,9 @@ import 'package:vector_math/vector_math.dart';
 import 'package:vector_math/vector_math_operations.dart';
 import 'package:spectre/disposable.dart';
 
+export 'package:vector_math/vector_math.dart';
+export 'package:vector_math/vector_math_operations.dart';
+
 part 'src/spectre/device_child.dart';
 part 'src/spectre/blend.dart';
 part 'src/spectre/blend_operation.dart';

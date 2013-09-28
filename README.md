@@ -19,7 +19,6 @@ dependencies:
 Then within your application it can be imported using the following code
 ```
 import 'package:spectre/spectre.dart';
-import 'package:vector_math/vector_math.dart';
 ```
 
 ## Documentation

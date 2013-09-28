@@ -25,7 +25,6 @@ import 'dart:html';
 
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_example_ui.dart';
-import 'package:vector_math/vector_math.dart';
 
 class OffscreenRenderExample extends Example {
   OffscreenRenderExample(CanvasElement element) : super('OffscreenRender',

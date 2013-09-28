@@ -31,7 +31,6 @@ import 'package:polymer_expressions/polymer_expressions.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_elements.dart';
-import 'package:vector_math/vector_math.dart';
 
 part 'src/spectre_declarative/spectre_element.dart';
 part 'src/spectre_declarative/declarative_instance.dart';

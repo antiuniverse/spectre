@@ -24,7 +24,6 @@ import 'dart:async';
 import 'dart:html';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_example_ui.dart';
-import 'package:vector_math/vector_math.dart';
 
 class MultipleTexturesExample extends Example {
   MultipleTexturesExample(CanvasElement element)
