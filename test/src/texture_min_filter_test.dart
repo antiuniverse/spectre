@@ -43,7 +43,7 @@ void main() {
     expect(TextureMinFilter.stringify(TextureMinFilter.LinearMipPoint) , 'TextureMinFilter.LinearMipPoint');
     expect(TextureMinFilter.stringify(TextureMinFilter.LinearMipLinear), 'TextureMinFilter.LinearMipLinear');
 
-    expect(() { TextureMinFilter.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { TextureMinFilter.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

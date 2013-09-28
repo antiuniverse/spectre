@@ -37,7 +37,7 @@ void main() {
            'TextureMagFilter.Point');
 
     expect(() { TextureMagFilter.stringify(-1); },
-                throwsA(new isInstanceOf<AssertionError>()));
+                throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

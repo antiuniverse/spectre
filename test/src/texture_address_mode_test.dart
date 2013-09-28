@@ -36,7 +36,7 @@ void main() {
     expect(TextureAddressMode.stringify(TextureAddressMode.Mirror), 'TextureAddressMode.Mirror');
     expect(TextureAddressMode.stringify(TextureAddressMode.Wrap)  , 'TextureAddressMode.Wrap');
 
-    expect(() { TextureAddressMode.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { TextureAddressMode.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

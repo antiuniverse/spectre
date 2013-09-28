@@ -55,7 +55,7 @@ void main() {
     expect(Blend.stringify(Blend.BlendFactor)            , 'Blend.BlendFactor');
     expect(Blend.stringify(Blend.InverseBlendFactor)     , 'Blend.InverseBlendFactor');
 
-    expect(() { Blend.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { Blend.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

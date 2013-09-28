@@ -36,7 +36,7 @@ void main() {
     expect(BlendOperation.stringify(BlendOperation.ReverseSubtract), 'BlendOperation.ReverseSubtract');
     expect(BlendOperation.stringify(BlendOperation.Subtract)       , 'BlendOperation.Subtract');
 
-    expect(() { BlendOperation.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { BlendOperation.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

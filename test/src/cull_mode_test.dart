@@ -35,7 +35,7 @@ void main() {
     expect(CullMode.stringify(CullMode.Front), 'CullMode.Front');
     expect(CullMode.stringify(CullMode.Back) , 'CullMode.Back');
 
-    expect(() { CullMode.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { CullMode.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

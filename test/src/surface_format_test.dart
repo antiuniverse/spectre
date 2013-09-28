@@ -42,7 +42,7 @@ void main() {
     expect(SurfaceFormat.stringify(SurfaceFormat.Dxt3), 'SurfaceFormat.Dxt3');
     expect(SurfaceFormat.stringify(SurfaceFormat.Dxt5), 'SurfaceFormat.Dxt5');
 
-    expect(() { SurfaceFormat.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { SurfaceFormat.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

@@ -45,8 +45,6 @@ void main() {
     expect(CompareFunction.stringify(CompareFunction.LessEqual)   , 'CompareFunction.LessEqual');
     expect(CompareFunction.stringify(CompareFunction.Fail)        , 'CompareFunction.Fail');
     expect(CompareFunction.stringify(CompareFunction.NotEqual)    , 'CompareFunction.NotEqual');
-
-    expect(() { CompareFunction.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
   });
 
   test('parse', () {

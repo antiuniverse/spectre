@@ -33,7 +33,7 @@ void main() {
     expect(FrontFace.stringify(FrontFace.Clockwise), 'FrontFace.Clockwise');
     expect(FrontFace.stringify(FrontFace.CounterClockwise),
            'FrontFace.CounterClockwise');
-    expect(() { FrontFace.stringify(-1); }, throwsA(new isInstanceOf<AssertionError>()));
+    expect(() { FrontFace.stringify(-1); }, throwsA(new isInstanceOf<ArgumentError>()));
   });
 
   test('parse', () {

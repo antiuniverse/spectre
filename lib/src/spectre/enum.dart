@@ -39,7 +39,7 @@ class Enum {
       }
     });
     if (r == null) {
-      throw new AssertionError();
+      throw new ArgumentError();
     }
     return r;
   }
