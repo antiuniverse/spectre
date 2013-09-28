@@ -28,7 +28,6 @@ import 'dart:html';
 import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:vector_math/vector_math.dart';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
@@ -574,7 +573,7 @@ class Application {
       -size, 0.0,size,   0.0, uvScale,           0.0, 1.0, 0.0,
     ]);
 
-    _roomVertCount = (verts.length/8.0).toInt();
+    _roomVertCount = verts.length ~/ 8.0;
     _room = new SingleArrayMesh('FloorMesh', _graphicsDevice);
     _room.vertexArray.uploadData(verts, UsagePattern.StaticDraw);
 

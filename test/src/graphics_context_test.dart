@@ -25,7 +25,6 @@ import 'package:unittest/mock.dart';
 import 'package:spectre/spectre.dart';
 import 'shared/mock_graphics_device.dart';
 import 'shared/mock_webgl_rendering_context.dart';
-import 'dart:html';
 import 'dart:web_gl' as WebGL;
 //---------------------------------------------------------------------
 // GraphicsContext testing utility functions

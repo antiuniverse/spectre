@@ -20,13 +20,8 @@
 
 library spectre_model_element;
 
-import 'dart:json' as JSON;
-
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
-import 'package:spectre/spectre_elements.dart';
-import 'package:vector_math/vector_math.dart';
 
 @CustomTag('s-model')
 class SpectreModelElement extends SpectreElement {

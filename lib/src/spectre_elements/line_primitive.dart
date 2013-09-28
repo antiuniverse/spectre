@@ -25,7 +25,6 @@ import 'dart:convert';
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
-import 'package:vector_math/vector_math.dart';
 
 @CustomTag('s-line-primitive')
 class SpectreLinePrimitiveElement extends SpectreElement {
