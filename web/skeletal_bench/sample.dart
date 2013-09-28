@@ -28,7 +28,6 @@ import 'dart:html';
 import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:vector_math/vector_math.dart';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
