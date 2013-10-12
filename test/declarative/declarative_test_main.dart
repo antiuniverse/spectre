@@ -20,9 +20,7 @@
 
 library declarative_test_main;
 
-import 'dart:async';
 import 'dart:html';
-import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 import 'package:spectre/spectre_elements.dart';
 

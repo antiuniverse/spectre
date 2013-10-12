@@ -6,60 +6,9 @@
     <title>Spectre Declarative Test</title>
     <link href='http://fonts.googleapis.com/css?family=Montserrat'
           rel='stylesheet' type='text/css'>
+    <link rel="import" href="packages/spectre/spectre_elements.html">
 </head>
 <body>
-
-<polymer-element name="s-transform" constructor="SpectreTransformElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-scene" constructor="SpectreSceneElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-post-effect" constructor="SpectrePostEffectElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-model" constructor="SpectreModelElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material" constructor="SpectreMaterialElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-line-primitive" constructor="SpectreLinePrimitiveElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-layer" constructor="SpectreLayerElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-camera" constructor="SpectreCameraElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-material-constant" constructor="SpectreMaterialConstantElement">
-  <template><content></content></template>
-</polymer-element>
-
-<polymer-element name="s-vertex-shader" constructor="SpectreVertexShaderElement">
-  <template></template>
-</polymer-element>
-
-<polymer-element name="s-fragment-shader" constructor="SpectreFragmentShaderElement">
-  <template></template>
-</polymer-element>
-
-<polymer-element name="s-material-program" constructor="SpectreMaterialProgramElement">
-  <template></template>
-</polymer-element>
 
 <canvas id="backBuffer"></canvas>
 <script type="application/dart" src="declarative_test_main.dart"></script>
