@@ -45,7 +45,7 @@ class DeclarativeInstance {
       return;
     }
     _inited = true;
-    _initElement(root as SpectreElement);
+    _initElement(root);
   }
 
   bool _isAssetPackUrl(String url) {
@@ -75,4 +75,4 @@ class DeclarativeInstance {
   }
 }
 
-final DeclarativeInstance _declarativeInstance = new DeclarativeInstance();
+final DeclarativeInstance declarativeInstance = new DeclarativeInstance();

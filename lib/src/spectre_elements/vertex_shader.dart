@@ -23,6 +23,7 @@ library spectre_declarative_vertex_shader;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-vertex-shader')
 class SpectreVertexShaderElement extends SpectreElement {

@@ -18,7 +18,14 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-part of spectre_declarative;
+library spectre_element;
+
+import 'dart:convert';
+import 'dart:html';
+
+import 'package:polymer/polymer.dart';
+import 'package:polymer_expressions/polymer_expressions.dart';
+import 'package:vector_math/vector_math.dart';
 
 abstract class SpectreElementAttribute<E> {
   final String name;
@@ -145,8 +152,9 @@ class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
 
 typedef SpectreElementAttribute AttributeConstructor();
 
-abstract class SpectreElement extends PolymerElement with ObservableMixin {
-  static BindingDelegate _spectreSyntax = new PolymerExpressions(globals: {
+@CustomTag('s-element')
+class SpectreElement extends PolymerElement {
+  static PolymerExpressions _spectreSyntax = new PolymerExpressions(globals: {
     'Vector2': (x, y) {
       return new Vector2(x, y);
     },
@@ -167,8 +175,8 @@ abstract class SpectreElement extends PolymerElement with ObservableMixin {
 
   final Map<String, SpectreElementAttribute> spectreAttributes =
       new Map<String, SpectreElementAttribute>();
-  Map<String, AttributeConstructor> get spectreAttributeDefinitions;
-  List<String> get requiredSpectreAttributes;
+  Map<String, AttributeConstructor> spectreAttributeDefinitions;
+  List<String> requiredSpectreAttributes;
 
   bool get applyAuthorStyles => true;
   DocumentFragment instanceTemplate(Element template) =>
@@ -214,9 +222,9 @@ abstract class SpectreElement extends PolymerElement with ObservableMixin {
     print('removed $this');
   }
 
-  void attributeChanged(String name, String oldValue, String newValue) {
-    super.attributeChanged(name, oldValue, newValue);
-    print('$name changed from $oldValue to $newValue');
+  void attributeChanged(String name, String oldValue) {
+    super.attributeChanged(name, oldValue);
+    print('$name changed from $oldValue');
   }
 
   List findAllTagChildren(String tag) {
@@ -257,6 +265,4 @@ abstract class SpectreElement extends PolymerElement with ObservableMixin {
   void render() {
     assert(_inited);
   }
-
-  DeclarativeInstance get declarativeInstance => _declarativeInstance;
 }

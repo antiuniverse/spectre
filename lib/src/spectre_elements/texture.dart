@@ -24,8 +24,9 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:pathos/path.dart' as path;
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre.dart';
+import 'spectre_element.dart';
 
 /**
  * <s-texture id="textureId"></s-texture>

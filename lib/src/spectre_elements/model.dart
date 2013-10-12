@@ -22,6 +22,8 @@ library spectre_model_element;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-model')
 class SpectreModelElement extends SpectreElement {

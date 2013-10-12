@@ -43,6 +43,7 @@ export 'package:spectre/src/spectre_elements/model_instance.dart';
 export 'package:spectre/src/spectre_elements/post_effect.dart';
 export 'package:spectre/src/spectre_elements/scene.dart';
 export 'package:spectre/src/spectre_elements/spectre.dart';
+export 'package:spectre/src/spectre_elements/spectre_element.dart';
 export 'package:spectre/src/spectre_elements/texture.dart';
 export 'package:spectre/src/spectre_elements/transform.dart';
 export 'package:spectre/src/spectre_elements/vertex_shader.dart';

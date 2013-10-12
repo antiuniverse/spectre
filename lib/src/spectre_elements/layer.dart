@@ -21,8 +21,9 @@
 library spectre_layer_element;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-layer')
 class SpectreLayerElement extends SpectreElement {

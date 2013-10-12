@@ -20,9 +20,11 @@
 
 library spectre_fragment_shader_element;
 
+
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-fragment-shader')
 class SpectreFragmentShaderElement extends SpectreElement {

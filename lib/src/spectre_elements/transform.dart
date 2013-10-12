@@ -21,8 +21,9 @@
 library spectre_declarative_transform;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre_declarative.dart';
 import 'package:vector_math/vector_math.dart';
+import 'package:spectre/spectre_declarative.dart';
+import 'spectre_element.dart';
 
 /**
  * <s-transform id="transform"></s-transform>

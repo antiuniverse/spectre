@@ -24,6 +24,7 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-post-effect')
 class SpectrePostEffectElement extends SpectreElement {

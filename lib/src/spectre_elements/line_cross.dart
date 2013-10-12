@@ -21,9 +21,10 @@
 library s_line_cross;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
+import 'spectre_element.dart';
 
 @CustomTag('s-line-cross')
 class SpectreLineCrossElement extends SpectreElement {

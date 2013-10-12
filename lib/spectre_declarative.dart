@@ -21,18 +21,14 @@
 library spectre_declarative;
 
 import 'dart:html';
-import 'dart:convert';
 import 'dart:async';
 
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
-import 'package:polymer/polymer.dart';
-import 'package:polymer_expressions/polymer_expressions.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_elements.dart';
 
-part 'src/spectre_declarative/spectre_element.dart';
 part 'src/spectre_declarative/declarative_instance.dart';
 part 'src/spectre_declarative/example.dart';
 
