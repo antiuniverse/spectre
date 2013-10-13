@@ -20,8 +20,6 @@
 
 library spectre_line_primitive_element;
 
-import 'dart:convert';
-
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
@@ -31,25 +29,21 @@ import 'spectre_element.dart';
 
 @CustomTag('s-line-primitive')
 class SpectreLinePrimitiveElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-  @observable Vector3 banana = new Vector3.zero();
-  final Vector4 _color = new Vector4.zero();
-  final Vector3 _a = new Vector3.zero();
-  final Vector3 _b = new Vector3.zero();
-  final Vector3 _c = new Vector3.zero();
-  double _radius = 0.0;
-  double _angleA = 0.0;
-  double _angleB = 0.0;
-  bool _depthEnabled = true;
+  @published Vector4 color = new Vector4(0.0, 0.0, 0.0, 1.0);
+
+  void colorChanged(oldValue) {
+    print('color changed $oldValue $color');
+    print(oldValue.runtimeType);
+    print(color.runtimeType);
+  }
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
@@ -67,13 +61,13 @@ class SpectreLinePrimitiveElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    update();
   }
 
   void render() {
-    dispatch(declarativeInstance.debugDrawManager);
+    super.render();
   }
 
+  /*
   bool parseVector3(String attributeName, Vector3 vec) {
     var a = attributes[attributeName];
     if (a == null) {
@@ -380,4 +374,5 @@ class SpectreLinePrimitiveElement extends SpectreElement {
       break;
     }
   }
+  */
 }

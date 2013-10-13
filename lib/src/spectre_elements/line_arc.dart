@@ -24,24 +24,22 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-line-arc')
-class SpectreLineArcElement extends SpectreElement {
-  @observable Vector3 origin = new Vector3.zero();
-  @observable Vector3 normal = new Vector3(1.0, 0.0, 0.0);
-  @observable double radius = 1.0;
-  @observable double startAngle = 0.0;
-  @observable double stopAngle = 3.14159;
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+class SpectreLineArcElement extends SpectreLinePrimitiveElement {
+  @published Vector3 origin = new Vector3.zero();
+  @published Vector3 normal = new Vector3(1.0, 0.0, 0.0);
+  @published double radius = 1.0;
+  @published double startAngle = 0.0;
+  @published double stopAngle = 3.14159;
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
@@ -63,6 +61,8 @@ class SpectreLineArcElement extends SpectreElement {
   }
 
   void render() {
+    declarativeInstance.debugDrawManager.addArc(origin, normal, radius,
+                                                startAngle, stopAngle, color);
   }
 
   void update() {

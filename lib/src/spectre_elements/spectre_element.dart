@@ -22,6 +22,7 @@ library spectre_element;
 
 import 'dart:convert';
 import 'dart:html';
+import 'dart:mirrors';
 
 import 'package:polymer/polymer.dart';
 import 'package:polymer_expressions/polymer_expressions.dart';
@@ -173,10 +174,51 @@ class SpectreElement extends PolymerElement {
     }
   });
 
-  final Map<String, SpectreElementAttribute> spectreAttributes =
-      new Map<String, SpectreElementAttribute>();
-  Map<String, AttributeConstructor> spectreAttributeDefinitions;
-  List<String> requiredSpectreAttributes;
+  static Vector4 _vector4Handler(String value, Object defaultValue) {
+    try {
+      List l = JSON.decode(value);
+      assert(l.length == 4);
+      return new Vector4(l[0], l[1], l[2], l[3]);
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static Vector3 _vector3Handler(String value, Object defaultValue) {
+    try {
+      List l = JSON.decode(value);
+      assert(l.length == 3);
+      return new Vector3(l[0], l[1], l[2]);
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static Vector2 _vector2Handler(String value, Object defaultValue) {
+    try {
+      List l = JSON.decode(value);
+      assert(l.length == 2);
+      return new Vector2(l[0], l[1]);
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  static final _typeHandlers = () {
+    var m = new Map();
+    m[const Symbol('vector_math.Vector4')] = _vector4Handler;
+    m[const Symbol('vector_math.Vector3')] = _vector3Handler;
+    m[const Symbol('vector_math.Vector2')] = _vector2Handler;
+    return m;
+  }();
+
+  Object deserializeValue(String value, Object defaultValue, TypeMirror type) {
+    var handler = _typeHandlers[type.qualifiedName];
+    if (handler != null) {
+      return handler(value, defaultValue);
+    }
+    return super.deserializeValue(value, defaultValue, type);
+  }
 
   bool get applyAuthorStyles => true;
   DocumentFragment instanceTemplate(Element template) =>
@@ -189,32 +231,7 @@ class SpectreElement extends PolymerElement {
 
   void inserted() {
     super.inserted();
-    refreshAttributes();
     print('inserted $this');
-  }
-
-  void refreshAttributes() {
-    spectreAttributes.clear();
-    requiredSpectreAttributes.forEach((k) {
-      AttributeConstructor constructor = spectreAttributeDefinitions[k];
-      if (constructor != null) {
-        var attribute = constructor();
-        spectreAttributes[k] = attribute;
-      }
-    });
-    attributes.forEach((k, v) {
-      var attribute = spectreAttributes[k];
-      if (attribute != null) {
-        attribute.parse(v);
-        return;
-      }
-      AttributeConstructor constructor = spectreAttributeDefinitions[k];
-      if (constructor != null) {
-        var attribute = constructor();
-        attribute.parse(v);
-        spectreAttributes[k] = attribute;
-      }
-    });
   }
 
   void removed() {
@@ -224,7 +241,6 @@ class SpectreElement extends PolymerElement {
 
   void attributeChanged(String name, String oldValue) {
     super.attributeChanged(name, oldValue);
-    print('$name changed from $oldValue');
   }
 
   List findAllTagChildren(String tag) {

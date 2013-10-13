@@ -24,22 +24,21 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-line-triangle')
-class SpectreLineTriangleElement extends SpectreElement {
-  @observable Vector3 a = new Vector3.zero();
-  @observable Vector3 b = new Vector3.zero();
-  @observable Vector3 c = new Vector3.zero();
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+class SpectreLineTriangleElement extends SpectreLinePrimitiveElement {
+  @published Vector3 a = new Vector3(1.0, 0.0, 0.0);
+  @published Vector3 b = new Vector3(0.0, 1.0, 0.0);
+  @published Vector3 c = new Vector3(0.0, 0.0, 1.0);
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
+
   }
 
   void removed() {
@@ -61,6 +60,7 @@ class SpectreLineTriangleElement extends SpectreElement {
   }
 
   void render() {
+    declarativeInstance.debugDrawManager.addTriangle(a, b, c, color);
   }
 
   void update() {

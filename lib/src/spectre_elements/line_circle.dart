@@ -24,22 +24,21 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-line-circle')
-class SpectreLineCircleElement extends SpectreElement {
-  @observable Vector3 origin = new Vector3.zero();
-  @observable Vector3 normal = new Vector3(1.0, 0.0, 0.0);
-  @observable double radius = 1.0;
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+class SpectreLineCircleElement extends SpectreLinePrimitiveElement {
+  @published Vector3 origin = new Vector3.zero();
+  @published Vector3 normal = new Vector3(1.0, 0.0, 0.0);
+  @published double radius = 1.0;
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
+
   }
 
   void removed() {
@@ -61,6 +60,8 @@ class SpectreLineCircleElement extends SpectreElement {
   }
 
   void render() {
+    declarativeInstance.debugDrawManager.addCircle(origin, normal, radius,
+                                                   color);
   }
 
   void update() {

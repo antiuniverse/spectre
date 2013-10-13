@@ -24,23 +24,21 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-line-cone')
-class SpectreLineConeElement extends SpectreElement {
-  @observable Vector3 apex = new Vector3.zero();
-  @observable Vector3 direction = new Vector3(1.0, 0.0, 0.0);
-  @observable double height = 1.0;
-  @observable double angle = 0.78;
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+class SpectreLineConeElement extends SpectreLinePrimitiveElement {
+  @published Vector3 apex = new Vector3.zero();
+  @published Vector3 direction = new Vector3(1.0, 0.0, 0.0);
+  @published double height = 1.0;
+  @published double angle = 0.78;
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
@@ -62,6 +60,8 @@ class SpectreLineConeElement extends SpectreElement {
   }
 
   void render() {
+    declarativeInstance.debugDrawManager.addCone(apex, direction, height,
+                                                 angle, color);
   }
 
   void update() {

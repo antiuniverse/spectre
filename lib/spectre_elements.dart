@@ -29,7 +29,7 @@ export 'package:spectre/src/spectre_elements/line_arc.dart';
 export 'package:spectre/src/spectre_elements/line_circle.dart';
 export 'package:spectre/src/spectre_elements/line_cone.dart';
 export 'package:spectre/src/spectre_elements/line_cross.dart';
-export 'package:spectre/src/spectre_elements/line_lines.dart';
+export 'package:spectre/src/spectre_elements/line_line.dart';
 export 'package:spectre/src/spectre_elements/line_plane.dart';
 export 'package:spectre/src/spectre_elements/line_primitive.dart';
 export 'package:spectre/src/spectre_elements/line_sphere.dart';

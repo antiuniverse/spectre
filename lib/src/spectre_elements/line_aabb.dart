@@ -24,21 +24,20 @@ import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-line-aabb')
-class SpectreLineAabbElement extends SpectreElement {
-  @observable Vector3 min = new Vector3.zero();
-  @observable Vector3 max = new Vector3.zero();
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+class SpectreLineAabbElement extends SpectreLinePrimitiveElement {
+  @published Vector3 min = new Vector3(0.0, 0.0, 0.0);
+  @published Vector3 max = new Vector3(1.0, 1.0, 1.0);
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
+
   }
 
   void removed() {
@@ -60,6 +59,8 @@ class SpectreLineAabbElement extends SpectreElement {
   }
 
   void render() {
+    super.render();
+    declarativeInstance.debugDrawManager.addAABB(min, max, color);
   }
 
   void update() {

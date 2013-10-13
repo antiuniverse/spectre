@@ -18,27 +18,25 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library s_line_lines;
+library s_line_line;
 
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
-import 'spectre_element.dart';
 
-@CustomTag('s-line-lines')
-class SpectreLineLinesElements extends SpectreElement {
-  @observable Vector3 start = new Vector3.zero();
-  @observable Vector3 end = new Vector3.zero();
-  @observable Vector4 color = new Vector4(1.0, 0.0, 0.0, 1.0);
+@CustomTag('s-line-line')
+class SpectreLineLinesElements extends SpectreLinePrimitiveElement {
+  @published Vector3 start = new Vector3.zero();
+  @published Vector3 end = new Vector3.zero();
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
@@ -56,10 +54,10 @@ class SpectreLineLinesElements extends SpectreElement {
     }
     // Initialize.
     super.init();
-    update();
   }
 
   void render() {
+    declarativeInstance.debugDrawManager.addLine(start, end, color);
   }
 
   void update() {
