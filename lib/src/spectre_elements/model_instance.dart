@@ -31,7 +31,7 @@ class SpectreModelInstanceElement extends SpectreElement {
   SpectreModelElement get model => _model;
 
   void modelIdChanged(oldValue) {
-    _model = query(modelId).xtag;
+    _model = document.query(modelId).xtag;
   }
 
   created() {
@@ -58,9 +58,11 @@ class SpectreModelInstanceElement extends SpectreElement {
     }
     // Initialize.
     super.init();
+    modelIdChanged('');
   }
 
   render() {
+    assert(inited);
     super.render();
     // Render model.
     if (_model != null) {

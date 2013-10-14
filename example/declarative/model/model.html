@@ -12,38 +12,42 @@
 <body>
 <s-spectre id="spectre">
   <s-material id="simpleMaterial"
-              shader-program-path="assetpack://base.simpleShader">
+              materialProgramId="#spectre-material-program-simple">
+              <!-- 
     <s-material-constant name="diffuse" texture-path="assetpack://base.wood">
     </s-material-constant>
+     -->
   </s-material>
   <s-model id="sparseCubes">
     <s-transform id="tform">
-      <s-mesh material-id="#simpleMaterial"
-              geometry-path="assetpack://base.unitCube"></s-mesh>
-      <s-transform translate="[0.0, 2.0, 0.0]">
-        <s-mesh material-id="#simpleMaterial"
-                geometry-path="assetpack://base.unitCube">
+      <s-mesh materialId="#simpleMaterial"
+              geometryId="#spectre-geometry-unitcube"></s-mesh>
+      <s-transform origin="[0.0, 2.0, 0.0]">
+        <s-mesh materialId="#simpleMaterial"
+                geometryId="#spectre-geometry-unitcube">
+                <!--
           <s-material-constant name="diffuse"
                                texture-path="assetpack://base.bumpyMetal">
           </s-material-constant>
+          -->
         </s-mesh>
       </s-transform>
-      <s-transform translate="[5.0, 0.0, 0.0]">
-        <s-mesh material-id="#simpleMaterial"
-                geometry-path="assetpack://base.unitCube"></s-mesh>
+      <s-transform origin="[5.0, 0.0, 0.0]">
+        <s-mesh materialId="#simpleMaterial"
+                geometryId="#spectre-geometry-unitcube"></s-mesh>
       </s-transform>
     </s-transform>
   </s-model>
   <s-scene>
-    <s-line-primitive type="sphere" radius="4.0"></s-line-primitive>
+    <s-line-sphere radius="4.0"></s-line-sphere>
     <s-transform>
-      <s-model-instance model-id="#sparseCubes"></s-model-instance>
+      <s-model-instance modelId="#sparseCubes"></s-model-instance>
     </s-transform>
-    <s-transform translate="[0.0, 5.0, 0.0]">
-      <s-model-instance model-id="#sparseCubes"></s-model-instance>
+    <s-transform origin="[0.0, 5.0, 0.0]">
+      <s-model-instance modelId="#sparseCubes"></s-model-instance>
     </s-transform>
-    <s-transform translate="[0.0, -5.0, 0.0]">
-      <s-model-instance model-id="#sparseCubes"></s-model-instance>
+    <s-transform origin="[0.0, -5.0, 0.0]">
+      <s-model-instance modelId="#sparseCubes"></s-model-instance>
     </s-transform>
   </s-scene>
 </s-spectre>

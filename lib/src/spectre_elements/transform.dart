@@ -43,15 +43,15 @@ class SpectreTransformElement extends SpectreElement {
   final Vector3 _v = new Vector3.zero();
   double _d = 0.0;
 
-  void originChanged() {
+  void originChanged(oldValue) {
     _update();
   }
 
-  void axisChanged() {
+  void axisChanged(oldValue) {
     _update();
   }
 
-  void angleChanged() {
+  void angleChanged(oldValue) {
     _update();
   }
 

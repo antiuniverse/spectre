@@ -40,7 +40,7 @@ Future main(String backBufferId, String sceneId) {
   return example.initialize()
       .then((_) => example.load())
       .then((_) => example.start())
-      .catchError((Error e) {
+      .catchError((e) {
         print('Could not run ${example.name}: $e');
         print(e.stackTrace);
         window.alert('Could not run ${example.name}: $e. See console.');
