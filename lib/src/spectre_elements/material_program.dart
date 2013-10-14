@@ -27,19 +27,19 @@ import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-material-program')
 class SpectreMaterialProgramElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
+  @published String vertexShaderId = '';
+  @published String fragmentShaderId = '';
 
   ShaderProgram _program;
   ShaderProgram get program => _program;
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
@@ -70,15 +70,16 @@ class SpectreMaterialProgramElement extends SpectreElement {
     assert(inited);
     var device = declarativeInstance.graphicsDevice;
     _program = new ShaderProgram('SpectreMaterialProgramElement', device);
+    SpectreElement.log.info('Created ShaderProgram for $id');
   }
 
   SpectreVertexShaderElement _findVertexShader() {
     var element;
-
-    String id = attributes['vertexShader'];
-    if (id != null) {
+    String id = vertexShaderId;
+    try {
       element = document.query(id);
-    } else {
+    } catch (_) {}
+    if (element == null) {
       element = this.query('s-vertex-shader');
     }
     if (element != null) {
@@ -87,15 +88,19 @@ class SpectreMaterialProgramElement extends SpectreElement {
         element = null;
       }
     }
+    if (element != null) {
+      (element as SpectreElement).init();
+    }
     return element;
   }
 
   SpectreFragmentShaderElement _findFragmentShader() {
     var element;
-    String id = attributes['fragmentShader'];
-    if (id != null) {
+    String id = fragmentShaderId;
+    try {
       element = document.query(id);
-    } else {
+    } catch (_) {}
+    if (element == null) {
       element = this.query('s-fragment-shader');
     }
     if (element != null) {
@@ -103,6 +108,9 @@ class SpectreMaterialProgramElement extends SpectreElement {
       if (element is! SpectreFragmentShaderElement) {
         element = null;
       }
+    }
+    if (element != null) {
+      (element as SpectreElement).init();
     }
     return element;
   }

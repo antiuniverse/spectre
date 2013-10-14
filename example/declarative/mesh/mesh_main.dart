@@ -18,46 +18,16 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_post_effect;
+library mesh_main;
 
-import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
-import 'package:spectre/spectre_declarative.dart';
+import 'dart:async';
+import 'dart:html';
+
+import 'package:spectre/spectre_declarative.dart' as declarative;
 import 'package:spectre/spectre_elements.dart';
-import 'spectre_element.dart';
+import 'package:vector_math/vector_math.dart';
 
-@CustomTag('s-post-effect')
-class SpectrePostEffectElement extends SpectreElement {
-  SingleArrayMesh get fullscreenMesh =>
-      declarativeInstance.example.fullscreenMesh;
-  SpectreMaterialElement material;
-
-  created() {
-    super.created();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
-  }
-
-  void init() {
-    if (inited) {
-      // Already initialized.
-      return;
-    }
-    if (!declarativeInstance.inited) {
-      // Not ready to initialize.
-      return;
-    }
-    // Initialize.
-    super.init();
-  }
-
-  void render() {
-    super.render();
-  }
+void main() {
+  declarative.main('#backBuffer', '#spectre').then((_) {
+  });
 }

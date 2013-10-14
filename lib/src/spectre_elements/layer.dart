@@ -27,29 +27,44 @@ import 'spectre_element.dart';
 
 @CustomTag('s-layer')
 class SpectreLayerElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'scene-id': () => new SpectreElementAttributeString('scene-id', ''),
-    'camera-id': () => new SpectreElementAttributeString('camera-id', ''),
-    'post-effect-id': () =>
-        new SpectreElementAttributeString('post-effect-id', ''),
-    'sort-order': () => new SpectreElementAttributeString('sord-order', 'none'),
-    'render-target-id': () =>
-        new SpectreElementAttributeString('render-target-id', 'system'),
-  };
-  SpectreSceneElement scene;
-  SpectreCameraElement camera;
-  SpectrePostEffectElement postEffect;
-  //SpectreRenderTargetElement renderTarget;
-  final List<String> requiredSpectreAttributes = [ 'sort-order' ];
+  @published String sceneId = '';
+  @published String cameraId = '';
+  @published String postEffectId = '';
+  @published String sortOrder = 'none';
+  @published String renderTargetId = 'system';
+
+  SpectreSceneElement _scene;
+  SpectreCameraElement _camera;
+  SpectrePostEffectElement _postEffect;
+  //SpectreRenderTargetElement _renderTarget;
+
+  void sceneIdChanged(oldValue) {
+    _scene = query(sceneId).xtag;
+  }
+
+  void cameraIdChanged(oldValue) {
+    _camera = query(cameraId).xtag;
+  }
+
+  void postEffectIdChanged(oldValue) {
+    _postEffect = query(postEffectId).xtag;
+  }
+
+  void sortOrderChanged(oldValue) {
+  }
+
+  void renderTargetIdChanged(oldValue) {
+    // _renderTarget = query(renderTargetId).xtag;
+  }
 
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
-    applyAttributes();
+
   }
 
   void removed() {
@@ -72,8 +87,5 @@ class SpectreLayerElement extends SpectreElement {
   void render() {
     super.render();
     // apply render target.
-  }
-
-  void applyAttributes() {
   }
 }

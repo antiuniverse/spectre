@@ -27,26 +27,39 @@ import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-mesh')
 class SpectreMeshElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'geometry-path': () =>
-        new SpectreElementAttributeString('geometry-path',
-                                          'assetpack://base.unitCube'),
-    'material-id': () => new SpectreElementAttributeString('material-id', '')
-  };
-  final List<String> requiredSpectreAttributes = [ 'geometry-path',
-                                                   'material-id' ];
-  SpectreMaterialElement _material;
-  SpectreMesh _mesh;
-  bool _indexed = false;
+  @published String geometryId = '';
+  @published String materialId = '';
+
+  SpectreGeometryElement geometry;
+  SpectreMaterialElement material;
+
+  void geometryIdChanged(oldValue) {
+    if (!inited) {
+      return;
+    }
+    geometry = document.query(geometryId).xtag;
+    geometry.init();
+    _inputLayout.mesh = geometry.mesh;
+  }
+
+  void materialIdChanged(oldValue) {
+    if (!inited) {
+      return;
+    }
+    material = document.query(materialId).xtag;
+    material.init();
+    _inputLayout.shaderProgram = material.materialProgram.program;
+  }
+
   InputLayout _inputLayout;
 
   created() {
     super.created();
+    init();
   }
 
   inserted() {
     super.inserted();
-    init();
   }
 
   removed() {
@@ -68,41 +81,44 @@ class SpectreMeshElement extends SpectreElement {
     super.init();
     _inputLayout = new InputLayout('SpectreMeshElement',
                                    declarativeInstance.graphicsDevice);
-    _update();
+    geometryIdChanged('');
+    materialIdChanged('');
   }
 
   void render() {
     super.render();
-    _update();
-    if (!_inputLayout.ready) {
+    if (!_inputLayout.ready || (_inputLayout.attributes.length == 0)) {
+      // TODO(johnmccutchan): Send event when material or geometry change.
+      geometryIdChanged('');
+      materialIdChanged('');
       return;
     }
     var spectre = declarativeInstance.root;
-    spectre.pushMaterial(_material);
+    spectre.pushMaterial(material);
     applyConstants();
     // Render self.
     var graphicsContext = declarativeInstance.graphicsContext;
     graphicsContext.setInputLayout(_inputLayout);
     _updateObjectTransformConstant(declarativeInstance.root.currentTransform);
-    if (_indexed) {
-      graphicsContext.setIndexedMesh(_mesh);
-      graphicsContext.drawIndexedMesh(_mesh);
+    if (geometry.indexed) {
+      graphicsContext.setIndexedMesh(geometry.mesh);
+      graphicsContext.drawIndexedMesh(geometry.mesh);
     } else {
-      graphicsContext.setMesh(_mesh);
-      graphicsContext.drawMesh(_mesh);
+      graphicsContext.setMesh(geometry.mesh);
+      graphicsContext.drawMesh(geometry.mesh);
     }
     unapplyConstants();
     spectre.popMaterial();
   }
 
   void applyConstants() {
-    if (_material == null) {
+    if (material == null) {
       return;
     }
     var l = findAllTagChildren('S-MATERIAL-CONSTANT');
     // Apply all constants, update stack.
     l.forEach((e) {
-      _material.applyConstant(e.xtag, true);
+      material.applyConstant(e.xtag, true);
     });
   }
 
@@ -110,33 +126,8 @@ class SpectreMeshElement extends SpectreElement {
     var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
     // Apply all constants, update stack.
     l.forEach((e) {
-      _material.unapplyConstant(e.xtag);
+      material.unapplyConstant(e.xtag);
     });
-  }
-
-  void _update() {
-    assert(inited);
-    var spectre = declarativeInstance.root;
-    String geometryPath = spectreAttributes['geometry-path'].value;
-    _mesh = declarativeInstance.getAsset(geometryPath);
-    String materialId = spectreAttributes['material-id'].value;
-    if (materialId != null) {
-      var q = spectre.query(materialId);
-      if (q != null) {
-        _material = q.xtag;
-      }
-    }
-    if (_mesh != null) {
-      _inputLayout.mesh = _mesh;
-    } else {
-      _inputLayout.mesh = null;
-    }
-    if (_material != null) {
-      _inputLayout.shaderProgram = _material.shaderProgram;
-    } else {
-      _inputLayout.shaderProgram = null;
-    }
-    _indexed = (_mesh is SingleArrayIndexedMesh);
   }
 
   void _updateObjectTransformConstant(Matrix4 T) {

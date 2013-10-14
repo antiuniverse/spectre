@@ -134,12 +134,12 @@ class SpectreMaterialConstantElement extends SpectreElement {
       _updateBlendConstant(name);
     } else {
       _index = null;
-      var sampler = currentMaterial.shaderProgram.samplers[name];
+      var sampler = currentMaterial.materialProgram.program.samplers[name];
       _isSampler = sampler != null;
       if (sampler != null) {
         _updateSampler(sampler);
       } else {
-        var uniform = currentMaterial.shaderProgram.uniforms[name];
+        var uniform = currentMaterial.materialProgram.program.uniforms[name];
         _isUniform = uniform != null;
         if (uniform != null) _updateUniform(uniform);
       }

@@ -23,6 +23,7 @@ library spectre_elements;
 
 export 'package:spectre/src/spectre_elements/camera.dart';
 export 'package:spectre/src/spectre_elements/fragment_shader.dart';
+export 'package:spectre/src/spectre_elements/geometry.dart';
 export 'package:spectre/src/spectre_elements/layer.dart';
 export 'package:spectre/src/spectre_elements/line_aabb.dart';
 export 'package:spectre/src/spectre_elements/line_arc.dart';

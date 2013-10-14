@@ -27,9 +27,6 @@ import 'spectre_element.dart';
 
 @CustomTag('s-model')
 class SpectreModelElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-
   created() {
     super.created();
   }

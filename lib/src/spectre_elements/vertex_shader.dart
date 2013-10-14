@@ -27,23 +27,28 @@ import 'spectre_element.dart';
 
 @CustomTag('s-vertex-shader')
 class SpectreVertexShaderElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-
+  @published String source = '';
   VertexShader _shader;
   VertexShader get shader => _shader;
 
+  void sourceChanged(oldValue) {
+    _shader.source = source;
+  }
+
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
     super.removed();
+    if (_shader != null) {
+      _destroy();
+    }
   }
 
   void init() {
@@ -65,11 +70,13 @@ class SpectreVertexShaderElement extends SpectreElement {
     assert(inited);
     var device = declarativeInstance.graphicsDevice;
     _shader = new VertexShader('SpectreVertexShaderElement', device);
+    SpectreElement.log.info('Created VertexShader for $id');
   }
 
   void _extractSource() {
     assert(inited);
-    _shader.source = text;
+    source = text;
+    sourceChanged('');
   }
 
   void _destroy() {

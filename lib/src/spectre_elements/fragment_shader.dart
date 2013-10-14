@@ -28,24 +28,26 @@ import 'spectre_element.dart';
 
 @CustomTag('s-fragment-shader')
 class SpectreFragmentShaderElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-
+  @published String source = '';
   FragmentShader _shader;
   FragmentShader get shader => _shader;
 
+  void sourceChanged(oldValue) {
+    _shader.source = source;
+  }
+
   void created() {
     super.created();
+    init();
   }
 
   void inserted() {
     super.inserted();
-    init();
   }
 
   void removed() {
     super.removed();
-    if (inited) {
+    if (_shader != null) {
       _destroy();
     }
   }
@@ -69,11 +71,13 @@ class SpectreFragmentShaderElement extends SpectreElement {
     assert(inited);
     var device = declarativeInstance.graphicsDevice;
     _shader = new FragmentShader('SpectreFragmentShader', device);
+    SpectreElement.log.info('Created FragmentShader for $id');
   }
 
   void _extractSource() {
     assert(inited);
-    _shader.source = text;
+    source = text;
+    sourceChanged('');
   }
 
   void _destroy() {

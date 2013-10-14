@@ -1,7 +1,57 @@
-<head>
-  <link rel="import" href="spectre_element.html">
-</head>
+<link rel="import" href="spectre_element.html">
+<link rel="import" href="material_program.html">
+<link rel="import" href="vertex_shader.html">
+<link rel="import" href="fragment_shader.html">
 <polymer-element name="s-spectre" extends="s-element">
+  <s-material-program id="spectre-material-program-simple">
+    <s-vertex-shader>
+/// The vertex position.
+attribute vec3 POSITION;
+/// The texture coordinate.
+attribute vec2 TEXCOORD0;
+
+uniform mat4 cameraProjectionView;
+uniform mat4 objectTransform;
+
+/// The texture coordinate of the vertex.
+varying vec2 texCoord;
+
+void main() {
+  texCoord = TEXCOORD0;
+  gl_Position = cameraProjectionView * objectTransform * vec4(POSITION, 1.0);
+}
+    </s-vertex-shader>
+    <s-fragment-shader>
+precision mediump float;
+
+//---------------------------------------------------------------------
+// Uniform variables
+//---------------------------------------------------------------------
+
+/// The diffuse sampler.
+uniform sampler2D diffuse;
+
+//---------------------------------------------------------------------
+// Varying variables
+//
+// Allows communication between vertex and fragment stages
+//---------------------------------------------------------------------
+
+/// The texture coodinate of the vertex.
+varying vec2 texCoord;
+
+//---------------------------------------------------------------------
+// Functions
+//---------------------------------------------------------------------
+
+void main()
+{
+  gl_FragColor = texture2D(diffuse, texCoord);
+}
+    </s-fragment-shader>
+  </s-material-program>
+  <s-geometry id="spectre-geometry-unitcube"
+              src="../../asset/base/mesh/unitCube.mesh"></s-geometry>
     <nav class="navbar navbar-default" role="navigation">
       <div class="navbar-header">
         <a class="navbar-brand" href="https://github.com/johnmccutchan/spectre">
@@ -21,6 +71,5 @@
     <div id="bottombar">
       <p>BOTTOM</p>
     </div>
-  <template></template>
   <script type="application/dart" src="spectre.dart"></script>
 </polymer-element>

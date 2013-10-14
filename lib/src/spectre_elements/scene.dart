@@ -27,9 +27,6 @@ import 'spectre_element.dart';
 
 @CustomTag('s-scene')
 class SpectreSceneElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
-
   void created() {
     super.created();
   }

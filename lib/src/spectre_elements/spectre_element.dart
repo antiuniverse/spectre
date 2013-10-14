@@ -24,137 +24,16 @@ import 'dart:convert';
 import 'dart:html';
 import 'dart:mirrors';
 
+import 'package:logging/logging.dart';
+
 import 'package:polymer/polymer.dart';
 import 'package:polymer_expressions/polymer_expressions.dart';
 import 'package:vector_math/vector_math.dart';
 
-abstract class SpectreElementAttribute<E> {
-  final String name;
-  final E _defaultValue;
-  E _value;
-  E get value => _value;
-  SpectreElementAttribute(this.name, this._defaultValue) {
-    reset();
-  }
-
-  void reset() {
-    _value = _defaultValue;
-  }
-
-  // Parse the value.
-  void parse(String value);
-
-  void removed() {}
-}
-
-class SpectreElementAttributeBool extends SpectreElementAttribute<bool> {
-  SpectreElementAttributeBool(String key, bool defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    reset();
-    if (value == null) {
-      return;
-    }
-  }
-}
-
-class SpectreElementAttributeDouble extends SpectreElementAttribute<double> {
-  SpectreElementAttributeDouble(String key, double defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    reset();
-    if (value == null) {
-      return;
-    }
-    try {
-      _value = double.parse(value);
-    } catch (e) {
-      return;
-    }
-  }
-}
-
-class SpectreElementAttributeInt extends SpectreElementAttribute<int> {
-  SpectreElementAttributeInt(String key, int defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    reset();
-    if (value == null) {
-      return;
-    }
-    try {
-      _value = int.parse(value);
-    } catch (e) {
-      return;
-    }
-  }
-}
-
-class SpectreElementAttributeString extends SpectreElementAttribute<String> {
-  SpectreElementAttributeString(String key, String defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    if (value == null) {
-      reset();
-      return;
-    }
-    _value = value;
-  }
-}
-
-class SpectreElementAttributeVector3 extends SpectreElementAttribute<Vector3> {
-  SpectreElementAttributeVector3(String key, Vector3 defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    if (value == null) {
-      reset();
-      return;
-    }
-    try {
-      List l = JSON.decode(value);
-      assert(l.length == 3);
-      if (_value == _defaultValue) {
-        _value = new Vector3.zero();
-      }
-      _value[0] = l[0];
-      _value[1] = l[1];
-      _value[2] = l[2];
-    } catch (e) {
-      reset();
-      return;
-    }
-  }
-}
-
-class SpectreElementAttributeVector4 extends SpectreElementAttribute<Vector4> {
-  SpectreElementAttributeVector4(String key, Vector3 defaultValue)
-      : super(key, defaultValue);
-  void parse(String value) {
-    if (value == null) {
-      reset();
-      return;
-    }
-    try {
-      List l = JSON.decode(value);
-      assert(l.length == 3);
-      if (_value == _defaultValue) {
-        _value = new Vector4.zero();
-      }
-      _value[0] = l[0];
-      _value[1] = l[1];
-      _value[2] = l[2];
-      _value[3] = l[3];
-    } catch (e) {
-      reset();
-      return;
-    }
-  }
-}
-
-typedef SpectreElementAttribute AttributeConstructor();
-
 @CustomTag('s-element')
 class SpectreElement extends PolymerElement {
+  static final Logger log = new Logger('Spectre.Element');
+
   static PolymerExpressions _spectreSyntax = new PolymerExpressions(globals: {
     'Vector2': (x, y) {
       return new Vector2(x, y);

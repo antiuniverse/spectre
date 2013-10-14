@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <script src="packages/polymer/boot.js"></script>
+  <meta charset="utf-8">
+  <title>Spectre Declarative Example: Mesh</title>
+  <link rel="stylesheet" href="packages/spectre/src/spectre_declarative/css/bootstrap.min.css">
+  <link rel="stylesheet" href="packages/spectre/src/spectre_declarative/style.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="import" href="packages/spectre/spectre_elements.html">
+</head>
+<body>
+<s-spectre id="spectre">
+  <s-scene>
+    <s-material id="simple"
+              materialProgramId="#spectre-material-program-simple">
+    </s-material>
+    <s-mesh materialId="#simple"
+            geometryId="#spectre-geometry-unitcube"></s-mesh>
+  </s-scene>
+</s-spectre>
+<script type="application/dart" src="mesh_main.dart"></script>
+</body>
+</html>

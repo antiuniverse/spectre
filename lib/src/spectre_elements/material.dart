@@ -27,30 +27,22 @@ import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-material')
 class SpectreMaterialElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'material-program-id': () =>
-        new SpectreElementAttributeString('material-program-id', ''),
-    'shader-program-path': () =>
-        new SpectreElementAttributeString('shader-program-path', '')
-  };
-  final List<String> requiredSpectreAttributes = [];
+  @published String materialProgramId = '';
+  SpectreMaterialProgramElement materialProgram;
+
   final DepthState depthState = new DepthState();
   final RasterizerState rasterizerState = new RasterizerState();
   final BlendState blendState = new BlendState.alphaBlend();
   final Map<String, List<SpectreMaterialConstantElement>> _constantStack = new
       Map<String, List<SpectreMaterialConstantElement>>();
-  SpectreMaterialProgramElement _materialProgram;
-  ShaderProgram _shaderProgram;
-  ShaderProgram get shaderProgram =>
-      _materialProgram != null ? _materialProgram.program : _shaderProgram;
 
   created() {
     super.created();
+    init();
   }
 
   inserted() {
     super.inserted();
-    init();
   }
 
   removed() {
@@ -68,12 +60,16 @@ class SpectreMaterialElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    applyAttributes();
+    materialProgramIdChanged('');
   }
 
   void apply() {
     var graphicsContext = declarativeInstance.graphicsContext;
-    graphicsContext.setShaderProgram(shaderProgram);
+    if (materialProgram != null) {
+      graphicsContext.setShaderProgram(materialProgram.program);
+    } else {
+      graphicsContext.setShaderProgram(null);
+    }
     graphicsContext.setDepthState(depthState);
     graphicsContext.setRasterizerState(rasterizerState);
     graphicsContext.setBlendState(blendState);
@@ -177,16 +173,8 @@ class SpectreMaterialElement extends SpectreElement {
     }
   }
 
-  void applyAttributes() {
-    assert(inited);
-    var a = spectreAttributes['shader-program-path'];
-    if (a != null) {
-      _shaderProgram = declarativeInstance.getAsset(a.value);
-    }
-
-    a = spectreAttributes['material-program-id'];
-    if (a != null) {
-      _materialProgram = declarativeInstance.getElement(a.value);
-    }
+  void materialProgramIdChanged(oldValue) {
+    print('materialProgramIdChanged $materialProgramId');
+    materialProgram = document.query(materialProgramId).xtag;
   }
 }

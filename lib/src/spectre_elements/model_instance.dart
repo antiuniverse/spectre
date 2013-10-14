@@ -26,17 +26,21 @@ import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-model-instance')
 class SpectreModelInstanceElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
+  @published String modelId = '';
   SpectreModelElement _model;
+  SpectreModelElement get model => _model;
+
+  void modelIdChanged(oldValue) {
+    _model = query(modelId).xtag;
+  }
 
   created() {
     super.created();
+    init();
   }
 
   inserted() {
     super.inserted();
-    init();
   }
 
   removed() {
@@ -54,7 +58,6 @@ class SpectreModelInstanceElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _update();
   }
 
   render() {
@@ -62,15 +65,6 @@ class SpectreModelInstanceElement extends SpectreElement {
     // Render model.
     if (_model != null) {
       _model.renderChildren();
-    }
-  }
-
-  void _update() {
-    assert(inited);
-    var spectre = declarativeInstance.root;
-    var q = spectre.query(attributes['model-id']);
-    if (q != null) {
-      _model = q.xtag;
     }
   }
 }

@@ -28,8 +28,6 @@ import 'package:spectre/spectre_elements.dart';
 
 @CustomTag('s-spectre')
 class SpectreSpectreElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {};
-  final List<String> requiredSpectreAttributes = [];
   final Matrix4 I = new Matrix4.identity();
   final Camera C = new Camera();
   final List<Matrix4> _transformStack = new List<Matrix4>();
@@ -78,7 +76,7 @@ class SpectreSpectreElement extends SpectreElement {
       return;
     }
     var graphicsContext = declarativeInstance.graphicsContext;
-    var shaderProgram = material.shaderProgram;
+    var shaderProgram = material.materialProgram.program;
     if (shaderProgram != null) {
       graphicsContext.setShaderProgram(shaderProgram);
       graphicsContext.setDepthState(material.depthState);

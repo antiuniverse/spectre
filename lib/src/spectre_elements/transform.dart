@@ -30,32 +30,38 @@ import 'spectre_element.dart';
  *
  * Attributes:
  *
- * * translate (Vector3)
+ * * origin (Vector3)
  * * axis (Vector3)
  * * angle (double, radians)
  */
 @CustomTag('s-transform')
 class SpectreTransformElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'translate': () => new SpectreElementAttributeVector3('translate',
-                                                          new Vector3.zero()),
-    'axis': () => new SpectreElementAttributeVector3('axis',
-                                                     new Vector3(1.0, 0.0,
-                                                                 0.0)),
-    'angle': () => new SpectreElementAttributeDouble('angle', 0.0)
-  };
-  final List<String> requiredSpectreAttributes = ['translate', 'axis', 'angle'];
+  @published Vector3 origin = new Vector3.zero();
+  @published Vector3 axis = new Vector3(1.0, 0.0, 0.0);
+  @published double angle = 0.0;
   final Matrix4 T = new Matrix4.zero();
   final Vector3 _v = new Vector3.zero();
   double _d = 0.0;
 
+  void originChanged() {
+    _update();
+  }
+
+  void axisChanged() {
+    _update();
+  }
+
+  void angleChanged() {
+    _update();
+  }
+
   created() {
     super.created();
+    init();
   }
 
   inserted() {
     super.inserted();
-    init();
   }
 
   removed() {
@@ -86,7 +92,7 @@ class SpectreTransformElement extends SpectreElement {
 
   void _update() {
     T.setIdentity();
-    T.rotate(spectreAttributes['axis'].value, spectreAttributes['angle'].value);
-    T.translate(spectreAttributes['translate'].value);
+    T.rotate(axis, angle);
+    T.translate(origin);
   }
 }

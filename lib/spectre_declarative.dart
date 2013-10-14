@@ -25,6 +25,7 @@ import 'dart:async';
 
 import 'package:asset_pack/asset_pack.dart';
 import 'package:game_loop/game_loop_html.dart';
+import 'package:logging/logging.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_example_ui.dart';
 import 'package:spectre/spectre_elements.dart';
@@ -35,10 +36,11 @@ part 'src/spectre_declarative/example.dart';
 Future main(String backBufferId, String sceneId) {
   var example = new DeclarativeExample(query(backBufferId), sceneId);
   example.gameLoop.pointerLock.lockOnClick = true;
+  SpectreElement.log.level = Level.ALL;
   return example.initialize()
       .then((_) => example.load())
       .then((_) => example.start())
-      .catchError((e) {
+      .catchError((Error e) {
         print('Could not run ${example.name}: $e');
         print(e.stackTrace);
         window.alert('Could not run ${example.name}: $e. See console.');

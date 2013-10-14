@@ -30,13 +30,14 @@ class DeclarativeInstance {
   bool get inited => _inited;
   DeclarativeExample example;
 
-  void _initElement(SpectreElement element) {
-    element.init();
+  void _initElement(Element element) {
+    if (element.xtag is SpectreElement) {
+      SpectreElement se = element.xtag;
+      SpectreElement.log.fine('Init $element ${element.id}');
+      se.init();
+    }
     element.children.forEach((e) {
-      if (e.xtag is SpectreElement) {
-        e = e.xtag;
-        _initElement(e);
-      }
+      _initElement(e);
     });
   }
 
@@ -45,7 +46,7 @@ class DeclarativeInstance {
       return;
     }
     _inited = true;
-    _initElement(root);
+    _initElement(document.body);
   }
 
   bool _isAssetPackUrl(String url) {
