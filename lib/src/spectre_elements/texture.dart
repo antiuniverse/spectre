@@ -75,7 +75,6 @@ class SpectreTextureElement extends SpectreElement {
 
   inserted() {
     super.inserted();
-
   }
 
   removed() {

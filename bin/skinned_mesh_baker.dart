@@ -502,7 +502,7 @@ main() {
   mb.bake();
   String output;
   try {
-    output = JSON.stringify(mb.outputMesh);
+    output = JSON.encode(mb.outputMesh);
   } catch (e) {
     print('Internal error. Could not generate output. Please file a bug. - $e');
     return;

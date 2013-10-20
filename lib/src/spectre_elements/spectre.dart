@@ -88,14 +88,18 @@ class SpectreSpectreElement extends SpectreElement {
   void pushMaterial(SpectreMaterialElement material) {
     _materialStack.add(material);
     material.apply();
-    material.applyConstants();
+    material.applyStates();
+    material.applySamplers();
+    material.applyUniforms();
   }
 
   void popMaterial() {
     assert(_materialStack.length > 0);
     // Cleanup.
     var previous = _materialStack.last;
-    previous.unapplyConstants();
+    previous.unapplyUniforms();
+    previous.unapplySamplers();
+    previous.unapplyStates();
     // Pop.
     _materialStack.removeLast();
     if (_materialStack.length == 0) {

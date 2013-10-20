@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_material_constant_element;
+library spectre_material_state_element;
 
 import 'dart:convert';
 
@@ -27,39 +27,10 @@ import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 
-@CustomTag('s-material-constant')
-class SpectreMaterialConstantElement extends SpectreElement {
-  final Map<String, AttributeConstructor> spectreAttributeDefinitions = {
-    'address-u': () =>
-        new SpectreElementAttributeString('address-u',
-                                          'TextureAddressMode.Wrap'),
-    'address-v': () =>
-        new SpectreElementAttributeString('address-v',
-                                          'TextureAddressMode.Wrap'),
-    'min-filter': () =>
-        new SpectreElementAttributeString('min-filter',
-                                          'TextureMinFilter.PointMipLinear'),
-    'mag-filter': () =>
-            new SpectreElementAttributeString('mag-filter',
-                                              'TextureMagFilter.Linear')
-  };
-  final List<String> requiredSpectreAttributes = [ 'address-u',
-                                                   'address-v',
-                                                   'min-filter',
-                                                   'mag-filter' ];
-  String name;
-
-  // State constants
-  dynamic value;
-
-  // Texture constants.
-  bool _isSampler = false;
-  SamplerState _sampler;
-  SpectreTexture _texture;
-  dynamic _index;
-
-  SamplerState get sampler => _sampler;
-  SpectreTexture get texture => _texture;
+@CustomTag('s-material-state')
+class SpectreMaterialStateElement extends SpectreElement {
+  @published String name = '';
+  @published String value = '';
 
   // Uniform constants.
   bool _isUniform = false;

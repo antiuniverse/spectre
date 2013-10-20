@@ -33,8 +33,10 @@ class SpectreMaterialElement extends SpectreElement {
   final DepthState depthState = new DepthState();
   final RasterizerState rasterizerState = new RasterizerState();
   final BlendState blendState = new BlendState.alphaBlend();
-  final Map<String, List<SpectreMaterialConstantElement>> _constantStack = new
-      Map<String, List<SpectreMaterialConstantElement>>();
+  final Map<String, List<SpectreMaterialSamplerElement>> _samplerStack = new
+      Map<String, List<SpectreMaterialSamplerElement>>();
+  final Map<String, List<SpectreMaterialStateElement>> _stateStack = new
+      Map<String, List<SpectreMaterialStateElement>>();
 
   created() {
     super.created();
@@ -75,40 +77,40 @@ class SpectreMaterialElement extends SpectreElement {
     graphicsContext.setBlendState(blendState);
   }
 
-  void applyConstant(SpectreMaterialConstantElement constant,
-                     bool updateStack) {
-    String name = constant.name;
+  void applyState(SpectreMaterialStateElement state,
+                  bool updateStack) {
+    String name = state.name;
     if (name == null) {
       return;
     }
-    var old = constant.apply();
+    var old = state.apply();
     if (updateStack) {
-      var l = _constantStack[name];
+      var l = _stateStack[name];
       if (l == null) {
-        l = new List<SpectreMaterialConstantElement>();
-        _constantStack[name] = l;
+        l = new List<SpectreMaterialStateElement>();
+        _stateStack[name] = l;
       }
       if (l.length == 0 && old != null) {
-        var reset = createElement('s-material-constant');
+        var reset = createElement('S-MATERIAL-STATE');
         var xt = reset.xtag;
         xt.init();
         xt.name = name;
         xt.value = old;
         l.add(xt);
       }
-      l.add(constant);
+      l.add(state);
     }
   }
 
-  void unapplyConstant(SpectreMaterialConstantElement constant) {
-    String name = constant.name;
+  void unapplyState(SpectreMaterialStateElement state) {
+    String name = state.name;
     if (name == null) {
       return;
     }
-    var stack = _constantStack[name];
+    var stack = _stateStack[name];
     assert(stack != null);
     assert(stack.length > 0);
-    assert(constant.name == stack.last.name);
+    assert(state.name == stack.last.name);
     stack.removeLast();
     if (stack.length == 0) {
       return;
@@ -116,26 +118,93 @@ class SpectreMaterialElement extends SpectreElement {
     var o = stack.last;
     if (o != null) {
       // Set to old value, do not update stack.
-      applyConstant(o, false);
+      applyState(o, false);
     }
   }
 
-  void applyConstants() {
+  void applyStates() {
     var spectre = declarativeInstance.root;
-    _updateCameraConstants(spectre.currentCamera);
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
-    // Apply all constants, update stack.
+    var l = findAllTagChildren('S-MATERIAL-STATE');
     l.forEach((e) {
-      applyConstant(e.xtag, true);
+      print('Applying state ${e.id}');
+      applyState(e.xtag, true);
     });
   }
 
-  void unapplyConstants() {
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
+  void unapplyStates() {
+    var l = findAllTagChildren('S-MATERIAL-STATE').reversed;
+    l.forEach((e) {
+      print('Unapplying state ${e.id}');
+      unapplyState(e.xtag);
+    });
+  }
+
+  void applySampler(SpectreMaterialSamplerElement sampler, bool updateStack) {
+    String name = sampler.name;
+    if (name == null) {
+      return;
+    }
+    var old = sampler.apply();
+    if (updateStack) {
+      var l = _samplerStack[name];
+      if (l == null) {
+        l = new List<SpectreMaterialSamplerElement>();
+        _samplerStack[name] = l;
+      }
+      if (l.length == 0 && old != null) {
+        var reset = createElement('S-MATERIAL-SAMPLER');
+        var xt = reset.xtag;
+        xt.init();
+        xt.name = name;
+        l.add(xt);
+      }
+      l.add(sampler);
+    }
+  }
+
+  void unapplySampler(SpectreMaterialSamplerElement sampler) {
+    String name = sampler.name;
+    if (name == null) {
+      return;
+    }
+    var stack = _samplerStack[name];
+    assert(stack != null);
+    assert(stack.length > 0);
+    assert(sampler.name == stack.last.name);
+    stack.removeLast();
+    if (stack.length == 0) {
+      return;
+    }
+    var o = stack.last;
+    if (o != null) {
+      // Set to old value, do not update stack.
+      applySampler(o, false);
+    }
+  }
+
+  void applySamplers() {
+    var spectre = declarativeInstance.root;
+    var l = findAllTagChildren('S-MATERIAL-SAMPLER');
     // Apply all constants, update stack.
     l.forEach((e) {
-      unapplyConstant(e.xtag);
+      applySampler(e.xtag, true);
     });
+  }
+
+  void unapplySamplers() {
+    var l = findAllTagChildren('S-MATERIAL-SAMPLER').reversed;
+    // Apply all constants, update stack.
+    l.forEach((e) {
+      unapplySampler(e.xtag);
+    });
+  }
+
+  void applyUniforms() {
+    var spectre = declarativeInstance.root;
+    _updateCameraConstants(spectre.currentCamera);
+  }
+
+  void unapplyUniforms() {
   }
 
   void _updateCameraConstants(Camera camera) {
@@ -174,7 +243,6 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   void materialProgramIdChanged(oldValue) {
-    print('materialProgramIdChanged $materialProgramId');
     materialProgram = document.query(materialProgramId).xtag;
   }
 }
