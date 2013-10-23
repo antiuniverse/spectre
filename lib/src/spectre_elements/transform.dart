@@ -55,17 +55,8 @@ class SpectreTransformElement extends SpectreElement {
     _update();
   }
 
-  created() {
-    super.created();
+  SpectreTransformElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
   }
 
   void init() {

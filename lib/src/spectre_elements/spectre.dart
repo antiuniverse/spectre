@@ -18,7 +18,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library spectre_declarative_spectre;
+library spectre_spectre_element;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
@@ -39,18 +39,20 @@ class SpectreSpectreElement extends SpectreElement {
     declarativeInstance.example.toggleFullscreen();
   }
 
-  void created() {
-    super.created();
-    ButtonElement b = query('#fsbutton');
+  SpectreSpectreElement.created() : super.created() {
+    init();
+    ButtonElement b = shadowRoot.querySelector('#fsbutton');
     b.onClick.listen((E) => toggleFullscreen(E, '', b));
   }
 
-  void inserted() {
-    super.inserted();
+  CanvasElement get canvas {
+    var canvas = $['backBuffer'];
+    return canvas;
   }
 
-  void removed() {
-    super.removed();
+  void ready() {
+    super.ready();
+
   }
 
   void init() {

@@ -23,7 +23,6 @@ library spectre_layer_element;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_elements.dart';
 import 'package:spectre/spectre_declarative.dart';
-import 'spectre_element.dart';
 
 @CustomTag('s-layer')
 class SpectreLayerElement extends SpectreElement {
@@ -39,15 +38,15 @@ class SpectreLayerElement extends SpectreElement {
   //SpectreRenderTargetElement _renderTarget;
 
   void sceneIdChanged(oldValue) {
-    _scene = query(sceneId).xtag;
+    _scene = ownerDocument.querySelector(sceneId);
   }
 
   void cameraIdChanged(oldValue) {
-    _camera = query(cameraId).xtag;
+    _camera = ownerDocument.querySelector(cameraId);
   }
 
   void postEffectIdChanged(oldValue) {
-    _postEffect = query(postEffectId).xtag;
+    _postEffect = ownerDocument.querySelector(postEffectId);
   }
 
   void sortOrderChanged(oldValue) {
@@ -57,18 +56,8 @@ class SpectreLayerElement extends SpectreElement {
     // _renderTarget = query(renderTargetId).xtag;
   }
 
-  void created() {
-    super.created();
+  SpectreLayerElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

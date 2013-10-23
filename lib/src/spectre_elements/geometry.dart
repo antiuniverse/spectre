@@ -37,6 +37,7 @@ class SpectreGeometryElement extends SpectreElement {
   bool get indexed => (mesh is SingleArrayIndexedMesh);
 
   void srcChanged(oldValue) {
+    init();
     if (!inited) {
       return;
     }
@@ -82,18 +83,8 @@ class SpectreGeometryElement extends SpectreElement {
     });
   }
 
-  void created() {
-    super.created();
+  SpectreGeometryElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
-    _destroy();
   }
 
   void init() {

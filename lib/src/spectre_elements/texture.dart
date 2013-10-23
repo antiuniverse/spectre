@@ -68,17 +68,8 @@ class SpectreTextureElement extends SpectreElement {
   SpectreTexture _texture;
   SpectreTexture get texture => _texture;
 
-  created() {
-    super.created();
+  SpectreTextureElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
   }
 
   void init() {

@@ -31,17 +31,8 @@ class SpectreLinePlaneElement extends SpectreLinePrimitiveElement {
   @published Vector3 normal = new Vector3(1.0, 0.0, 0.0);
   @published double size = 1.0;
 
-  void created() {
-    super.created();
+  SpectreLinePlaneElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

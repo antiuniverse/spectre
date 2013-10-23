@@ -30,23 +30,17 @@ class SpectreMaterialProgramElement extends SpectreElement {
   @published String vertexShaderId = '';
   @published String fragmentShaderId = '';
 
+  SpectreVertexShaderElement _vertexShader;
+  SpectreVertexShaderElement get vertexShader => _vertexShader;
+
+  SpectreVertexShaderElement _fragmentShader;
+  SpectreVertexShaderElement get fragmentShader => _fragmentShader;
+
   ShaderProgram _program;
   ShaderProgram get program => _program;
 
-  void created() {
-    super.created();
+  SpectreMaterialProgramElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
-    if (inited) {
-      _destroy();
-    }
   }
 
   void init() {
@@ -61,9 +55,9 @@ class SpectreMaterialProgramElement extends SpectreElement {
     // Initialize.
     super.init();
     _create();
-    var vertexShader = _findVertexShader();
-    var fragmentShader = _findFragmentShader();
-    _linkShaders(vertexShader, fragmentShader);
+    _findVertexShader();
+    _findFragmentShader();
+    _linkShaders();
   }
 
   void _create() {
@@ -73,64 +67,45 @@ class SpectreMaterialProgramElement extends SpectreElement {
     SpectreElement.log.info('Created ShaderProgram for $id');
   }
 
-  SpectreVertexShaderElement _findVertexShader() {
-    var element;
+  void _findVertexShader() {
+    _vertexShader = null;
     String id = vertexShaderId;
     try {
-      element = document.query(id);
+      _vertexShader = ownerDocument.querySelector(id);
     } catch (_) {}
-    if (element == null) {
-      element = this.query('s-vertex-shader');
+    if (_vertexShader == null) {
+      _vertexShader = querySelector('s-vertex-shader');
     }
-    if (element != null) {
-      element = element.xtag;
-      if (element is! SpectreVertexShaderElement) {
-        element = null;
-      }
+    if (_vertexShader != null) {
+      _vertexShader.init();
     }
-    if (element != null) {
-      (element as SpectreElement).init();
-    }
-    return element;
   }
 
-  SpectreFragmentShaderElement _findFragmentShader() {
-    var element;
+  void _findFragmentShader() {
+    _fragmentShader = null;
     String id = fragmentShaderId;
     try {
-      element = document.query(id);
+      _fragmentShader = ownerDocument.querySelector(id);
     } catch (_) {}
-    if (element == null) {
-      element = this.query('s-fragment-shader');
+    if (_fragmentShader == null) {
+      _fragmentShader = querySelector('s-fragment-shader');
     }
-    if (element != null) {
-      element = element.xtag;
-      if (element is! SpectreFragmentShaderElement) {
-        element = null;
-      }
+    if (_fragmentShader != null) {
+      _fragmentShader.init();
     }
-    if (element != null) {
-      (element as SpectreElement).init();
-    }
-    return element;
   }
 
-  void _linkShaders(SpectreVertexShaderElement vs,
-                    SpectreFragmentShaderElement fs) {
+  void _linkShaders() {
     assert(inited);
-    if (vs == null) {
-      _program.vertexShader = null;
-    } else {
-      vs.init();
-      _program.vertexShader = vs.shader;
-    }
-    if (fs == null) {
-      _program.fragmentShader = null;
-    } else {
-      fs.init();
-      _program.fragmentShader = fs.shader;
-    }
+    _program.vertexShader = _vertexShader != null ?
+        _vertexShader.shader : null;
+    _program.fragmentShader = _fragmentShader != null ?
+        _fragmentShader.shader : null;
     _program.link();
+    SpectreElement.log.info('ShaderProgram $id linked ${_program.linked}');
+    if (!_program.linked) {
+      SpectreElement.log.info('link log: ${_program.linkLog}');
+    }
   }
 
   void _destroy() {

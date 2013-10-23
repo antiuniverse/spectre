@@ -34,16 +34,7 @@ class DeclarativeExample extends Example {
       declarativeInstance.graphicsContext = graphicsContext;
       declarativeInstance.graphicsDevice = graphicsDevice;
       declarativeInstance.assetManager = assetManager;
-      var ele = query(spectreId);
-      if (ele == null) {
-        throw new ArgumentError('Could not find $spectreId in dom.');
-      }
-      var root = ele.xtag;
-      print(ele.runtimeType);
-      print(root.runtimeType);
-      if (root is! SpectreSpectreElement) {
-        throw new ArgumentError('$spectreId is not a <s-spectre>');
-      }
+      SpectreSpectreElement root = querySelector(spectreId);
       declarativeInstance.root = root;
       declarativeInstance.example = this;
       declarativeInstance._init();

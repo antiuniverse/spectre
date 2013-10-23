@@ -38,17 +38,8 @@ class SpectreMaterialElement extends SpectreElement {
   final Map<String, List<SpectreMaterialStateElement>> _stateStack = new
       Map<String, List<SpectreMaterialStateElement>>();
 
-  created() {
-    super.created();
+  SpectreMaterialElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
   }
 
   void init() {
@@ -91,12 +82,12 @@ class SpectreMaterialElement extends SpectreElement {
         _stateStack[name] = l;
       }
       if (l.length == 0 && old != null) {
-        var reset = createElement('S-MATERIAL-STATE');
-        var xt = reset.xtag;
-        xt.init();
-        xt.name = name;
-        xt.value = old;
-        l.add(xt);
+        SpectreMaterialStateElement reset =
+            ownerDocument.createElement('S-MATERIAL-STATE');
+        reset.init();
+        reset.name = name;
+        reset.value = old;
+        l.add(reset);
       }
       l.add(state);
     }
@@ -127,7 +118,7 @@ class SpectreMaterialElement extends SpectreElement {
     var l = findAllTagChildren('S-MATERIAL-STATE');
     l.forEach((e) {
       print('Applying state ${e.id}');
-      applyState(e.xtag, true);
+      applyState(e, true);
     });
   }
 
@@ -135,7 +126,7 @@ class SpectreMaterialElement extends SpectreElement {
     var l = findAllTagChildren('S-MATERIAL-STATE').reversed;
     l.forEach((e) {
       print('Unapplying state ${e.id}');
-      unapplyState(e.xtag);
+      unapplyState(e);
     });
   }
 
@@ -152,11 +143,10 @@ class SpectreMaterialElement extends SpectreElement {
         _samplerStack[name] = l;
       }
       if (l.length == 0 && old != null) {
-        var reset = createElement('S-MATERIAL-SAMPLER');
-        var xt = reset.xtag;
-        xt.init();
-        xt.name = name;
-        l.add(xt);
+        var samplerElement = ownerDocument.createElement('S-MATERIAL-SAMPLER');
+        samplerElement.init();
+        samplerElement.name = name;
+        l.add(samplerElement);
       }
       l.add(sampler);
     }
@@ -187,7 +177,7 @@ class SpectreMaterialElement extends SpectreElement {
     var l = findAllTagChildren('S-MATERIAL-SAMPLER');
     // Apply all constants, update stack.
     l.forEach((e) {
-      applySampler(e.xtag, true);
+      applySampler(e, true);
     });
   }
 
@@ -195,7 +185,7 @@ class SpectreMaterialElement extends SpectreElement {
     var l = findAllTagChildren('S-MATERIAL-SAMPLER').reversed;
     // Apply all constants, update stack.
     l.forEach((e) {
-      unapplySampler(e.xtag);
+      unapplySampler(e);
     });
   }
 
@@ -243,6 +233,6 @@ class SpectreMaterialElement extends SpectreElement {
   }
 
   void materialProgramIdChanged(oldValue) {
-    materialProgram = document.query(materialProgramId).xtag;
+    materialProgram = ownerDocument.querySelector(materialProgramId);
   }
 }

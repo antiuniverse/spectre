@@ -33,8 +33,10 @@ import 'package:spectre/spectre_elements.dart';
 part 'src/spectre_declarative/declarative_instance.dart';
 part 'src/spectre_declarative/example.dart';
 
-Future main(String backBufferId, String sceneId) {
-  var example = new DeclarativeExample(query(backBufferId), sceneId);
+Future startup(String backBufferId, String sceneId) {
+  var spectre = querySelector('#spectre');
+  var canvas = spectre.canvas;
+  var example = new DeclarativeExample(canvas, sceneId);
   example.gameLoop.pointerLock.lockOnClick = true;
   SpectreElement.log.level = Level.ALL;
   return example.initialize()

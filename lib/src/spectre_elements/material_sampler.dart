@@ -20,8 +20,6 @@
 
 library spectre_material_sampler_element;
 
-import 'dart:convert';
-
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
@@ -39,16 +37,8 @@ class SpectreMaterialSamplerElement extends SpectreElement {
   SamplerState _sampler;
   SamplerState get sampler => _sampler;
 
-  created() {
-    super.created();
+  SpectreMaterialSamplerElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
   }
 
   void init() {
@@ -76,11 +66,9 @@ class SpectreMaterialSamplerElement extends SpectreElement {
   }
 
   void _updateTexture() {
-    var e = document.query(textureId);
-    if ((e != null) && (e.xtag is SpectreElement)) {
-      texture = e.xtag;
-    } else {
-      texture = null;
+    texture = ownerDocument.querySelector(textureId);
+    if (texture != null) {
+      texture.init();
     }
   }
 

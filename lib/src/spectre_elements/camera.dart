@@ -63,18 +63,15 @@ class SpectreCameraElement extends SpectreElement {
     camera.zFar = zFar;
   }
 
-  void created() {
-    super.created();
-    init();
+  SpectreCameraElement.created() : super.created();
+
+  void enteredView() {
+    super.enteredView();
   }
 
-  void inserted() {
-    super.inserted();
+  void leftView() {
+    super.leftView();
 
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

@@ -31,18 +31,8 @@ class SpectreLineTriangleElement extends SpectreLinePrimitiveElement {
   @published Vector3 b = new Vector3(0.0, 1.0, 0.0);
   @published Vector3 c = new Vector3(0.0, 0.0, 1.0);
 
-  void created() {
-    super.created();
+  SpectreLineTriangleElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

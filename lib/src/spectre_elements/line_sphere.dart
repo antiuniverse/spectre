@@ -30,17 +30,8 @@ class SpectreLineSphereElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
   @published double radius = 1.0;
 
-  void created() {
-    super.created();
-  }
-
-  void inserted() {
-    super.inserted();
+  SpectreLineSphereElement.created() : super.created() {
     init();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

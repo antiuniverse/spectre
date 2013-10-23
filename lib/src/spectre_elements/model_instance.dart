@@ -31,20 +31,11 @@ class SpectreModelInstanceElement extends SpectreElement {
   SpectreModelElement get model => _model;
 
   void modelIdChanged(oldValue) {
-    _model = document.query(modelId).xtag;
+    _model = ownerDocument.querySelector(modelId);
   }
 
-  created() {
-    super.created();
+  SpectreModelInstanceElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
   }
 
   void init() {

@@ -33,22 +33,14 @@ class SpectreVertexShaderElement extends SpectreElement {
 
   void sourceChanged(oldValue) {
     _shader.source = source;
-  }
-
-  void created() {
-    super.created();
-    init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
-    if (_shader != null) {
-      _destroy();
+    SpectreElement.log.info('VertexShader $id compiled ${_shader.compiled}');
+    if (!_shader.compiled) {
+      SpectreElement.log.info('compile log: ${_shader.compileLog}');
     }
+  }
+
+  SpectreVertexShaderElement.created() : super.created() {
+    init();
   }
 
   void init() {

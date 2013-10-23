@@ -30,18 +30,8 @@ class SpectreLineAabbElement extends SpectreLinePrimitiveElement {
   @published Vector3 min = new Vector3(0.0, 0.0, 0.0);
   @published Vector3 max = new Vector3(1.0, 1.0, 1.0);
 
-  void created() {
-    super.created();
+  SpectreLineAabbElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

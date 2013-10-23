@@ -32,17 +32,8 @@ class SpectreLineConeElement extends SpectreLinePrimitiveElement {
   @published double height = 1.0;
   @published double angle = 0.78;
 
-  void created() {
-    super.created();
+  SpectreLineConeElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

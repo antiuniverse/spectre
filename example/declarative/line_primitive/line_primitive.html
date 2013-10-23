@@ -2,7 +2,6 @@
 
 <html>
 <head>
-  <script src="packages/polymer/boot.js"></script>
   <meta charset="utf-8">
   <title>Spectre Declarative Example: Line Primitive</title>
   <link rel="stylesheet" href="packages/spectre/src/spectre_declarative/css/bootstrap.min.css">
@@ -12,7 +11,7 @@
 </head>
 <body>
 <s-spectre id="spectre">
-  <s-scene>
+  <s-scene id="scene">
     <s-line-aabb color="[0.0, 0.0, 1.0, 1.0]"></s-line-aabb>
     <s-line-arc id="arc" radius="4.0" color="[0.0, 1.0, 0.0, 1.0]"
                 normal="[1.0, 0.0, 0.0]" origin="[5.0, 5.0, 5.0]"></s-line-arc>
@@ -35,5 +34,6 @@
   </s-scene>
 </s-spectre>
 <script type="application/dart" src="line_primitive_main.dart"></script>
+<script src="packages/browser/dart.js"></script>
 </body>
 </html>

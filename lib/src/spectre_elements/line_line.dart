@@ -30,17 +30,8 @@ class SpectreLineLinesElements extends SpectreLinePrimitiveElement {
   @published Vector3 start = new Vector3.zero();
   @published Vector3 end = new Vector3.zero();
 
-  void created() {
-    super.created();
+  SpectreLineLinesElements.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

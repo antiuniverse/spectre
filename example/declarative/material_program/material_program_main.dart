@@ -20,8 +20,10 @@
 
 library material_program_main;
 
+import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 
 void main() {
-  declarative.main('#backBuffer', '#spectre');
+  initPolymer();
+  declarative.startup('#backBuffer', '#spectre');
 }

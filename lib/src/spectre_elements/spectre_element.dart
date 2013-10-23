@@ -32,6 +32,9 @@ import 'package:vector_math/vector_math.dart';
 
 @CustomTag('s-element')
 class SpectreElement extends PolymerElement {
+  SpectreElement.created() : super.created() {
+  }
+
   static final Logger log = new Logger('Spectre.Element');
 
   static PolymerExpressions _spectreSyntax = new PolymerExpressions(globals: {
@@ -103,23 +106,16 @@ class SpectreElement extends PolymerElement {
   DocumentFragment instanceTemplate(Element template) =>
       template.createInstance(this, _spectreSyntax);
 
-  void created() {
-    super.created();
-    print('created $this');
+  void enteredView() {
+    super.enteredView();
   }
 
-  void inserted() {
-    super.inserted();
-    print('inserted $this');
+  void leftView() {
+    super.leftView();
   }
 
-  void removed() {
-    super.removed();
-    print('removed $this');
-  }
-
-  void attributeChanged(String name, String oldValue) {
-    super.attributeChanged(name, oldValue);
+  void attributeChanged(String name, String oldValue, String newValue) {
+    super.attributeChanged(name, oldValue, newValue);
   }
 
   List findAllTagChildren(String tag) {
@@ -134,9 +130,7 @@ class SpectreElement extends PolymerElement {
 
   void renderChildren() {
     children.forEach((e) {
-      if (e.xtag is SpectreElement) {
-        e.xtag.render();
-      }
+      e.render();
     });
   }
 

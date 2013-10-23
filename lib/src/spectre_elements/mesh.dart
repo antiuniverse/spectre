@@ -37,35 +37,32 @@ class SpectreMeshElement extends SpectreElement {
     if (!inited) {
       return;
     }
-    geometry = document.query(geometryId).xtag;
-    geometry.init();
-    _inputLayout.mesh = geometry.mesh;
+    geometry = ownerDocument.querySelector(geometryId);
+    if (geometry != null) {
+      geometry.init();
+      _inputLayout.mesh = geometry.mesh;
+    } else {
+      _inputLayout.mesh = null;
+    }
   }
 
   void materialIdChanged(oldValue) {
     if (!inited) {
       return;
     }
-    material = document.query(materialId).xtag;
-    material.init();
-    _inputLayout.shaderProgram = material.materialProgram.program;
+    material = ownerDocument.querySelector(materialId);
+    if (material != null && material.materialProgram != null) {
+      material.init();
+      _inputLayout.shaderProgram = material.materialProgram.program;
+    } else {
+      _inputLayout.shaderProgram = null;
+    }
   }
 
   InputLayout _inputLayout;
 
-  created() {
-    super.created();
+  SpectreMeshElement.created() : super.created() {
     init();
-  }
-
-  inserted() {
-    super.inserted();
-  }
-
-  removed() {
-    super.removed();
-    _inputLayout.dispose();
-    _inputLayout = null;
   }
 
   void init() {
@@ -91,11 +88,13 @@ class SpectreMeshElement extends SpectreElement {
       // TODO(johnmccutchan): Send event when material or geometry change.
       geometryIdChanged('');
       materialIdChanged('');
+    }
+    if (!_inputLayout.ready || (_inputLayout.attributes.length == 0)) {
+      print('Unnable to render $id because input layout is bad.');
       return;
     }
     var spectre = declarativeInstance.root;
     spectre.pushMaterial(material);
-    applyConstants();
     // Render self.
     var graphicsContext = declarativeInstance.graphicsContext;
     graphicsContext.setInputLayout(_inputLayout);
@@ -107,27 +106,7 @@ class SpectreMeshElement extends SpectreElement {
       graphicsContext.setMesh(geometry.mesh);
       graphicsContext.drawMesh(geometry.mesh);
     }
-    unapplyConstants();
     spectre.popMaterial();
-  }
-
-  void applyConstants() {
-    if (material == null) {
-      return;
-    }
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT');
-    // Apply all constants, update stack.
-    l.forEach((e) {
-      material.applyConstant(e.xtag, true);
-    });
-  }
-
-  void unapplyConstants() {
-    var l = findAllTagChildren('S-MATERIAL-CONSTANT').reversed;
-    // Apply all constants, update stack.
-    l.forEach((e) {
-      material.unapplyConstant(e.xtag);
-    });
   }
 
   void _updateObjectTransformConstant(Matrix4 T) {

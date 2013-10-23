@@ -22,12 +22,18 @@ library mesh_main;
 
 import 'dart:async';
 import 'dart:html';
+import 'dart:mirrors';
 
+import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
 void main() {
-  declarative.main('#backBuffer', '#spectre').then((_) {
+  initPolymer();
+  declarative.startup('#backBuffer', '#spectre').then((_) {
+    currentMirrorSystem().libraries.keys.toList().forEach((e) {
+      print(e);
+    });
   });
 }

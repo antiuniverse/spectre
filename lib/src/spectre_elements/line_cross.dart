@@ -29,17 +29,8 @@ import 'package:vector_math/vector_math.dart';
 class SpectreLineCrossElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
 
-  void created() {
-    super.created();
+  SpectreLineCrossElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

@@ -34,22 +34,23 @@ class SpectreFragmentShaderElement extends SpectreElement {
 
   void sourceChanged(oldValue) {
     _shader.source = source;
+    SpectreElement.log.info('FragmentShader $id compiled ${_shader.compiled}');
+    if (!_shader.compiled) {
+      SpectreElement.log.info('compile log: ${_shader.compileLog}');
+    }
   }
 
-  void created() {
-    super.created();
+  SpectreFragmentShaderElement.created() : super.created() {
     init();
   }
 
-  void inserted() {
-    super.inserted();
+  void enteredView() {
+    super.enteredView();
   }
 
-  void removed() {
-    super.removed();
-    if (_shader != null) {
-      _destroy();
-    }
+  void leftView() {
+    super.leftView();
+
   }
 
   void init() {

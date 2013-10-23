@@ -23,14 +23,20 @@ library line_primitive_main;
 import 'dart:async';
 import 'dart:html';
 
+import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
 void main() {
-  declarative.main('#backBuffer', '#spectre').then((_) {
-    SpectreLineArcElement arc = query('#arc').xtag;
-    SpectreLinePlaneElement plane = query('#plane').xtag;
+  initPolymer();
+  declarative.startup('#backBuffer', '#spectre').then((_) {
+    SpectreLineArcElement arc = querySelector('#arc');
+    SpectreLinePlaneElement plane = querySelector('#plane');
+    SpectreSceneElement scene = querySelector('#scene');
+    SpectreLinePlaneElement plane2 = document.createElement('s-line-plane');
+    plane2.color = new Vector4(0.0, 0.0, 1.0, 1.0);
+    scene.children.add(plane2);
     double radians = 0.01;
     Matrix3 R = new Matrix3.rotationZ(radians);
     new Timer.periodic(new Duration(milliseconds: 16), (t) {

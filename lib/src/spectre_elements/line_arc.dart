@@ -33,17 +33,8 @@ class SpectreLineArcElement extends SpectreLinePrimitiveElement {
   @published double startAngle = 0.0;
   @published double stopAngle = 3.14159;
 
-  void created() {
-    super.created();
+  SpectreLineArcElement.created() : super.created() {
     init();
-  }
-
-  void inserted() {
-    super.inserted();
-  }
-
-  void removed() {
-    super.removed();
   }
 
   void init() {

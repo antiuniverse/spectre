@@ -32,16 +32,7 @@ class SpectreMaterialStateElement extends SpectreElement {
   @published String name = '';
   @published String value = '';
 
-  // Uniform constants.
-  bool _isUniform = false;
-  // _index
-
-  created() {
-    super.created();
-  }
-
-  inserted() {
-    super.inserted();
+  SpectreMaterialStateElement.created() : super.created() {
     init();
   }
 
@@ -56,30 +47,20 @@ class SpectreMaterialStateElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _sampler = new SamplerState('SpectreMaterialConstantElement',
-                                declarativeInstance.graphicsDevice);
     _update();
-  }
-
-  removed() {
-    super.removed();
   }
 
   dynamic apply() {
     _update();
-    if (_isSampler) {
-      _applySampler();
-      return null;
-    } else if (_isUniform) {
-      _applyUniform();
-      return null;
-    } else if (_isRasterizerConstant(name)) {
+    /*
+    if (_isRasterizerConstant(name)) {
       return _applyRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
       return _applyDepthConstant(name);
     } else if (_isBlendConstant(name)) {
       return _applyBlendConstant(name);
     }
+    */
   }
 
   void _update() {
@@ -94,66 +75,17 @@ class SpectreMaterialStateElement extends SpectreElement {
     if (currentMaterial == null) {
       return;
     }
-    _isSampler = false;
-    _isUniform = false;
-    _index = null;
+    /*
     if (_isRasterizerConstant(name)) {
       _updateRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
       _updateDepthConstant(name);
     } else if (_isBlendConstant(name)) {
       _updateBlendConstant(name);
-    } else {
-      _index = null;
-      var sampler = currentMaterial.materialProgram.program.samplers[name];
-      _isSampler = sampler != null;
-      if (sampler != null) {
-        _updateSampler(sampler);
-      } else {
-        var uniform = currentMaterial.materialProgram.program.uniforms[name];
-        _isUniform = uniform != null;
-        if (uniform != null) _updateUniform(uniform);
-      }
-    }
+    }*/
   }
 
-  void _applySampler() {
-    if (_index == null) {
-      return;
-    }
-    assert(_isSampler);
-    var graphicsContext = declarativeInstance.graphicsContext;
-    graphicsContext.setTexture(_index, _texture);
-    graphicsContext.setSampler(_index, _sampler);
-  }
-
-  void _updateSampler(ShaderProgramSampler sampler) {
-    _index = sampler.textureUnit;
-    var t = declarativeInstance.getAsset(attributes['texture-path']);
-    var te = declarativeInstance.getElement(attributes['texture-id']);
-    if (te != null) {
-      _texture = te.xtag.texture;
-    } else if (t != null) {
-      _texture = t;
-    } else {
-      _texture = null;
-    }
-    _sampler.addressU =
-        TextureAddressMode.parse(spectreAttributes['address-u'].value);
-    _sampler.addressV =
-        TextureAddressMode.parse(spectreAttributes['address-v'].value);
-    _sampler.minFilter =
-        TextureMinFilter.parse(spectreAttributes['min-filter'].value);
-    _sampler.magFilter =
-        TextureMagFilter.parse(spectreAttributes['mag-filter'].value);
-  }
-
-  void _applyUniform() {
-  }
-
-  void _updateUniform(ShaderProgramUniform uniform) {
-  }
-
+  /*
   dynamic _applyRasterizerConstant(String name) {
     assert(inited);
     assert(_isRasterizerConstant(name));
@@ -377,7 +309,7 @@ class SpectreMaterialStateElement extends SpectreElement {
         value = parseBool('value', true);
         break;
     }
-  }
+  }*/
 
   static bool _isRasterizerConstant(String name) {
     List<String> rasterizerConstants = ['cullMode', 'frontFace', 'depthBias',
