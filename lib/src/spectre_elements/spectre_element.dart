@@ -103,8 +103,6 @@ class SpectreElement extends PolymerElement {
   }
 
   bool get applyAuthorStyles => true;
-  DocumentFragment instanceTemplate(Element template) =>
-      template.createInstance(this, _spectreSyntax);
 
   void enteredView() {
     super.enteredView();
