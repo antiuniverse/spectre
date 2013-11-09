@@ -6,7 +6,7 @@ import 'package:hop/hop.dart';
 import 'package:hop/hop_tasks.dart';
 import '../test/test_dump_render_tree.dart' as test_runner;
 
-void main() {
+void main(List<String> args) {
   _assertKnownPath();
 
   //
@@ -19,7 +19,7 @@ void main() {
 
   addTask('test', createUnitTestTask(test_runner.testCore));
 
-  runHop();
+  runHop(args);
 }
 
 void _assertKnownPath() {
