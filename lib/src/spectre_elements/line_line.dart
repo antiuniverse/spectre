@@ -29,6 +29,8 @@ import 'package:vector_math/vector_math.dart';
 class SpectreLineLinesElements extends SpectreLinePrimitiveElement {
   @published Vector3 start = new Vector3.zero();
   @published Vector3 end = new Vector3.zero();
+  static final Vector3 _start = new Vector3.zero();
+  static final Vector3 _end = new Vector3.zero();
 
   SpectreLineLinesElements.created() : super.created() {
     init();
@@ -48,7 +50,14 @@ class SpectreLineLinesElements extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addLine(start, end, color);
+    start.copyInto(_start);
+    end.copyInto(_end);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_start);
+    transform.transform3(_end);
+    popTransform();
+    declarativeInstance.debugDrawManager.addLine(_start, _end, color);
   }
 
   void update() {

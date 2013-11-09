@@ -22,7 +22,7 @@ library line_primitive_main;
 
 import 'dart:async';
 import 'dart:html';
-
+import 'dart:math' as Math;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 import 'package:spectre/spectre_elements.dart';
@@ -31,6 +31,7 @@ import 'package:vector_math/vector_math.dart';
 void main() {
   initPolymer();
   declarative.startup('#backBuffer', '#spectre').then((_) {
+    SpectreTransformElement masterT = querySelector('#masterT');
     SpectreLineArcElement arc = querySelector('#arc');
     SpectreLinePlaneElement plane = querySelector('#plane');
     SpectreSceneElement scene = querySelector('#scene');
@@ -39,10 +40,15 @@ void main() {
     scene.children.add(plane2);
     double radians = 0.01;
     Matrix3 R = new Matrix3.rotationZ(radians);
+    Vector3 baseOrigin = new Vector3.copy(masterT.origin);
+    Stopwatch timeSource = new Stopwatch()..start();
     new Timer.periodic(new Duration(milliseconds: 16), (t) {
       arc.startAngle += 0.05;
       arc.stopAngle += 0.05;
       R.transform(plane.normal);
+      baseOrigin.copyInto(masterT.origin);
+      masterT.origin.y += Math.sin(timeSource.elapsedMilliseconds / 1000.0) * 3.0;
+      masterT.updateTransform();
     });
   });
 }

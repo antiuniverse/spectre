@@ -28,7 +28,7 @@ import 'package:vector_math/vector_math.dart';
 @CustomTag('s-line-cross')
 class SpectreLineCrossElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
-
+  static final Vector3 _origin = new Vector3.zero();
   SpectreLineCrossElement.created() : super.created() {
     init();
   }
@@ -48,7 +48,12 @@ class SpectreLineCrossElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addCross(origin, color);
+    origin.copyInto(_origin);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_origin);
+    popTransform();
+    declarativeInstance.debugDrawManager.addCross(_origin, color);
   }
 
   void update() {

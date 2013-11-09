@@ -33,8 +33,8 @@ class SpectreMaterialProgramElement extends SpectreElement {
   SpectreVertexShaderElement _vertexShader;
   SpectreVertexShaderElement get vertexShader => _vertexShader;
 
-  SpectreVertexShaderElement _fragmentShader;
-  SpectreVertexShaderElement get fragmentShader => _fragmentShader;
+  SpectreFragmentShaderElement _fragmentShader;
+  SpectreFragmentShaderElement get fragmentShader => _fragmentShader;
 
   ShaderProgram _program;
   ShaderProgram get program => _program;

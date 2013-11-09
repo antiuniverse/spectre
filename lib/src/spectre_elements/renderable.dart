@@ -18,23 +18,22 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-library s_line_aabb;
+library spectre_renderable_element;
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre_elements.dart';
+import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
+import 'package:spectre/spectre_elements.dart';
 import 'package:vector_math/vector_math.dart';
 
-@CustomTag('s-line-aabb')
-class SpectreLineAabbElement extends SpectreLinePrimitiveElement {
-  @published Vector3 min = new Vector3(0.0, 0.0, 0.0);
-  @published Vector3 max = new Vector3(1.0, 1.0, 1.0);
-  static final Vector3 _min = new Vector3.zero();
-  static final Vector3 _max = new Vector3.zero();
+@CustomTag('s-renderable')
+class SpectreRenderableElement extends SpectreElement {
+  @published Matrix4 transform = new Matrix4.identity();
 
-  SpectreLineAabbElement.created() : super.created() {
-    init();
+  void transformChanged(oldValue) {
   }
+
+  SpectreRenderableElement.created() : super.created();
 
   void init() {
     if (inited) {
@@ -47,22 +46,19 @@ class SpectreLineAabbElement extends SpectreLinePrimitiveElement {
     }
     // Initialize.
     super.init();
-    update();
+  }
+
+  void pushTransform() {
+    var spectre = declarativeInstance.root;
+    spectre.pushTransform(transform);
+  }
+
+  void popTransform() {
+    var spectre = declarativeInstance.root;
+    spectre.popTransform();
   }
 
   void render() {
     super.render();
-    min.copyInto(_min);
-    max.copyInto(_max);
-    pushTransform();
-    var transform = declarativeInstance.root.currentTransform;
-    transform.transform3(_min);
-    transform.transform3(_max);
-    popTransform();
-    declarativeInstance.debugDrawManager.addAABB(_min, _max, color);
-  }
-
-  void update() {
   }
 }
-

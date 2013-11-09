@@ -32,6 +32,8 @@ class SpectreLineArcElement extends SpectreLinePrimitiveElement {
   @published double radius = 1.0;
   @published double startAngle = 0.0;
   @published double stopAngle = 3.14159;
+  final Vector3 _origin = new Vector3.zero();
+  final Vector3 _normal = new Vector3.zero();
 
   SpectreLineArcElement.created() : super.created() {
     init();
@@ -52,7 +54,14 @@ class SpectreLineArcElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addArc(origin, normal, radius,
+    origin.copyInto(_origin);
+    normal.copyInto(_normal);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_origin);
+    transform.rotate3(_normal);
+    popTransform();
+    declarativeInstance.debugDrawManager.addArc(_origin, _normal, radius,
                                                 startAngle, stopAngle, color);
   }
 

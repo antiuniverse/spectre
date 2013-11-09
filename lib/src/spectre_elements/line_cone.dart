@@ -31,6 +31,8 @@ class SpectreLineConeElement extends SpectreLinePrimitiveElement {
   @published Vector3 direction = new Vector3(1.0, 0.0, 0.0);
   @published double height = 1.0;
   @published double angle = 0.78;
+  static final Vector3 _apex = new Vector3.zero();
+  static final Vector3 _direction = new Vector3.zero();
 
   SpectreLineConeElement.created() : super.created() {
     init();
@@ -51,7 +53,14 @@ class SpectreLineConeElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addCone(apex, direction, height,
+    apex.copyInto(_apex);
+    direction.copyInto(_direction);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_apex);
+    transform.rotate3(_direction);
+    popTransform();
+    declarativeInstance.debugDrawManager.addCone(_apex, _direction, height,
                                                  angle, color);
   }
 

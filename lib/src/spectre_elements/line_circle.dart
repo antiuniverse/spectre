@@ -30,7 +30,8 @@ class SpectreLineCircleElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
   @published Vector3 normal = new Vector3(1.0, 0.0, 0.0);
   @published double radius = 1.0;
-
+  static final Vector3 _origin = new Vector3.zero();
+  static final Vector3 _normal = new Vector3.zero();
   SpectreLineCircleElement.created() : super.created() {
     init();
   }
@@ -50,7 +51,14 @@ class SpectreLineCircleElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addCircle(origin, normal, radius,
+    origin.copyInto(_origin);
+    normal.copyInto(_normal);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_origin);
+    transform.rotate3(_normal);
+    popTransform();
+    declarativeInstance.debugDrawManager.addCircle(_origin, _normal, radius,
                                                    color);
   }
 

@@ -44,15 +44,15 @@ class SpectreTransformElement extends SpectreElement {
   double _d = 0.0;
 
   void originChanged(oldValue) {
-    _update();
+    updateTransform();
   }
 
   void axisChanged(oldValue) {
-    _update();
+    updateTransform();
   }
 
   void angleChanged(oldValue) {
-    _update();
+    updateTransform();
   }
 
   SpectreTransformElement.created() : super.created() {
@@ -70,18 +70,27 @@ class SpectreTransformElement extends SpectreElement {
     }
     // Initialize.
     super.init();
-    _update();
+    updateTransform();
+  }
+
+  void pushTransform() {
+    var spectre = declarativeInstance.root;
+    spectre.pushTransform(T);
+  }
+
+  void popTransform() {
+    var spectre = declarativeInstance.root;
+    spectre.popTransform();
   }
 
   render() {
     super.render();
-    var spectre = declarativeInstance.root;
-    spectre.pushTransform(T);
+    pushTransform();
     renderChildren();
-    spectre.popTransform();
+    popTransform();
   }
 
-  void _update() {
+  void updateTransform() {
     T.setIdentity();
     T.rotate(axis, angle);
     T.translate(origin);

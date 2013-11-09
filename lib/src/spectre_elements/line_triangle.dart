@@ -30,6 +30,9 @@ class SpectreLineTriangleElement extends SpectreLinePrimitiveElement {
   @published Vector3 a = new Vector3(1.0, 0.0, 0.0);
   @published Vector3 b = new Vector3(0.0, 1.0, 0.0);
   @published Vector3 c = new Vector3(0.0, 0.0, 1.0);
+  static final Vector3 _a = new Vector3.zero();
+  static final Vector3 _b = new Vector3.zero();
+  static final Vector3 _c = new Vector3.zero();
 
   SpectreLineTriangleElement.created() : super.created() {
     init();
@@ -50,7 +53,16 @@ class SpectreLineTriangleElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addTriangle(a, b, c, color);
+    a.copyInto(_a);
+    b.copyInto(_b);
+    c.copyInto(_c);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_a);
+    transform.transform3(_b);
+    transform.transform3(_c);
+    popTransform();
+    declarativeInstance.debugDrawManager.addTriangle(_a, _b, _c, color);
   }
 
   void update() {

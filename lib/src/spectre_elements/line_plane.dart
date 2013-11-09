@@ -30,6 +30,8 @@ class SpectreLinePlaneElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
   @published Vector3 normal = new Vector3(1.0, 0.0, 0.0);
   @published double size = 1.0;
+  final Vector3 _origin = new Vector3.zero();
+  final Vector3 _normal = new Vector3.zero();
 
   SpectreLinePlaneElement.created() : super.created() {
     init();
@@ -49,6 +51,14 @@ class SpectreLinePlaneElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addPlane(normal, origin, size, color);
+    origin.copyInto(_origin);
+    normal.copyInto(_normal);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_origin);
+    transform.rotate3(_normal);
+    popTransform();
+    declarativeInstance.debugDrawManager.addPlane(_normal, _origin, size,
+                                                  color);
   }
 }

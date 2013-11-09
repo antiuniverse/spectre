@@ -29,6 +29,7 @@ import 'package:vector_math/vector_math.dart';
 class SpectreLineSphereElement extends SpectreLinePrimitiveElement {
   @published Vector3 origin = new Vector3.zero();
   @published double radius = 1.0;
+  static final Vector3 _origin = new Vector3.zero();
 
   SpectreLineSphereElement.created() : super.created() {
     init();
@@ -49,7 +50,12 @@ class SpectreLineSphereElement extends SpectreLinePrimitiveElement {
   }
 
   void render() {
-    declarativeInstance.debugDrawManager.addSphere(origin, radius, color);
+    origin.copyInto(_origin);
+    pushTransform();
+    var transform = declarativeInstance.root.currentTransform;
+    transform.transform3(_origin);
+    popTransform();
+    declarativeInstance.debugDrawManager.addSphere(_origin, radius, color);
   }
 
   void update() {
