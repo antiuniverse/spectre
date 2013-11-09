@@ -29,7 +29,7 @@ class DeclarativeInstance {
   bool _inited = false;
   bool get inited => _inited;
   DeclarativeExample example;
-
+  double time = 0.0;
   void _initElement(Element element) {
     if (element.xtag is SpectreElement) {
       SpectreElement se = element.xtag;
@@ -70,7 +70,7 @@ class DeclarativeInstance {
     if (id == null) {
       return null;
     }
-    var q = document.query(id);
+    var q = document.querySelector(id);
     if (q != null) return q.xtag;
     return null;
   }

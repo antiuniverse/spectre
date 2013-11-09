@@ -48,6 +48,9 @@ class DeclarativeExample extends Example {
 
   onUpdate() {
     updateCameraController(cameraController);
+    var spectre = declarativeInstance;
+    spectre.time = gameLoop.time;
+    spectre.root.update();
   }
 
   void onResize(width, height) {

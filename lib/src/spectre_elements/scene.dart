@@ -42,6 +42,11 @@ class SpectreSceneElement extends SpectreElement {
     super.init();
   }
 
+  update() {
+    super.update();
+    updateChildren();
+  }
+
   render() {
     super.render();
     renderChildren();

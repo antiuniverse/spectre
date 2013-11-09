@@ -172,8 +172,7 @@ class AnimationBaker {
   }
 }
 
-main() {
-  List<String> arguments = new Options().arguments;
+main(List<String> arguments) {
   if (arguments.length < 1) {
     print('Invalid number of arguments.');
     print('dart animation_baker.dart <input file> [output file]');
@@ -200,7 +199,7 @@ main() {
   ab.bake();
   String output;
   try {
-    output = JSON.stringify(ab.animations.values.toList());
+    output = JSON.encode(ab.animations.values.toList());
   } catch (e) {
     print('Internal error. Could not generate output. Please file a bug. - $e');
     return;

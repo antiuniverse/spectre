@@ -27,6 +27,7 @@ varying vec2 texCoord;
 
 void main() {
   texCoord = TEXCOORD0;
+  
   gl_Position = cameraProjectionView * objectTransform * vec4(POSITION, 1.0);
 }
     </s-vertex-shader>

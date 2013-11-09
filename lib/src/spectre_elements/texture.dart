@@ -175,6 +175,7 @@ class SpectreTextureElement extends SpectreElement {
     if (type == 'auto') {
       type = _detectType();
     }
+    print('Creating $type texture $id');
     if (type == '2d') {
       var t = new Texture2D('SpectreTextureElement',
                             declarativeInstance.graphicsDevice);
@@ -209,7 +210,7 @@ class SpectreTextureElement extends SpectreElement {
   Future _loadCubeTexture(Texture2D texture2D, String faceSrc,
                           String faceColor) {
     if (faceSrc != '') {
-      return texture2D.uploadFromURL(src);
+      return texture2D.uploadFromURL(faceSrc);
     } else {
       // Parse color.
       Uint8List colorBuffer = new Uint8List(4);
@@ -224,6 +225,7 @@ class SpectreTextureElement extends SpectreElement {
     if (_texture == null) {
       return;
     }
+    print('Loading $type texture $id');
     if (_texture is Texture2D) {
       var t2d = _texture as Texture2D;
       if (src == '') {
@@ -248,6 +250,7 @@ class SpectreTextureElement extends SpectreElement {
       l.add(_loadCubeTexture(tCube.negativeZ, srcCubeNegativeZ,
                              colorCubeNegativeZ));
       Future.wait(l).then((_) {
+        print('Generating cube mipmap.');
         tCube.generateMipmap();
       });
     } else {

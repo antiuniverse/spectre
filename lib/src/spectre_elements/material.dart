@@ -189,12 +189,27 @@ class SpectreMaterialElement extends SpectreElement {
     });
   }
 
+  void applyUniform(SpectreMaterialUniformElement e, bool updateStack) {
+    e.apply();
+  }
+
+  void unapplyUniform(SpectreMaterialUniformElement e) {
+  }
+
   void applyUniforms() {
     var spectre = declarativeInstance.root;
     _updateCameraConstants(spectre.currentCamera);
+    var l = findAllTagChildren('S-MATERIAL-UNIFORM');
+    l.forEach((SpectreMaterialUniformElement e) {
+      applyUniform(e, true);
+    });
   }
 
   void unapplyUniforms() {
+    var l = findAllTagChildren('S-MATERIAL-UNIFORM').reversed;
+    l.forEach((SpectreMaterialUniformElement e) {
+      unapplyUniform(e);
+    });
   }
 
   void _updateCameraConstants(Camera camera) {

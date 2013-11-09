@@ -132,6 +132,12 @@ class SpectreElement extends PolymerElement {
     });
   }
 
+  void updateChildren() {
+    children.forEach((e) {
+      e.update();
+    });
+  }
+
   bool _inited = false;
   bool get inited => _inited;
 
@@ -147,6 +153,10 @@ class SpectreElement extends PolymerElement {
   /// Initialize element.
   void init() {
     _inited = true;
+  }
+
+  void update() {
+    assert(_inited);
   }
 
   void render() {

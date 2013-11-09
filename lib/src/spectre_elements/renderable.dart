@@ -58,6 +58,10 @@ class SpectreRenderableElement extends SpectreElement {
     spectre.popTransform();
   }
 
+  void update() {
+    super.update();
+  }
+
   void render() {
     super.render();
   }
