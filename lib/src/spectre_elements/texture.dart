@@ -207,6 +207,13 @@ class SpectreTextureElement extends SpectreElement {
     _loadTexture();
   }
 
+  void attributeChanged(String name, String oldValue, String newValue) {
+    super.attributeChanged(name, oldValue, newValue);
+    if (name == 'src' && (oldValue != newValue)) {
+      _loadTexture();
+    }
+  }
+
   Future _loadCubeTexture(Texture2D texture2D, String faceSrc,
                           String faceColor) {
     if (faceSrc != '') {
