@@ -31,6 +31,7 @@ import 'package:spectre/spectre_elements.dart';
 class SpectreMaterialStateElement extends SpectreElement {
   @published String name = '';
   @published String value = '';
+  var parsedValue;
 
   SpectreMaterialStateElement.created() : super.created() {
     init();
@@ -52,7 +53,6 @@ class SpectreMaterialStateElement extends SpectreElement {
 
   dynamic apply() {
     _update();
-    /*
     if (_isRasterizerConstant(name)) {
       return _applyRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
@@ -60,7 +60,6 @@ class SpectreMaterialStateElement extends SpectreElement {
     } else if (_isBlendConstant(name)) {
       return _applyBlendConstant(name);
     }
-    */
   }
 
   void _update() {
@@ -75,21 +74,20 @@ class SpectreMaterialStateElement extends SpectreElement {
     if (currentMaterial == null) {
       return;
     }
-    /*
     if (_isRasterizerConstant(name)) {
       _updateRasterizerConstant(name);
     } else if (_isDepthConstant(name)) {
       _updateDepthConstant(name);
     } else if (_isBlendConstant(name)) {
       _updateBlendConstant(name);
-    }*/
+    }
   }
 
-  /*
+
   dynamic _applyRasterizerConstant(String name) {
     assert(inited);
     assert(_isRasterizerConstant(name));
-    if (value == null) {
+    if (parsedValue == null) {
       // No value set.
       return null;
     }
@@ -102,23 +100,23 @@ class SpectreMaterialStateElement extends SpectreElement {
     switch (name) {
       case 'cullMode':
         old = currentMaterial.rasterizerState.cullMode;
-        currentMaterial.rasterizerState.cullMode = value;
+        currentMaterial.rasterizerState.cullMode = parsedValue;
         break;
       case 'frontFace':
         old = currentMaterial.rasterizerState.frontFace;
-        currentMaterial.rasterizerState.frontFace = value;
+        currentMaterial.rasterizerState.frontFace = parsedValue;
         break;
       case 'depthBias':
         old = currentMaterial.rasterizerState.depthBias;
-        currentMaterial.rasterizerState.depthBias = value;
+        currentMaterial.rasterizerState.depthBias = parsedValue;
         break;
       case 'slopeScaleDepthBias':
         old = currentMaterial.rasterizerState.slopeScaleDepthBias;
-        currentMaterial.rasterizerState.slopeScaleDepthBias = value;
+        currentMaterial.rasterizerState.slopeScaleDepthBias = parsedValue;
         break;
       case 'scissorTestEnabled':
         old = currentMaterial.rasterizerState.scissorTestEnabled;
-        currentMaterial.rasterizerState.scissorTestEnabled = value;
+        currentMaterial.rasterizerState.scissorTestEnabled = parsedValue;
         break;
     }
     graphicsContext.setRasterizerState(currentMaterial.rasterizerState);
@@ -130,17 +128,17 @@ class SpectreMaterialStateElement extends SpectreElement {
     assert(_isRasterizerConstant(name));
     switch (name) {
       case 'cullMode':
-        value = CullMode.parse(attributes['value']);
+        parsedValue = CullMode.parse(value);
         break;
       case 'frontFace':
-        value = FrontFace.parse(attributes['value']);
+        parsedValue = FrontFace.parse(value);
         break;
       case 'depthBias':
       case 'slopeScaleDepthBias':
-        value = parseDouble('value', 0.0);
+        parsedValue = parseDouble(value, 0.0);
         break;
       case 'scissorTestEnabled':
-        value = parseBool('value', false);
+        parsedValue = parseBool(value, false);
         break;
     }
   }
@@ -148,7 +146,7 @@ class SpectreMaterialStateElement extends SpectreElement {
   dynamic _applyDepthConstant(String name) {
     assert(inited);
     assert(_isDepthConstant(name));
-    if (value == null) {
+    if (parsedValue == null) {
       // No value set.
       return null;
     }
@@ -161,15 +159,15 @@ class SpectreMaterialStateElement extends SpectreElement {
     switch (name) {
       case 'depthBufferEnabled':
         old = currentMaterial.depthState.depthBufferEnabled;
-        currentMaterial.depthState.depthBufferEnabled = value;
+        currentMaterial.depthState.depthBufferEnabled = parsedValue;
         break;
       case 'depthBufferWriteEnabled':
         old = currentMaterial.depthState.depthBufferWriteEnabled;
-        currentMaterial.depthState.depthBufferWriteEnabled = value;
+        currentMaterial.depthState.depthBufferWriteEnabled = parsedValue;
         break;
       case 'depthBufferFunction':
         old = currentMaterial.depthState.depthBufferFunction;
-        currentMaterial.depthState.depthBufferFunction = value;
+        currentMaterial.depthState.depthBufferFunction = parsedValue;
         break;
     }
     graphicsContext.setDepthState(currentMaterial.depthState);
@@ -181,13 +179,13 @@ class SpectreMaterialStateElement extends SpectreElement {
     assert(_isDepthConstant(name));
     switch (name) {
       case 'depthBufferEnabled':
-        value = parseBool('value', true);
+        parsedValue = parseBool(value, true);
         break;
       case 'depthBufferWriteEnabled':
-        value = parseBool('value', true);
+        parsedValue = parseBool(value, true);
         break;
       case 'depthBufferFunction':
-        value = CompareFunction.parse(attributes['value']);
+        parsedValue = CompareFunction.parse(value);
         break;
     }
   }
@@ -195,7 +193,7 @@ class SpectreMaterialStateElement extends SpectreElement {
   dynamic _applyBlendConstant(String name) {
     assert(inited);
     assert(_isBlendConstant(name));
-    if (value == null) {
+    if (parsedValue == null) {
       // No value set.
       return null;
     }
@@ -208,59 +206,59 @@ class SpectreMaterialStateElement extends SpectreElement {
     switch (name) {
       case 'enabled':
         old = currentMaterial.blendState.enabled;
-        currentMaterial.blendState.enabled = value;
+        currentMaterial.blendState.enabled = parsedValue;
         break;
       case 'blendFactorRed':
         old = currentMaterial.blendState.blendFactorRed;
-        currentMaterial.blendState.blendFactorRed = value;
+        currentMaterial.blendState.blendFactorRed = parsedValue;
         break;
       case 'blendFactorGreen':
         old = currentMaterial.blendState.blendFactorGreen;
-        currentMaterial.blendState.blendFactorGreen = value;
+        currentMaterial.blendState.blendFactorGreen = parsedValue;
         break;
       case 'blendFactorBlue':
         old = currentMaterial.blendState.blendFactorBlue;
-        currentMaterial.blendState.blendFactorBlue = value;
+        currentMaterial.blendState.blendFactorBlue = parsedValue;
         break;
       case 'blendFactorAlpha':
         old = currentMaterial.blendState.blendFactorAlpha;
-        currentMaterial.blendState.blendFactorAlpha = value;
+        currentMaterial.blendState.blendFactorAlpha = parsedValue;
         break;
       case 'alphaBlendOperation':
         old = currentMaterial.blendState.alphaBlendOperation;
-        currentMaterial.blendState.alphaBlendOperation = value;
+        currentMaterial.blendState.alphaBlendOperation = parsedValue;
         break;
       case 'alphaDestinationBlend':
         old = currentMaterial.blendState.alphaDestinationBlend;
-        currentMaterial.blendState.alphaDestinationBlend = value;
+        currentMaterial.blendState.alphaDestinationBlend = parsedValue;
         break;
       case 'alphaSourceBlend':
         old = currentMaterial.blendState.alphaSourceBlend;
-        currentMaterial.blendState.alphaSourceBlend = value;
+        currentMaterial.blendState.alphaSourceBlend = parsedValue;
         break;
       case 'colorBlendOperation':
         old = currentMaterial.blendState.colorBlendOperation;
-        currentMaterial.blendState.colorBlendOperation = value;
+        currentMaterial.blendState.colorBlendOperation = parsedValue;
         break;
       case 'colorDestinationBlend':
         old = currentMaterial.blendState.colorDestinationBlend;
-        currentMaterial.blendState.colorDestinationBlend = value;
+        currentMaterial.blendState.colorDestinationBlend = parsedValue;
         break;
       case 'colorSourceBlend':
         old = currentMaterial.blendState.colorSourceBlend;
-        currentMaterial.blendState.colorSourceBlend = value;
+        currentMaterial.blendState.colorSourceBlend = parsedValue;
         break;
       case 'writeRenderTargetRed':
         old = currentMaterial.blendState.writeRenderTargetRed;
-        currentMaterial.blendState.writeRenderTargetRed = value;
+        currentMaterial.blendState.writeRenderTargetRed = parsedValue;
         break;
       case 'writeRenderTargetGreen':
         old = currentMaterial.blendState.writeRenderTargetGreen;
-        currentMaterial.blendState.writeRenderTargetGreen = value;
+        currentMaterial.blendState.writeRenderTargetGreen = parsedValue;
         break;
       case 'writeRenderTargetBlue':
         old = currentMaterial.blendState.writeRenderTargetBlue;
-        currentMaterial.blendState.writeRenderTargetBlue = value;
+        currentMaterial.blendState.writeRenderTargetBlue = parsedValue;
         break;
       case 'writeRenderTargetAlpha':
         old = currentMaterial.blendState.writeRenderTargetAlpha;
@@ -276,40 +274,40 @@ class SpectreMaterialStateElement extends SpectreElement {
     assert(_isBlendConstant(name));
     switch (name) {
       case 'enabled':
-        value = parseBool('value', true);
+        parsedValue = parseBool('value', true);
         break;
       case 'blendFactorRed':
       case 'blendFactorGreen':
       case 'blendFactorBlue':
       case 'blendFactorAlpha':
-        value = parseDouble('value', 1.0);
+        parsedValue = parseDouble('value', 1.0);
         break;
       case 'alphaBlendOperation':
-        value = BlendOperation.parse(attributes['value']);
+        parsedValue = BlendOperation.parse(value);
         break;
       case 'alphaDestinationBlend':
-        value = Blend.parse(attributes['value']);
+        parsedValue = Blend.parse(value);
         break;
       case 'alphaSourceBlend':
-        value = Blend.parse(attributes['value']);
+        parsedValue = Blend.parse(value);
         break;
       case 'colorBlendOperation':
-        value = BlendOperation.parse(attributes['value']);
+        parsedValue = BlendOperation.parse(value);
         break;
       case 'colorDestinationBlend':
-        value = Blend.parse(attributes['value']);
+        parsedValue = Blend.parse(value);
         break;
       case 'colorSourceBlend':
-        value = Blend.parse(attributes['value']);
+        parsedValue = Blend.parse(value);
         break;
       case 'writeRenderTargetRed':
       case 'writeRenderTargetGreen':
       case 'writeRenderTargetBlue':
       case 'writeRenderTargetAlpha':
-        value = parseBool('value', true);
+        parsedValue = parseBool('value', true);
         break;
     }
-  }*/
+  }
 
   static bool _isRasterizerConstant(String name) {
     List<String> rasterizerConstants = ['cullMode', 'frontFace', 'depthBias',
@@ -359,11 +357,7 @@ class SpectreMaterialStateElement extends SpectreElement {
     return false;
   }
 
-  double parseDouble(String attributeName, double d) {
-    var a = attributes[attributeName];
-    if (a == null) {
-      return d;
-    }
+  double parseDouble(String a, double d) {
     var l;
     try {
       l = double.parse(a);
@@ -373,11 +367,7 @@ class SpectreMaterialStateElement extends SpectreElement {
     return l;
   }
 
-  bool parseBool(String attributeName, bool b) {
-    var a = attributes[attributeName];
-    if (a == null) {
-      return b;
-    }
+  bool parseBool(String a, bool b) {
     bool l;
     try {
       l = JSON.decode(a);

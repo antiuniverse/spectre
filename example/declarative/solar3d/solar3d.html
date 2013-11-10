@@ -81,6 +81,7 @@ void main() {
   <s-texture id="saturnTexture" src="packages/spectre/asset/base/texture/saturn_diffuse.jpg"></s-texture>
   <s-texture id="uranusTexture" src="packages/spectre/asset/base/texture/uranus_diffuse.jpg"></s-texture>
   <s-texture id="neptuneTexture" src="packages/spectre/asset/base/texture/neptune_diffuse.jpg"></s-texture>
+  <s-texture id="saturnRingTexture" src="packages/spectre/asset/base/texture/saturn_ring.jpg"></s-texture>
   <s-texture id="spaceCubeTexture"
              srcCubePositiveX="packages/spectre/asset/base/texture/positiveX.jpg"
              srcCubePositiveY="packages/spectre/asset/base/texture/positiveY.jpg"
@@ -159,8 +160,15 @@ void main() {
     <s-material-uniform name="objectScale" value="[10.0, 10.0, 10.0, 1.0]">
     </s-material-uniform>
   </s-material>
+  <s-material id="saturnRingMaterial"
+              materialProgramId="#spectre-material-program-planet">
+    <s-material-sampler name="diffuse" textureId="#saturnRingTexture"></s-material-sampler>
+    <s-material-state name="cullMode" value="CullMode.None"></s-material-state>
+  </s-material>
   <s-geometry id="spectre-geometry-sphere"
               src="packages/spectre/asset/base/mesh/sphere.mesh"></s-geometry>
+  <s-geometry id="spectre-geometry-ring"
+              src="packages/spectre/asset/base/mesh/ring.mesh"></s-geometry>
   <s-scene id="scene">
     <s-skybox textureId="#spaceCubeTexture"></s-skybox>
     <s-mesh materialId="#sunMaterial" geometryId="#spectre-geometry-sphere">
@@ -201,6 +209,7 @@ void main() {
     <s-orbit-transform radius="400.0" period="9.86">
       <s-mesh materialId="#saturnMaterial" geometryId="#spectre-geometry-sphere"></s-mesh>
       <s-line-sphere id="saturn" color="[1.0, 0.0, 0.0, 1.0]" radius="8.5"></s-line-sphere>
+      <s-mesh materialId="#saturnRingMaterial" geometryId="#spectre-geometry-ring"></s-mesh>
     </s-orbit-transform>
     <s-line-circle color="[1.0, 1.0, 0.8, 1.0]" radius="450.0"></s-line-circle>
     <s-orbit-transform radius="450.0" period="15.86">

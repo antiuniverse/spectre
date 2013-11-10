@@ -86,7 +86,7 @@ class SpectreMaterialElement extends SpectreElement {
             ownerDocument.createElement('S-MATERIAL-STATE');
         reset.init();
         reset.name = name;
-        reset.value = old;
+        reset.parsedValue = old;
         l.add(reset);
       }
       l.add(state);
@@ -117,7 +117,6 @@ class SpectreMaterialElement extends SpectreElement {
     var spectre = declarativeInstance.root;
     var l = findAllTagChildren('S-MATERIAL-STATE');
     l.forEach((e) {
-      print('Applying state ${e.id}');
       applyState(e, true);
     });
   }
@@ -125,7 +124,6 @@ class SpectreMaterialElement extends SpectreElement {
   void unapplyStates() {
     var l = findAllTagChildren('S-MATERIAL-STATE').reversed;
     l.forEach((e) {
-      print('Unapplying state ${e.id}');
       unapplyState(e);
     });
   }
