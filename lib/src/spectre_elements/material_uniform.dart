@@ -23,7 +23,6 @@ library spectre_material_uniform_element;
 import 'dart:typed_data';
 
 import 'package:polymer/polymer.dart';
-import 'package:spectre/spectre.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre_elements.dart';
 

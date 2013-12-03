@@ -20,9 +20,8 @@
 
 library texture_cube_main;
 
-import 'dart:async';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 
 void main() {
-  declarative.main('#backBuffer', '#spectre').then((_) { });
+  declarative.startup('#backBuffer', '#spectre');
 }

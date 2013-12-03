@@ -21,12 +21,8 @@
 library line_primitive_main;
 
 import 'dart:async';
-import 'dart:html';
-import 'dart:math' as Math;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
-import 'package:spectre/spectre_elements.dart';
-import 'package:vector_math/vector_math.dart';
 
 void main() {
   initPolymer();
