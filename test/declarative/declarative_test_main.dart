@@ -55,7 +55,7 @@ void testShaders() {
 
 void main() {
   useHtmlEnhancedConfiguration();
-  declarative.main('#backBuffer', '#scene').then((_) {
+  declarative.startup('#backBuffer', '#scene').then((_) {
     group('Shader tests', testShaders);
   });
 }

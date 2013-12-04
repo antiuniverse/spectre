@@ -474,8 +474,7 @@ class ModelBaker {
   }
 }
 
-main() {
-  List<String> arguments = new Options().arguments;
+void main(List<String> arguments) {
   if (arguments.length < 1) {
     print('Invalid number of arguments.');
     print('dart skinned_mesh_baker.dart <input file> [output file]');

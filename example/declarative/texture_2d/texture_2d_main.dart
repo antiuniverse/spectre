@@ -20,7 +20,6 @@
 
 library texture_2d_main;
 
-import 'dart:async';
 import 'dart:html';
 
 import 'package:spectre/spectre.dart';
@@ -56,7 +55,7 @@ void _drawGrid(CanvasRenderingContext2D context2d, int width, int height,
 }
 
 void main() {
-  declarative.main('#backBuffer', '#spectre').then((_) {
+  declarative.startup('#backBuffer', '#spectre').then((_) {
     SpectreTextureElement ste = query('#program-filled').xtag;
     ste.init();
     CanvasElement canvas = new CanvasElement();

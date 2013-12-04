@@ -26,7 +26,7 @@ import 'package:spectre/spectre_elements.dart';
 import 'package:spectre/spectre_declarative.dart' as declarative;
 
 void main() {
-  declarative.main('#backBuffer', '#spectre');
+  declarative.startup('#backBuffer', '#spectre');
 
   double t = 0.0;
   // Query the dom for the transform element.

@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'dart:json' as Json;
+import 'dart:convert';
 import 'package:game_loop/game_loop_html.dart';
 import 'package:asset_pack/asset_pack.dart';
 import 'package:spectre/spectre.dart';
@@ -58,7 +58,7 @@ Map renderer_config = {
  ]
 };
 
-List<Map> layer_config = Json.parse('[{"clearColorB":0.0,"clearColorTarget":true,"clearDepthValue":1.0,"name":"clear","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":true,"type":"Fullscreen","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"color","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"Scene","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"debug","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"DebugDraw","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"blit","clearColorG":0.0,"renderTarget":"frontBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"Fullscreen","material":{"constants":{},"textures":{"source":{"name":"source","texturePath":"renderer.colorBuffer","sampler":{"addressU":"TextureAddressMode.Clamp","magFilter":"TextureMagFilter.Linear","addressV":"TextureAddressMode.Clamp","maxAnisotropy":1.0,"minFilter":"TextureMinFilter.Linear"}}},"name":"blit","shaderName":"blit","materialShaderPath":null}}]');
+List<Map> layer_config = JSON.decode('[{"clearColorB":0.0,"clearColorTarget":true,"clearDepthValue":1.0,"name":"clear","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":true,"type":"Fullscreen","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"color","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"Scene","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"debug","clearColorG":0.0,"renderTarget":"backBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"DebugDraw","material":null},{"clearColorB":0.0,"clearColorTarget":false,"clearDepthValue":1.0,"name":"blit","clearColorG":0.0,"renderTarget":"frontBuffer","clearColorR":0.0,"clearColorA":1.0,"clearDepthTarget":false,"type":"Fullscreen","material":{"constants":{},"textures":{"source":{"name":"source","texturePath":"renderer.colorBuffer","sampler":{"addressU":"TextureAddressMode.Clamp","magFilter":"TextureMagFilter.Linear","addressV":"TextureAddressMode.Clamp","maxAnisotropy":1.0,"minFilter":"TextureMinFilter.Linear"}}},"name":"blit","shaderName":"blit","materialShaderPath":null}}]');
 
 void gameFrame(GameLoopHtml gameLoop) {
   double dt = gameLoop.dt;
@@ -212,11 +212,11 @@ void main() {
   var asset = assetManager['demoAssets'].registerAsset('simpleTextureShader',
                                                        'MaterialShader', '', {},
                                                        {});
-  print(Json.stringify(materialShader));
+  print(JSON.encode(materialShader));
   asset.imported = materialShader;
 }
 
-main() {
+void main() {
   CanvasElement canvas = query(_canvasId);
   assert(canvas != null);
 
@@ -282,7 +282,7 @@ main() {
       blitBackBuffer.material.textures['source'].sampler =
           renderer.renderTargetSampler;
       layers.add(blitBackBuffer);
-      print(Json.stringify(layers));
+      print(JSON.encode(layers));
     }
     gameLoop.start();
   });

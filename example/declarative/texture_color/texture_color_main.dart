@@ -23,5 +23,5 @@ library texture_color_main;
 import 'package:spectre/spectre_declarative.dart' as declarative;
 
 void main() {
-  declarative.main('#backBuffer', '#spectre');
+  declarative.startup('#backBuffer', '#spectre');
 }

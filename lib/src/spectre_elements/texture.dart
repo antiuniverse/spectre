@@ -22,7 +22,7 @@ library spectre_declarative_texture;
 
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:pathos/path.dart' as path;
+import 'package:path/path.dart' as path;
 import 'package:polymer/polymer.dart';
 import 'package:spectre/spectre_declarative.dart';
 import 'package:spectre/spectre.dart';
