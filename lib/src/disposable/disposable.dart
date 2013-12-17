@@ -38,7 +38,6 @@ abstract class Disposable {
   void pin() {
     if (_disposed) {
       throw new StateError('It is an error to pin a disposed object.');
-      return;
     }
     _referenceCount++;
   }
@@ -50,7 +49,6 @@ abstract class Disposable {
   void dispose() {
     if (_disposed) {
       throw new StateError('It is an error to dispose a disposed object.');
-      return;
     }
     _referenceCount--;
     if (_referenceCount == 0) {
