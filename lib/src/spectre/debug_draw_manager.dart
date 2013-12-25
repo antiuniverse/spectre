@@ -195,6 +195,7 @@ class _DebugDrawLineManager {
  *
  * - Lines
  * - Crosses
+ * - Vectors
  * - Spheres
  * - Circles
  * - Arcs
@@ -212,6 +213,8 @@ class _DebugDrawLineManager {
  *
  */
 class DebugDrawManager {
+  static const double TWO_PI = 2.0 * Math.PI;
+
   DepthState _depthState;
   BlendState _blendState;
   RasterizerState _rasterizerState;
@@ -268,6 +271,53 @@ class DebugDrawManager {
     lineManager.lines.finishLineObject();
   }
 
+
+  /** Add a vector primitive extending from [origin] by [vector] with an arrow
+   * at the end.
+   * Filled with [color].
+   *
+   * Optional parameters: [size], [duration] and [depthEnabled].
+   */
+  void addVector(Vector3 origin, Vector3 vector, Vector4 color,
+               {num size: 0.5, num duration: 0.0, bool depthEnabled: true}) {
+    var lineManager = depthEnabled ? _depthEnabledLines : _depthDisabledLines;
+    lineManager.lines.startLineObject(color.r, color.g, color.b, color.a,
+                                      duration);
+    var to = origin.clone().add(vector);
+    var direction = vector.normalized().scale(-size);
+
+    lineManager.lines._addLine(origin, to);
+    
+    var center = to.clone().add(direction);
+    num s = size / Math.cos(45.0 / 2.0);
+    num radius = Math.sqrt(s * s - size * size);
+
+    buildPlaneVectors(direction.scaled(-size), _circle_u, _circle_v);
+    _circle_u.normalize();
+    _circle_v.normalize();
+
+    num alpha = 0.0;
+    num _step = TWO_PI/4.0;
+
+    double lastX = center.x + _circle_u.x * radius;
+    double lastY = center.y + _circle_u.y * radius;
+    double lastZ = center.z + _circle_u.z * radius;
+
+    for (alpha = 0.0; alpha <= TWO_PI; alpha += _step) {
+      double cosScale = Math.cos(alpha) * radius;
+      double sinScale = Math.sin(alpha) * radius;
+      double lastX = center.x + cosScale * _circle_u.x + sinScale * _circle_v.x;
+      double lastY = center.y + cosScale * _circle_u.y + sinScale * _circle_v.y;
+      double lastZ = center.z + cosScale * _circle_u.z + sinScale * _circle_v.z;
+
+      lineManager.lines._addLineRaw(
+          to.x, to.y, to.z,
+          lastX, lastY, lastZ);
+    }
+
+    lineManager.lines.finishLineObject();
+  }
+
   /** Add a cross primitive at [point]. Filled with [color].
    *
    * Optional paremeters: [size], [duration], and [depthEnabled].
@@ -299,7 +349,6 @@ class DebugDrawManager {
 
     int latSegments = 6;
     int lonSegments = 8;
-    num twoPi = (2.0 * Math.PI);
 
     Vector3 lastVertex, vertex, upperVertex;
 
@@ -311,15 +360,15 @@ class DebugDrawManager {
         num v2 = (y+1) / latSegments;
 
         vertex = new Vector3(
-            radius * Math.cos(u * twoPi) * Math.sin(v * Math.PI),
+            radius * Math.cos(u * TWO_PI) * Math.sin(v * Math.PI),
             radius * Math.cos(v * Math.PI),
-            radius * Math.sin(u * twoPi) * Math.sin(v * Math.PI)
+            radius * Math.sin(u * TWO_PI) * Math.sin(v * Math.PI)
         ) + center;
 
         upperVertex = new Vector3(
-            radius * Math.cos(u * twoPi) * Math.sin(v2 * Math.PI),
+            radius * Math.cos(u * TWO_PI) * Math.sin(v2 * Math.PI),
             radius * Math.cos(v2 * Math.PI),
-            radius * Math.sin(u * twoPi) * Math.sin(v2 * Math.PI)
+            radius * Math.sin(u * TWO_PI) * Math.sin(v2 * Math.PI)
         ) + center;
 
         if(lastVertex != null) {
@@ -397,14 +446,13 @@ class DebugDrawManager {
     _circle_v.normalize();
 
     num alpha = 0.0;
-    num twoPi = (2.0 * 3.141592653589793238462643);
-    num _step = twoPi/numSegments;
+    num _step = TWO_PI/numSegments;
 
     double lastX = center.x + _circle_u.x * radius;
     double lastY = center.y + _circle_u.y * radius;
     double lastZ = center.z + _circle_u.z * radius;
 
-    for (alpha = 0.0; alpha <= twoPi; alpha += _step) {
+    for (alpha = 0.0; alpha <= TWO_PI; alpha += _step) {
       double cosScale = Math.cos(alpha) * radius;
       double sinScale = Math.sin(alpha) * radius;
       double pX = center.x + cosScale * _circle_u.x + sinScale * _circle_v.x;
@@ -445,8 +493,7 @@ class DebugDrawManager {
     _circle_u.normalize();
     _circle_v.normalize();
     num alpha = 0.0;
-    num twoPi = (2.0 * 3.141592653589793238462643);
-    num _step = twoPi/numSegments;
+    num _step = TWO_PI/numSegments;
 
     alpha = startAngle;
     double cosScale = Math.cos(alpha) * radius;
@@ -485,14 +532,13 @@ class DebugDrawManager {
     _circle_u.normalize();
     _circle_v.normalize();
     num alpha = 0.0;
-    num twoPi = (2.0 * 3.141592653589793238462643);
-    num _step = twoPi/numSegments;
+    num _step = TWO_PI/numSegments;
 
     double lastX = center.x + _circle_u.x * radius;
     double lastY = center.y + _circle_u.y * radius;
     double lastZ = center.z + _circle_u.z * radius;
 
-    for (alpha = 0.0; alpha <= twoPi; alpha += _step) {
+    for (alpha = 0.0; alpha <= TWO_PI; alpha += _step) {
       double cosScale = Math.cos(alpha) * radius;
       double sinScale = Math.sin(alpha) * radius;
       double pX = center.x + cosScale * _circle_u.x + sinScale * _circle_v.x;
