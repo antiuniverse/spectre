@@ -82,8 +82,7 @@ class GraphicsContext {
     _textures = new List<SpectreTexture>(numTextureUnits);
     _samplers = new List<SamplerState>(numTextureUnits);
 
-    // TODO(johnmccutchan): Query number of vertex attributes.
-    int numVertexBuffers = 2;
+    int numVertexBuffers = device.capabilities.maxVertexAttribs;
     _vertexBuffers = new List<VertexBuffer>(numVertexBuffers);
     _enabledVertexAttributeArrays = new List<int>();
 
