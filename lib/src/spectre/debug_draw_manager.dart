@@ -176,7 +176,10 @@ class _DebugDrawLineManager {
         break;
       }
     }
-    _lineMesh.vertexArray.uploadSubData(0, _vboStorage);
+
+    if(vertexBufferCursor != 0) {
+      _lineMesh.vertexArray.uploadSubData(0, _vboStorage);
+    }
     _lineMesh.count = vertexBufferCursor ~/ DebugDrawVertexSize;
   }
 
@@ -724,25 +727,35 @@ class DebugDrawManager {
 
   /// Render debug primitives for [Camera] [cam]
   void render(Camera cam) {
+    if(_depthEnabledLines._lineMesh.count == 0 && _depthDisabledLines._lineMesh.count == 0) {
+      return;
+    }
+
     Matrix4 pm = cam.projectionMatrix;
     Matrix4 la = cam.viewMatrix;
     pm.multiply(la);
     pm.copyIntoArray(_cameraMatrix);
     device.context.setShaderProgram(_lineShaderProgram);
     device.context.setConstant('cameraTransform', _cameraMatrix);
-    _depthState.depthBufferEnabled = true;
-    _depthState.depthBufferWriteEnabled = true;
-    device.context.setDepthState(_depthState);
-    device.context.setBlendState(_blendState);
     device.context.setRasterizerState(_rasterizerState);
+    device.context.setBlendState(_blendState);
     device.context.setInputLayout(_depthEnabledLines._lineMeshInputLayout);
-    device.context.setMesh(_depthEnabledLines._lineMesh);
-    device.context.drawMesh(_depthEnabledLines._lineMesh);
-    _depthState.depthBufferEnabled = false;
-    _depthState.depthBufferWriteEnabled = false;
-    device.context.setDepthState(_depthState);
-    device.context.setMesh(_depthDisabledLines._lineMesh);
-    device.context.drawMesh(_depthDisabledLines._lineMesh);
+
+    if(_depthEnabledLines._lineMesh.count != 0) {
+      _depthState.depthBufferEnabled = true;
+      _depthState.depthBufferWriteEnabled = true;
+      device.context.setDepthState(_depthState);
+      device.context.setMesh(_depthEnabledLines._lineMesh);
+      device.context.drawMesh(_depthEnabledLines._lineMesh);
+    }
+
+    if(_depthDisabledLines._lineMesh.count != 0) {
+      _depthState.depthBufferEnabled = false;
+      _depthState.depthBufferWriteEnabled = false;
+      device.context.setDepthState(_depthState);
+      device.context.setMesh(_depthDisabledLines._lineMesh);
+      device.context.drawMesh(_depthDisabledLines._lineMesh);
+    }
   }
 
   /// Update time [seconds], removing any dead debug primitives
