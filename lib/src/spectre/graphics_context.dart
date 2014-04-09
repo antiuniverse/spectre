@@ -252,7 +252,13 @@ class GraphicsContext {
     for (int i = startSlot; i < limit; i++) {
       _vertexBuffers[i] = vertexBufferHandles[i-startSlot];
     }
-	_preparedInputLayoutHandle = null;
+    _preparedInputLayoutHandle = null;
+  }
+
+  /// Set one [vertexBuffer] at [slotIndex].
+  void setVertexBuffer(int slotIndex, VertexBuffer vertexBuffer) {
+    _vertexBuffers[slotIndex] = vertexBuffer;
+    _preparedInputLayoutHandle = null;
   }
 
   /// Set InputLayout to [inputLayoutHandle]
@@ -266,7 +272,7 @@ class GraphicsContext {
     }
     setPrimitiveTopology(indexedMesh.primitiveTopology);
     setIndexBuffer(indexedMesh.indexArray);
-    setVertexBuffers(0, [indexedMesh.vertexArray]);
+    setVertexBuffer(0, indexedMesh.vertexArray);
   }
 
   void setMesh(SingleArrayMesh mesh) {
@@ -275,7 +281,7 @@ class GraphicsContext {
     }
     setPrimitiveTopology(mesh.primitiveTopology);
     setIndexBuffer(null);
-    setVertexBuffers(0, [mesh.vertexArray]);
+    setVertexBuffer(0, mesh.vertexArray);
   }
 
   ShaderProgram get shaderProgram => _shaderProgram;
