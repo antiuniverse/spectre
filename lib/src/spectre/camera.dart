@@ -24,10 +24,12 @@ class Camera {
   Vector3 position;
   Vector3 upDirection;
   Vector3 focusPosition;
+  bool orthographic = false;
   double zNear = 0.5;
   double zFar = 1000.0;
   double aspectRatio = 1.7777778;
   double FOV = 0.785398163;
+  double orthographicSize = 1.0;
 
   String toString() {
     return '$position -> $focusPosition';
@@ -56,7 +58,13 @@ class Camera {
   }
 
   Matrix4 get projectionMatrix {
-    return makePerspectiveMatrix(FOV, aspectRatio, zNear, zFar);
+    if (orthographic == false) {
+      return makePerspectiveMatrix(FOV, aspectRatio, zNear, zFar);
+    } else {
+      double orthoHalfHeight = orthographicSize;
+      double orthoHalfWidth = orthographicSize * aspectRatio;
+      return makeOrthographicMatrix(-orthoHalfWidth, orthoHalfWidth, -orthoHalfHeight, orthoHalfHeight, zNear, zFar);
+    }
   }
 
   Matrix4 get viewMatrix {
@@ -64,7 +72,16 @@ class Camera {
   }
 
   void copyProjectionMatrixIntoArray(Float32List pm) {
-    Matrix4 m = makePerspectiveMatrix(FOV, aspectRatio, zNear, zFar);
+    Matrix4 m;
+
+    if (orthographic == false) {
+      m = makePerspectiveMatrix(FOV, aspectRatio, zNear, zFar);
+    } else {
+      double orthoHalfHeight = orthographicSize;
+      double orthoHalfWidth = orthographicSize * aspectRatio;
+      m = makeOrthographicMatrix(-orthoHalfWidth, orthoHalfWidth, -orthoHalfHeight, orthoHalfHeight, zNear, zFar);
+    }
+
     m.copyIntoArray(pm);
   }
 
@@ -79,7 +96,13 @@ class Camera {
   }
 
   void copyProjectionMatrix(Matrix4 pm) {
-    setPerspectiveMatrix(pm, FOV, aspectRatio, zNear, zFar);
+    if (orthographic == false) {
+      setPerspectiveMatrix(pm, FOV, aspectRatio, zNear, zFar);
+    } else {
+      double orthoHalfHeight = orthographicSize;
+      double orthoHalfWidth = orthographicSize * aspectRatio;
+      setOrthographicMatrix(pm, -orthoHalfWidth, orthoHalfWidth, -orthoHalfHeight, orthoHalfHeight, zNear, zFar);
+    }
   }
 
   void copyViewMatrix(Matrix4 vm) {
@@ -98,5 +121,5 @@ class Camera {
     focusPosition.copyInto(lap);
   }
 
-  Vector3 get frontDirection =>  (focusPosition-position).normalize();
+  Vector3 get frontDirection => (focusPosition-position).normalize();
 }
